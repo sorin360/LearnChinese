@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14460.32" systemVersion="18A391" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Hsk1" representedClassName=".Hsk1" syncable="YES" codeGenerationType="category">
+        <relationship name="word" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Words" inverseName="hsk1" inverseEntity="Words" syncable="YES"/>
+    </entity>
+    <entity name="Hsk2" representedClassName=".Hsk2" syncable="YES" codeGenerationType="category">
+        <relationship name="word" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Words" inverseName="hsk2" inverseEntity="Words" syncable="YES"/>
+    </entity>
+    <entity name="MyFlashcards" representedClassName=".MyFlashcards" syncable="YES" codeGenerationType="category">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="words" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Words" inverseName="flashcard" inverseEntity="Words" syncable="YES"/>
+    </entity>
+    <entity name="Sentences" representedClassName=".Sentences" syncable="YES" codeGenerationType="category">
+        <attribute name="chinese" optional="YES" attributeType="Transformable" customClassName="[String]" syncable="YES"/>
+        <attribute name="english" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pinyin" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="VeryKnown" representedClassName=".VeryKnown" syncable="YES" codeGenerationType="category">
+        <relationship name="word" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Words" inverseName="known" inverseEntity="Words" syncable="YES"/>
+    </entity>
+    <entity name="Words" representedClassName=".Words" syncable="YES" codeGenerationType="category">
+        <attribute name="chinese" optional="YES" attributeType="String" customClassName="[String]" syncable="YES"/>
+        <attribute name="english" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="pinyin" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sound" optional="YES" attributeType="URI" syncable="YES"/>
+        <relationship name="flashcard" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MyFlashcards" inverseName="words" inverseEntity="MyFlashcards" syncable="YES"/>
+        <relationship name="hsk1" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Hsk1" inverseName="word" inverseEntity="Hsk1" syncable="YES"/>
+        <relationship name="hsk2" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Hsk2" inverseName="word" inverseEntity="Hsk2" syncable="YES"/>
+        <relationship name="known" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="VeryKnown" inverseName="word" inverseEntity="VeryKnown" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Hsk1" positionX="-52.9765625" positionY="-429.953125" width="128" height="58"/>
+        <element name="Hsk2" positionX="-53.046875" positionY="-355.9921875" width="128" height="58"/>
+        <element name="MyFlashcards" positionX="-55.046875" positionY="-258.00390625" width="128" height="73"/>
+        <element name="Sentences" positionX="-54.98828125" positionY="-169.98828125" width="128" height="88"/>
+        <element name="VeryKnown" positionX="-299.98828125" positionY="-469.046875" width="128" height="58"/>
+        <element name="Words" positionX="-304.05078125" positionY="-334.9921875" width="128" height="178"/>
+    </elements>
+</model>
