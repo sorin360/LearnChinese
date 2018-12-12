@@ -12,15 +12,19 @@
 		4705C5A121B6344800370F44 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4705C59F21B6344800370F44 /* Main.storyboard */; };
 		4705C5A321B6345D00370F44 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4705C5A221B6345D00370F44 /* Assets.xcassets */; };
 		4705C5A621B6345D00370F44 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4705C5A421B6345D00370F44 /* LaunchScreen.storyboard */; };
-		4705C5AE21B6618900370F44 /* FlashcardsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4705C5AD21B6618900370F44 /* FlashcardsTableViewController.swift */; };
 		4705C5B021B6A91700370F44 /* FlashcardsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4705C5AF21B6A91700370F44 /* FlashcardsCollectionViewController.swift */; };
 		4705C5D421B7791B00370F44 /* DBModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4705C5D221B7791B00370F44 /* DBModel.xcdatamodeld */; };
 		4705C5D621B787D000370F44 /* Words.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4705C5D521B787D000370F44 /* Words.swift */; };
-		4705C5D821B7D64500370F44 /* VeryKnown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4705C5D721B7D64500370F44 /* VeryKnown.swift */; };
-		4705C5DA21B7D65800370F44 /* Hsk1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4705C5D921B7D65800370F44 /* Hsk1.swift */; };
-		4705C5DC21B7D66D00370F44 /* Hsk2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4705C5DB21B7D66D00370F44 /* Hsk2.swift */; };
 		4705C5DE21B7EC3600370F44 /* MyFlashcards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4705C5DD21B7EC3600370F44 /* MyFlashcards.swift */; };
 		4705C5E021B7EC9700370F44 /* Sentences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4705C5DF21B7EC9700370F44 /* Sentences.swift */; };
+		4705C5E221B91C3000370F44 /* HskFlashcards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4705C5E121B91C3000370F44 /* HskFlashcards.swift */; };
+		4708621921B93F2200E69B59 /* CodableHskFlashcardsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4708621821B93F2200E69B59 /* CodableHskFlashcardsModel.swift */; };
+		471D92F021BE472400C6F581 /* FlashcardsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471D92EF21BE472400C6F581 /* FlashcardsTableViewController.swift */; };
+		471D92F421BE61D800C6F581 /* FlashcardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471D92F321BE61D800C6F581 /* FlashcardCollectionViewCell.swift */; };
+		471D92F621BF5CB800C6F581 /* FlashcardDetailsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471D92F521BF5CB800C6F581 /* FlashcardDetailsCollectionViewController.swift */; };
+		471D92F821BF5D3C00C6F581 /* FlashcardDetailsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471D92F721BF5D3C00C6F581 /* FlashcardDetailsCollectionViewCell.swift */; };
+		4773B4B221BF741100504AE2 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4773B4B121BF741100504AE2 /* HomeViewController.swift */; };
+		479DCC2821BE0760006E9585 /* PopulateDBfromJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479DCC2721BE0760006E9585 /* PopulateDBfromJSON.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,15 +35,19 @@
 		4705C5A221B6345D00370F44 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4705C5A521B6345D00370F44 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4705C5A721B6345D00370F44 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4705C5AD21B6618900370F44 /* FlashcardsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashcardsTableViewController.swift; sourceTree = "<group>"; };
 		4705C5AF21B6A91700370F44 /* FlashcardsCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashcardsCollectionViewController.swift; sourceTree = "<group>"; };
 		4705C5D321B7791B00370F44 /* DBModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DBModel.xcdatamodel; sourceTree = "<group>"; };
 		4705C5D521B787D000370F44 /* Words.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Words.swift; sourceTree = "<group>"; };
-		4705C5D721B7D64500370F44 /* VeryKnown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VeryKnown.swift; sourceTree = "<group>"; };
-		4705C5D921B7D65800370F44 /* Hsk1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hsk1.swift; sourceTree = "<group>"; };
-		4705C5DB21B7D66D00370F44 /* Hsk2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hsk2.swift; sourceTree = "<group>"; };
 		4705C5DD21B7EC3600370F44 /* MyFlashcards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFlashcards.swift; sourceTree = "<group>"; };
 		4705C5DF21B7EC9700370F44 /* Sentences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sentences.swift; sourceTree = "<group>"; };
+		4705C5E121B91C3000370F44 /* HskFlashcards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HskFlashcards.swift; sourceTree = "<group>"; };
+		4708621821B93F2200E69B59 /* CodableHskFlashcardsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableHskFlashcardsModel.swift; sourceTree = "<group>"; };
+		471D92EF21BE472400C6F581 /* FlashcardsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashcardsTableViewController.swift; sourceTree = "<group>"; };
+		471D92F321BE61D800C6F581 /* FlashcardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashcardCollectionViewCell.swift; sourceTree = "<group>"; };
+		471D92F521BF5CB800C6F581 /* FlashcardDetailsCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashcardDetailsCollectionViewController.swift; sourceTree = "<group>"; };
+		471D92F721BF5D3C00C6F581 /* FlashcardDetailsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashcardDetailsCollectionViewCell.swift; sourceTree = "<group>"; };
+		4773B4B121BF741100504AE2 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		479DCC2721BE0760006E9585 /* PopulateDBfromJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopulateDBfromJSON.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,7 +80,6 @@
 		4705C59A21B6344800370F44 /* LearnChinese */ = {
 			isa = PBXGroup;
 			children = (
-				4705C5AD21B6618900370F44 /* FlashcardsTableViewController.swift */,
 				4705C59B21B6344800370F44 /* AppDelegate.swift */,
 				4705C5D221B7791B00370F44 /* DBModel.xcdatamodeld */,
 				4705C59D21B6344800370F44 /* TabBarController.swift */,
@@ -80,13 +87,18 @@
 				4705C5A221B6345D00370F44 /* Assets.xcassets */,
 				4705C5A421B6345D00370F44 /* LaunchScreen.storyboard */,
 				4705C5A721B6345D00370F44 /* Info.plist */,
-				4705C5AF21B6A91700370F44 /* FlashcardsCollectionViewController.swift */,
 				4705C5D521B787D000370F44 /* Words.swift */,
-				4705C5D721B7D64500370F44 /* VeryKnown.swift */,
-				4705C5D921B7D65800370F44 /* Hsk1.swift */,
-				4705C5DB21B7D66D00370F44 /* Hsk2.swift */,
 				4705C5DD21B7EC3600370F44 /* MyFlashcards.swift */,
 				4705C5DF21B7EC9700370F44 /* Sentences.swift */,
+				4705C5E121B91C3000370F44 /* HskFlashcards.swift */,
+				4708621821B93F2200E69B59 /* CodableHskFlashcardsModel.swift */,
+				479DCC2721BE0760006E9585 /* PopulateDBfromJSON.swift */,
+				471D92EF21BE472400C6F581 /* FlashcardsTableViewController.swift */,
+				471D92F321BE61D800C6F581 /* FlashcardCollectionViewCell.swift */,
+				4705C5AF21B6A91700370F44 /* FlashcardsCollectionViewController.swift */,
+				471D92F521BF5CB800C6F581 /* FlashcardDetailsCollectionViewController.swift */,
+				471D92F721BF5D3C00C6F581 /* FlashcardDetailsCollectionViewCell.swift */,
+				4773B4B121BF741100504AE2 /* HomeViewController.swift */,
 			);
 			path = LearnChinese;
 			sourceTree = "<group>";
@@ -162,17 +174,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				471D92F021BE472400C6F581 /* FlashcardsTableViewController.swift in Sources */,
 				4705C5DE21B7EC3600370F44 /* MyFlashcards.swift in Sources */,
-				4705C5AE21B6618900370F44 /* FlashcardsTableViewController.swift in Sources */,
+				479DCC2821BE0760006E9585 /* PopulateDBfromJSON.swift in Sources */,
+				4705C5E221B91C3000370F44 /* HskFlashcards.swift in Sources */,
+				471D92F621BF5CB800C6F581 /* FlashcardDetailsCollectionViewController.swift in Sources */,
 				4705C5E021B7EC9700370F44 /* Sentences.swift in Sources */,
-				4705C5DC21B7D66D00370F44 /* Hsk2.swift in Sources */,
 				4705C5D421B7791B00370F44 /* DBModel.xcdatamodeld in Sources */,
 				4705C5B021B6A91700370F44 /* FlashcardsCollectionViewController.swift in Sources */,
-				4705C5D821B7D64500370F44 /* VeryKnown.swift in Sources */,
-				4705C5DA21B7D65800370F44 /* Hsk1.swift in Sources */,
+				4708621921B93F2200E69B59 /* CodableHskFlashcardsModel.swift in Sources */,
+				471D92F421BE61D800C6F581 /* FlashcardCollectionViewCell.swift in Sources */,
+				4773B4B221BF741100504AE2 /* HomeViewController.swift in Sources */,
 				4705C5D621B787D000370F44 /* Words.swift in Sources */,
 				4705C59E21B6344800370F44 /* TabBarController.swift in Sources */,
 				4705C59C21B6344800370F44 /* AppDelegate.swift in Sources */,
+				471D92F821BF5D3C00C6F581 /* FlashcardDetailsCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

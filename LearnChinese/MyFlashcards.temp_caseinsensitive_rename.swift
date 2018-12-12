@@ -1,5 +1,5 @@
 //
-//  Hsk1.swift
+//  MyFlashCards.swift
 //  LearnChinese
 //
 //  Created by Sorin Lica on 05/12/2018.
@@ -9,6 +9,6 @@
 import UIKit
 import CoreData
 
-class Hsk1: NSManagedObject {
+class MyFlashcards: NSManagedObject {
 
 }
