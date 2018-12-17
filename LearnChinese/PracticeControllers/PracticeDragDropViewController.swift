@@ -1,22 +1,20 @@
 //
-//  HomeViewController.swift
+//  PracticeDragDropViewController.swift
 //  LearnChinese
 //
-//  Created by Sorin Lica on 10/12/2018.
+//  Created by Sorin Lica on 16/12/2018.
 //  Copyright © 2018 Sorin Lica. All rights reserved.
 //
 
 import UIKit
 
-class HomeViewController: UIViewController {
+class PracticeDragDropViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-  
+
         // Do any additional setup after loading the view.
     }
-    
- 
     
 
     /*

@@ -1,25 +1,23 @@
 //
-//  FlashcardDetailsCollectionViewController.swift
+//  FlashcardsCollectionViewController.swift
 //  LearnChinese
 //
-//  Created by Sorin Lica on 10/12/2018.
+//  Created by Sorin Lica on 04/12/2018.
 //  Copyright © 2018 Sorin Lica. All rights reserved.
 //
 
 import UIKit
 
+private let reuseIdentifier = "Cell"
 
-class FlashcardDetailsCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout{
+class FlashcardsCollectionViewController: UICollectionViewController {
     
     
     lazy var words: [Words] = []
-    var indexPath: IndexPath = IndexPath(item: 0, section: 0)
     
-    override func viewDidAppear(_ animated: Bool) {
- 
-        super.viewDidAppear(animated)
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
-        self.collectionView.scrollToItem(at: indexPath, at: .right, animated: false)
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
         
@@ -30,10 +28,29 @@ class FlashcardDetailsCollectionViewController: UICollectionViewController, UICo
     }
     
     
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-  
+    // MARK: - Navigation
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using [segue destinationViewController].
+        // Pass the selected object to the new view controller.
+        if let destination = segue.destination as? FlashcardDetailsCollectionViewController {
+            destination.words = words
+        }
+        
+        if let selectedCell = sender as? FlashcardCollectionViewCell {
+            if let selectedCellIndex = collectionView.indexPath(for: selectedCell) {
+                if let destination = segue.destination as? FlashcardDetailsCollectionViewController {
+                    
+                    destination.words = words
+                    destination.indexPath = selectedCellIndex
+                    
+                }
+                // TO DO: do not get all the words
+            }
+        }
+        
+    }
     
     
     // MARK: UICollectionViewDataSource
@@ -43,22 +60,19 @@ class FlashcardDetailsCollectionViewController: UICollectionViewController, UICo
         return 1
     }
     
+    
+    
+    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
         return words.count
     }
     
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize{
-        return CGSize(width: view.frame.width, height: view.frame.height)
-    }
-    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "detailsCell", for: indexPath) as! FlashcardDetailsCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "flashcardCell", for: indexPath) as! FlashcardCollectionViewCell
         // if let flashcardCell = cell as? FlashcardCollectionViewCell {
         cell.hanziLabelCollectionCell?.text = words[indexPath.row].chinese ?? ""
         cell.pinyinLabelCollectionCell.text = words[indexPath.row].pinyin ?? ""
-        cell.word = words[indexPath.row]
         cell.layer.cornerRadius = 10.0
         cell.layer.borderWidth = 1.0
         cell.layer.borderColor = UIColor.blue.cgColor
@@ -69,16 +83,9 @@ class FlashcardDetailsCollectionViewController: UICollectionViewController, UICo
         return cell
     }
     
-  //  override func viewDidLayoutSubviews() {
-   //     super.viewDidLayoutSubviews()
-  //      collectionView.reloadData()
-  //  }
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-        self.collectionView.scrollToItem(at: indexPath, at: .right, animated: false)
-     //   self.collectionView.scrollToItem(at: indexPath, at: .right, animated: false)
-        // Reload here
-    }
+    
+    
+    
     // MARK: UICollectionViewDelegate
     
     /*

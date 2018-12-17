@@ -13,36 +13,35 @@ class FlashcardsTableViewController: UITableViewController {
     
     var flshcardsBunchList: [String] = []
     
-    var myFlshcardsBunchList: [MyFlashcards] = MyFlashcards.retrieveData(){
-        didSet {
-            flshcardsBunchList = []
-            for flashcard in myFlshcardsBunchList {
-                flshcardsBunchList += [flashcard.name ?? "Unknown"]
-            }
-        }
-    }
-    var hskFlshcardsBunchList: [HskFlashcards] = HskFlashcards.retrieveData()
+    var myFlshcardsBunchList: [MyFlashcards] = []
+    var hskFlshcardsBunchList: [HskFlashcards] = []
     /*   didSet {
      for flashcard in hskFlshcardsBunchList {
      flshcardsBunchList += [flashcard.level ?? "Unknown"]
      }
      }*/
-    
-    
-    
-    
-    
-    var container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
+
+    var container: NSPersistentContainer?
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        myFlshcardsBunchList = MyFlashcards.retrieveData()
+        hskFlshcardsBunchList = HskFlashcards.retrieveData()
+        flshcardsBunchList = []
         
+        
+        for flashcard in myFlshcardsBunchList {
+            flshcardsBunchList += [flashcard.name ?? "Unknown"]
+        }
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
         
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
     }
     
     // MARK: - Table view data source
@@ -111,16 +110,17 @@ class FlashcardsTableViewController: UITableViewController {
             if let selectedCellIndex = tableView.indexPath(for: selectedCell) {
                 if let destination = segue.destination as? FlashcardsCollectionViewController {
                     
-                
-                switch segmentedControl.selectedSegmentIndex {
-                case 0:
-                    destination.words = myFlshcardsBunchList[selectedCellIndex.row].words?.allObjects as? [Words] ?? []
-                   // print(myFlshcardsBunchList[selectedCellIndex.row])
-                default:
-                    destination.words = hskFlshcardsBunchList[selectedCellIndex.row].words?.allObjects as? [Words] ?? []
-                  //  print(hskFlshcardsBunchList[selectedCellIndex.row].words?.allObjects)
                     
-                }
+                    switch segmentedControl.selectedSegmentIndex {
+                    case 0:
+                        destination.words = myFlshcardsBunchList[selectedCellIndex.row].words?.allObjects as? [Words] ?? []
+                        
+                    // print(myFlshcardsBunchList[selectedCellIndex.row])
+                    default:
+                        destination.words = hskFlshcardsBunchList[selectedCellIndex.row].words?.allObjects as? [Words] ?? []
+                        //  print(hskFlshcardsBunchList[selectedCellIndex.row].words?.allObjects)
+                        
+                    }
                     // TO DO: do not get all the words
                 }
             }
@@ -150,6 +150,7 @@ class FlashcardsTableViewController: UITableViewController {
             
             self.flshcardsBunchList += [input ?? "Unknown"]
             self.tableView.reloadData()
+            
             self.container?.performBackgroundTask(){ context in
                 MyFlashcards.addFlashcardBunch(in: context, with: input ?? "Unknown")
                 //  HskFlashcards.addFlashcardBunch(in: context, with: input ?? "Unknown")
