@@ -11,37 +11,73 @@ import UIKit
 class PracticeTableViewController: UITableViewController {
 
     var myFlshcardsBunchList: [MyFlashcards] = []
+    var hskBunchList: [HskFlashcards] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        myFlshcardsBunchList = MyFlashcards.retrieveData()
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
+       // myFlshcardsBunchList = MyFlashcards.retrieveData()
+        hskBunchList = HskFlashcards.retrieveData()
+        
 
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
-
+    override func viewWillAppear(_ animated: Bool) {
+        let newData = MyFlashcards.retrieveData()
+        self.hidesBottomBarWhenPushed = false
+        if newData != myFlshcardsBunchList {
+            myFlshcardsBunchList = newData
+            self.tableView.reloadData()
+            
+        }
+        super.viewWillAppear(animated)
+    }
     // MARK: - Table view data source
 
+
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
-         return 1
+         return 2
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return myFlshcardsBunchList.count
+        
+        switch section {
+        case 0:
+            return myFlshcardsBunchList.count
+        default:
+            return hskBunchList.count
+        }
+
     }
 
+ 
+    
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath) as! PracticeTableViewCell
-        cell.titleLabel.text = myFlshcardsBunchList[indexPath.row].name ?? "Unknown"
-        cell.selectionSwitch.isOn = false
-
-        return cell
+        if indexPath.section > 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath) as! PracticeTableViewCell
+            cell.titleLabel.text = hskBunchList[indexPath.row].level ?? "Unknown"
+            cell.selectionSwitch.isOn = false
+            return cell
+        }
+        else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath) as! PracticeTableViewCell
+            cell.titleLabel.text = myFlshcardsBunchList[indexPath.row].name ?? "Unknown"
+            cell.selectionSwitch.isOn = false
+            return cell
+        }
     }
-    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerLabel = UILabel()
+        headerLabel.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 0.2)
+        switch section {
+        case 0:
+            headerLabel.text = " My libraries"
+            
+        default:
+            headerLabel.text = " HSK"
+        }
+        return headerLabel
+    }
 
     /*
     // Override to support conditional editing of the table view.
@@ -78,14 +114,34 @@ class PracticeTableViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+        let allCells = tableView.visibleCells
+        var myFlashcardsSelected:[MyFlashcards] = []
+        var hskFlashcardsSelected:[HskFlashcards] = []
+        
+        for item in myFlshcardsBunchList.indices {
+            let cell = allCells[item] as! PracticeTableViewCell
+            if cell.selectionSwitch.isOn {
+                myFlashcardsSelected.append(myFlshcardsBunchList[item])
+                //do something with myflashcards[item] (add in a list and use it to search in db
+            }
+        }
+        for item in hskBunchList.indices {
+            let cell = allCells[item+myFlshcardsBunchList.count] as! PracticeTableViewCell
+            if cell.selectionSwitch.isOn {
+                hskFlashcardsSelected.append(hskBunchList[item])
+                //do something with hskBunchList[item]
+            }
+        }
+        if let destination = segue.destination as? PracticeDragDropViewController {
+            destination.sentences = Sentences.getSentences(for: myFlashcardsSelected, and: hskFlashcardsSelected)
+        }
+        self.hidesBottomBarWhenPushed = true
     }
-    */
-
 }

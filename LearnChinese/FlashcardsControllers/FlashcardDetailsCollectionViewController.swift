@@ -60,6 +60,12 @@ class FlashcardDetailsCollectionViewController: UICollectionViewController, UICo
         cell.pinyinLabelCollectionCell.text = words[indexPath.row].pinyin ?? ""
         cell.translationLabelColectionCell.text = words[indexPath.row].english ?? ""
         cell.word = words[indexPath.row]
+        if words[indexPath.row].veryKnown {
+            cell.IknowitButtonCollectionCell.setAttributedTitle(NSAttributedString(string: "I don't know it"), for: .normal)
+        }
+        else {
+            cell.IknowitButtonCollectionCell.setAttributedTitle(NSAttributedString(string: "I know it"), for: .normal)
+        }
         cell.layer.cornerRadius = 10.0
         cell.layer.borderWidth = 1.0
         cell.layer.borderColor = UIColor.blue.cgColor

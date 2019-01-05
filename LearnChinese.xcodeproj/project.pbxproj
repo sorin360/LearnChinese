@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4700A6CB21C641E6004CD410 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700A6CA21C641E6004CD410 /* TabBarController.swift */; };
-		4700A6CD21C7450C004CD410 /* PracticeDragDropViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700A6CC21C7450C004CD410 /* PracticeDragDropViewController.swift */; };
+		4700A6CF21C74F78004CD410 /* PracticeDragDropCellCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700A6CE21C74F78004CD410 /* PracticeDragDropCellCollectionViewCell.swift */; };
 		4705C59C21B6344800370F44 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4705C59B21B6344800370F44 /* AppDelegate.swift */; };
 		4705C5A121B6344800370F44 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4705C59F21B6344800370F44 /* Main.storyboard */; };
 		4705C5A321B6345D00370F44 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4705C5A221B6345D00370F44 /* Assets.xcassets */; };
@@ -19,11 +19,13 @@
 		4705C5E221B91C3000370F44 /* HskFlashcards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4705C5E121B91C3000370F44 /* HskFlashcards.swift */; };
 		4708621921B93F2200E69B59 /* CodableHskFlashcardsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4708621821B93F2200E69B59 /* CodableHskFlashcardsModel.swift */; };
 		470A3AB821C6362B00E73136 /* CodableSentencesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470A3AB721C6362B00E73136 /* CodableSentencesModel.swift */; };
+		470D553D21C9121400F3C9E7 /* PracticeDragDropViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470D553C21C9121400F3C9E7 /* PracticeDragDropViewController.swift */; };
 		470E21BC21C0B44100E23F07 /* FlashcardsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470E21BB21C0B44100E23F07 /* FlashcardsCollectionViewController.swift */; };
 		470F4DB021C0B5340005A1AD /* FlashcardsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F4DAF21C0B5340005A1AD /* FlashcardsTableViewController.swift */; };
 		471D92F421BE61D800C6F581 /* FlashcardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471D92F321BE61D800C6F581 /* FlashcardCollectionViewCell.swift */; };
 		471D92F621BF5CB800C6F581 /* FlashcardDetailsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471D92F521BF5CB800C6F581 /* FlashcardDetailsCollectionViewController.swift */; };
 		471D92F821BF5D3C00C6F581 /* FlashcardDetailsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471D92F721BF5D3C00C6F581 /* FlashcardDetailsCollectionViewCell.swift */; };
+		476FED3F21D4CD1C00089011 /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476FED3E21D4CD1C00089011 /* SearchTableViewController.swift */; };
 		4773B4B221BF741100504AE2 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4773B4B121BF741100504AE2 /* HomeViewController.swift */; };
 		4780BBD621C4EBEB00530D77 /* PracticeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4780BBD521C4EBEB00530D77 /* PracticeTableViewController.swift */; };
 		4780BBD821C4EEAB00530D77 /* PracticeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4780BBD721C4EEAB00530D77 /* PracticeTableViewCell.swift */; };
@@ -33,7 +35,7 @@
 
 /* Begin PBXFileReference section */
 		4700A6CA21C641E6004CD410 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
-		4700A6CC21C7450C004CD410 /* PracticeDragDropViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeDragDropViewController.swift; sourceTree = "<group>"; };
+		4700A6CE21C74F78004CD410 /* PracticeDragDropCellCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeDragDropCellCollectionViewCell.swift; sourceTree = "<group>"; };
 		4705C59821B6344800370F44 /* LearnChinese.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LearnChinese.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4705C59B21B6344800370F44 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4705C5A021B6344800370F44 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -46,11 +48,13 @@
 		4705C5E121B91C3000370F44 /* HskFlashcards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HskFlashcards.swift; sourceTree = "<group>"; };
 		4708621821B93F2200E69B59 /* CodableHskFlashcardsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableHskFlashcardsModel.swift; sourceTree = "<group>"; };
 		470A3AB721C6362B00E73136 /* CodableSentencesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableSentencesModel.swift; sourceTree = "<group>"; };
+		470D553C21C9121400F3C9E7 /* PracticeDragDropViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeDragDropViewController.swift; sourceTree = "<group>"; };
 		470E21BB21C0B44100E23F07 /* FlashcardsCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashcardsCollectionViewController.swift; sourceTree = "<group>"; };
 		470F4DAF21C0B5340005A1AD /* FlashcardsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashcardsTableViewController.swift; sourceTree = "<group>"; };
 		471D92F321BE61D800C6F581 /* FlashcardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashcardCollectionViewCell.swift; sourceTree = "<group>"; };
 		471D92F521BF5CB800C6F581 /* FlashcardDetailsCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashcardDetailsCollectionViewController.swift; sourceTree = "<group>"; };
 		471D92F721BF5D3C00C6F581 /* FlashcardDetailsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashcardDetailsCollectionViewCell.swift; sourceTree = "<group>"; };
+		476FED3E21D4CD1C00089011 /* SearchTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
 		4773B4B121BF741100504AE2 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		4780BBD521C4EBEB00530D77 /* PracticeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeTableViewController.swift; sourceTree = "<group>"; };
 		4780BBD721C4EEAB00530D77 /* PracticeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeTableViewCell.swift; sourceTree = "<group>"; };
@@ -88,6 +92,7 @@
 		4705C59A21B6344800370F44 /* LearnChinese */ = {
 			isa = PBXGroup;
 			children = (
+				476FED3D21D4C44F00089011 /* Search */,
 				4780BBD421C4EAC300530D77 /* PracticeControllers */,
 				4780BBD321C4EAB600530D77 /* Utilities */,
 				4780BBD221C4EAA200530D77 /* FlashcardsControllers */,
@@ -104,13 +109,21 @@
 			path = LearnChinese;
 			sourceTree = "<group>";
 		};
+		476FED3D21D4C44F00089011 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				476FED3E21D4CD1C00089011 /* SearchTableViewController.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
 		4780BBD021C4EA4300530D77 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				4708621821B93F2200E69B59 /* CodableHskFlashcardsModel.swift */,
 				4705C5DF21B7EC9700370F44 /* Sentences.swift */,
-				4705C5DD21B7EC3600370F44 /* MyFlashcards.swift */,
 				4705C5E121B91C3000370F44 /* HskFlashcards.swift */,
+				4705C5DD21B7EC3600370F44 /* MyFlashcards.swift */,
 				47BA97F921C520720040D45F /* Words.swift */,
 				470A3AB721C6362B00E73136 /* CodableSentencesModel.swift */,
 			);
@@ -150,7 +163,8 @@
 			children = (
 				4780BBD521C4EBEB00530D77 /* PracticeTableViewController.swift */,
 				4780BBD721C4EEAB00530D77 /* PracticeTableViewCell.swift */,
-				4700A6CC21C7450C004CD410 /* PracticeDragDropViewController.swift */,
+				4700A6CE21C74F78004CD410 /* PracticeDragDropCellCollectionViewCell.swift */,
+				470D553C21C9121400F3C9E7 /* PracticeDragDropViewController.swift */,
 			);
 			path = PracticeControllers;
 			sourceTree = "<group>";
@@ -229,19 +243,21 @@
 				4705C5DE21B7EC3600370F44 /* MyFlashcards.swift in Sources */,
 				47BA97FA21C520720040D45F /* Words.swift in Sources */,
 				479DCC2821BE0760006E9585 /* PopulateDBfromJSON.swift in Sources */,
-				4700A6CD21C7450C004CD410 /* PracticeDragDropViewController.swift in Sources */,
 				4700A6CB21C641E6004CD410 /* TabBarController.swift in Sources */,
 				4705C5E221B91C3000370F44 /* HskFlashcards.swift in Sources */,
 				471D92F621BF5CB800C6F581 /* FlashcardDetailsCollectionViewController.swift in Sources */,
 				4780BBD821C4EEAB00530D77 /* PracticeTableViewCell.swift in Sources */,
 				470A3AB821C6362B00E73136 /* CodableSentencesModel.swift in Sources */,
+				470D553D21C9121400F3C9E7 /* PracticeDragDropViewController.swift in Sources */,
 				4705C5E021B7EC9700370F44 /* Sentences.swift in Sources */,
+				476FED3F21D4CD1C00089011 /* SearchTableViewController.swift in Sources */,
 				4705C5D421B7791B00370F44 /* DBModel.xcdatamodeld in Sources */,
 				4708621921B93F2200E69B59 /* CodableHskFlashcardsModel.swift in Sources */,
 				471D92F421BE61D800C6F581 /* FlashcardCollectionViewCell.swift in Sources */,
 				4773B4B221BF741100504AE2 /* HomeViewController.swift in Sources */,
 				4780BBD621C4EBEB00530D77 /* PracticeTableViewController.swift in Sources */,
 				470E21BC21C0B44100E23F07 /* FlashcardsCollectionViewController.swift in Sources */,
+				4700A6CF21C74F78004CD410 /* PracticeDragDropCellCollectionViewCell.swift in Sources */,
 				470F4DB021C0B5340005A1AD /* FlashcardsTableViewController.swift in Sources */,
 				4705C59C21B6344800370F44 /* AppDelegate.swift in Sources */,
 				471D92F821BF5D3C00C6F581 /* FlashcardDetailsCollectionViewCell.swift in Sources */,

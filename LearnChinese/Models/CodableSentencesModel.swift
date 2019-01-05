@@ -11,5 +11,5 @@ import Foundation
 struct CodableSentencesModel: Codable {
     var pinyin: String?
     var hanzi: String?
-    var translation: String?
+    var english: String?
 }

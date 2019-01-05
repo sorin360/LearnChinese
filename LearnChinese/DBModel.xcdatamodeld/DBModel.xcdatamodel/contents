@@ -5,13 +5,16 @@
         <relationship name="words" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Words" inverseName="hskcards" inverseEntity="Words" syncable="YES"/>
     </entity>
     <entity name="MyFlashcards" representedClassName=".MyFlashcards" syncable="YES" codeGenerationType="category">
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="words" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Words" inverseName="flashcard" inverseEntity="Words" syncable="YES"/>
     </entity>
     <entity name="Sentences" representedClassName=".Sentences" syncable="YES" codeGenerationType="category">
         <attribute name="chinese" optional="YES" attributeType="String" customClassName="[String]" syncable="YES"/>
         <attribute name="english" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="pinyin" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="priority" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
     </entity>
     <entity name="Words" representedClassName=".Words" syncable="YES" codeGenerationType="category">
         <attribute name="chinese" optional="YES" attributeType="String" customClassName="[String]" syncable="YES"/>
@@ -25,8 +28,8 @@
     </entity>
     <elements>
         <element name="HskFlashcards" positionX="-122" positionY="-259.98046875" width="128" height="73"/>
-        <element name="MyFlashcards" positionX="-119.078125" positionY="-421.03125" width="128" height="73"/>
-        <element name="Sentences" positionX="-120.98046875" positionY="-132.00390625" width="128" height="90"/>
+        <element name="MyFlashcards" positionX="-119.078125" positionY="-421.03125" width="128" height="90"/>
+        <element name="Sentences" positionX="-120.98046875" positionY="-132.00390625" width="128" height="120"/>
         <element name="Words" positionX="-369.98046875" positionY="-351" width="128" height="165"/>
     </elements>
 </model>

@@ -91,6 +91,55 @@ class Words: NSManagedObject {
         return []
     }
     
+    static func search(with filter: String) -> [Words] {
+        
+        //As we know that container is set up in the AppDelegates so we need to refer that container.
+        if let appDelegate = UIApplication.shared.delegate as? AppDelegate  {
+            
+            //We need to create a context from this container
+            let managedContext = appDelegate.persistentContainer.viewContext
+            
+            //Prepare the request of type NSFetchRequest  for the entity
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Words")
+            if filter.containsChineseCharacters {
+                fetchRequest.predicate = NSPredicate(format: "chinese CONTAINS %@", filter)
+            }
+            else {
+                fetchRequest.predicate = NSPredicate(format: "english CONTAINS %@", filter)
+            }
+            
+            //        fetchRequest.fetchLimit = 1
+            //        fetchRequest.predicate = NSPredicate(format: "username = %@", "Ankur")
+            //        fetchRequest.sortDescriptors = [NSSortDescriptor.init(key: "email", ascending: false)]
+            //
+            do {
+                let result = try managedContext.fetch(fetchRequest)
+                
+                return result as? [Words] ?? []
+                /*  for data in result as! [NSManagedObject] {
+                 let flashcard = data as? MyFlashcards
+                 let name = flashcard?.name ?? ""
+                 let words = (flashcard?.words?.allObjects as? [Words]) ?? []
+                 for word in words  {
+                 colectedData += [word.chinese ?? ""]
+                 }
+                 /*
+                 let word = flashcards?.words?.allObjects as? [Words]
+                 let nam = flashcards?.name
+                 let name = data.value(forKey: "name") as? String
+                 let words = data.value(forKey: "words") as? [NSManagedObject]
+                 */
+                 colectedData += [name]
+                 //  colectedData
+                 }
+                 */
+            } catch {
+                
+                print("Failed")
+            }
+        }
+        return []
+    }
     static func getTheWordOfTheDay() -> Words? {
         
         if let appDelegate = UIApplication.shared.delegate as? AppDelegate  {
@@ -101,7 +150,7 @@ class Words: NSManagedObject {
                 let result = (try managedContext.fetch(fetchRequest)) as? [Words] ?? []
                 if result.count > 0 {
             
-                    let randomNumber = getDailyRandomNumber(up: result.count)
+                    let randomNumber = getDailyRandomNumber(up: result.count - 1)
                    // print(randomNumber)
                     return result[randomNumber]
                     
@@ -134,5 +183,10 @@ class Words: NSManagedObject {
             return numberForToday.nextInt()
          }
          return UserDefaults.standard.integer(forKey: "RandomNumber")
+    }
+}
+extension String {
+    var containsChineseCharacters: Bool {
+        return self.range(of: "\\p{Han}", options: .regularExpression) != nil
     }
 }

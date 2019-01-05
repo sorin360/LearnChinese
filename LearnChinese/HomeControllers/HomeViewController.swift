@@ -9,6 +9,7 @@
 import UIKit
 import GameplayKit
 
+
 class HomeViewController: UIViewController, UITabBarControllerDelegate{
 
     
@@ -25,7 +26,7 @@ class HomeViewController: UIViewController, UITabBarControllerDelegate{
     
  
     override func viewDidLoad() {
-        self.tabBarController?.delegate = self
+      //  self.tabBarController?.delegate = self
         updateKnownWords()
         setCharacterOfTheDay()
         // Do any additional setup after loading the view.
@@ -34,6 +35,7 @@ class HomeViewController: UIViewController, UITabBarControllerDelegate{
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
         updateKnownWords()
+      //  navigationController?.popToRootViewController(animated: true)
         super.viewWillAppear(animated)
     }
     
@@ -42,19 +44,24 @@ class HomeViewController: UIViewController, UITabBarControllerDelegate{
         super.viewWillDisappear(animated)
     }
 
-
+/*
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         let tabBarIndex = tabBarController.selectedIndex
+        if viewController is HomeViewController {
+            print("First tab")
+        } else if viewController is PracticeTableViewController {
+            print("Second tab")
+        }
         if tabBarIndex == 0 {
             self.updateKnownWords()
         }
     }
-    
+    */
    
     func updateKnownWords(){
-      //  knownWords = Words.getKnownWords()
-       // knownWordsCounterButton.setAttributedTitle(NSAttributedString(string: String(knownWords.count)), for: .normal)
-        knownWordsCounterButton.setAttributedTitle(NSAttributedString(string: String(Sentences.retrieveData())), for: .normal)
+        knownWords = Words.getKnownWords()
+        knownWordsCounterButton.setAttributedTitle(NSAttributedString(string: String(knownWords.count)), for: .normal)
+       // knownWordsCounterButton.setAttributedTitle(NSAttributedString(string: String(Sentences.retrieveData())), for: .normal)
     }
     
 

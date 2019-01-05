@@ -11,7 +11,7 @@ import CoreData
 
 class FlashcardsTableViewController: UITableViewController {
     
-    var flshcardsBunchList: [String] = []
+   // var flshcardsBunchList: [String] = []
     
     var myFlshcardsBunchList: [MyFlashcards] = []
     var hskFlshcardsBunchList: [HskFlashcards] = []
@@ -21,19 +21,26 @@ class FlashcardsTableViewController: UITableViewController {
      }
      }*/
 
-    var container: NSPersistentContainer?
+    var container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         myFlshcardsBunchList = MyFlashcards.retrieveData()
         hskFlshcardsBunchList = HskFlashcards.retrieveData()
-        flshcardsBunchList = []
+        let image = #imageLiteral(resourceName: "background")
+        let image1 = #imageLiteral(resourceName: "background2")
+      //  tableView.backgroundView = UIImageView(image: image1)
+        let newImage = image.resizableImage(withCapInsets: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0), resizingMode: .stretch)
         
         
-        for flashcard in myFlshcardsBunchList {
+        //self.view.backgroundColor = UIColor(patternImage: newImage)
+        //flshcardsBunchList = []
+        
+        
+     /*   for flashcard in myFlshcardsBunchList {
             flshcardsBunchList += [flashcard.name ?? "Unknown"]
-        }
+        }*/
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
         
@@ -51,15 +58,23 @@ class FlashcardsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return flshcardsBunchList.count
+        switch segmentedControl.selectedSegmentIndex {
+        case 0:
+            return myFlshcardsBunchList.count
+        default:
+            return hskFlshcardsBunchList.count
+        }
     }
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "flashcardsBunchCell", for: indexPath)
-        
-        cell.textLabel?.text = flshcardsBunchList[indexPath.row]
-        // Configure the cell...
+        switch segmentedControl.selectedSegmentIndex {
+        case 0:
+            cell.textLabel?.text = myFlshcardsBunchList[indexPath.row].name ?? "Unknown"
+        default:
+            cell.textLabel?.text = hskFlshcardsBunchList[indexPath.row].level ?? "Unknown"
+        }
         
         return cell
     }
@@ -78,7 +93,17 @@ class FlashcardsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
-            flshcardsBunchList.remove(at: indexPath.row)
+            switch segmentedControl.selectedSegmentIndex {
+            case 0:
+                myFlshcardsBunchList.remove(at: indexPath.row)
+                
+            default:
+                hskFlshcardsBunchList.remove(at: indexPath.row)
+
+              //  cell.textLabel?.text = hskFlshcardsBunchList[indexPath.row].level ?? "Unknown"
+            }
+
+            //flshcardsBunchList.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
@@ -148,12 +173,17 @@ class FlashcardsTableViewController: UITableViewController {
                         inputKeyboardType: .alphabet)
         { (input:String?) in
             
-            self.flshcardsBunchList += [input ?? "Unknown"]
+           /* self.myFlshcardsBunchList = MyFlashcards.retrieveData()
             self.tableView.reloadData()
-            
+            */
             self.container?.performBackgroundTask(){ context in
                 MyFlashcards.addFlashcardBunch(in: context, with: input ?? "Unknown")
                 //  HskFlashcards.addFlashcardBunch(in: context, with: input ?? "Unknown")
+               
+                DispatchQueue.main.async {
+                    self.myFlshcardsBunchList = MyFlashcards.retrieveData()
+                    self.tableView.reloadData()
+                }           
             }
         }
     }
@@ -166,18 +196,18 @@ class FlashcardsTableViewController: UITableViewController {
         switch segmentedControl.selectedSegmentIndex {
         case 0:
             //  flshcardsBunchList = ["list1", "list2", "list3"]
-            flshcardsBunchList = []
+          /*  flshcardsBunchList = []
             for flashcard in myFlshcardsBunchList {
                 flshcardsBunchList += [flashcard.name ?? "Unknown"]
-            }
+            }*/
             tableView.reloadData()
             addButton.isEnabled = true
         default:
             //flshcardsBunchList = ["hsk 1", "hsk 2", "hsk 3"]
-            flshcardsBunchList = []
+         /*   flshcardsBunchList = []
             for flashcard in hskFlshcardsBunchList {
                 flshcardsBunchList += [flashcard.level ?? "Unknown"]
-            }
+            }*/
             tableView.reloadData()
             addButton.isEnabled = false
         }
