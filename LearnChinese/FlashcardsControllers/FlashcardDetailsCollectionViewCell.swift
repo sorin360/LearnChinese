@@ -38,6 +38,7 @@ class FlashcardDetailsCollectionViewCell: UICollectionViewCell, UIPickerViewDele
         self.myPickerView = UIPickerView(frame:CGRect(x: 0, y: 0, width: self.contentView.frame.size.width, height: 216))
         self.myPickerView.delegate = self
         self.myPickerView.dataSource = self
+    
         self.myPickerView.backgroundColor = UIColor.white
         textField.inputView = self.myPickerView
         

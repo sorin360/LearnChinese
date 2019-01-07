@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct CodableHskFlashcardsModel: Codable {
     var level: String?

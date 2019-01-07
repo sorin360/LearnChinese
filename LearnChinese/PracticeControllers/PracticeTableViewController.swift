@@ -140,7 +140,7 @@ class PracticeTableViewController: UITableViewController {
             }
         }
         if let destination = segue.destination as? PracticeDragDropViewController {
-            destination.sentences = Sentences.getSentences(for: myFlashcardsSelected, and: hskFlashcardsSelected)
+            destination.practiceDragDrop = PracticeDragDrop(myFlashcards: myFlashcardsSelected, hskFlashcards: hskFlashcardsSelected)
         }
         self.hidesBottomBarWhenPushed = true
     }

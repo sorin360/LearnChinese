@@ -150,8 +150,10 @@ class Words: NSManagedObject {
                 let result = (try managedContext.fetch(fetchRequest)) as? [Words] ?? []
                 if result.count > 0 {
             
-                    let randomNumber = getDailyRandomNumber(up: result.count - 1)
-                   // print(randomNumber)
+                    let randomNumber = getDailyRandomNumber(upto: result.count - 1)
+                    print("random number" + String(randomNumber))
+                    print("random nudmber" + String( result.count - 1))
+               
                     return result[randomNumber]
                     
                 }
@@ -162,25 +164,26 @@ class Words: NSManagedObject {
         return nil
     }
     
-    static func getDailyRandomNumber(up to: Int) -> Int{
+    static func getDailyRandomNumber(upto maxValue: Int) -> Int{
     
-        let randomNumberSeed = UserDefaults.standard.double(forKey: "RandomNumberSeed")
-    
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-
-        let curentDate = dateFormatter.date(from: String(Date().description.split(separator: " ")[0]))
-        
-        
-
-        if randomNumberSeed != curentDate?.timeIntervalSince1970 {
-            let notSoRandomSource1 = GKMersenneTwisterRandomSource(seed: UInt64((curentDate?.timeIntervalSince1970)!))
+        let storedSeed = UserDefaults.standard.integer(forKey: "RandomNumberSeed")
+ 
+        let curentDate = Date().description.split(separator: " ")[0]
+        let splittedDate = curentDate.split(separator: "-")
+        let todaySeed = Int(splittedDate[0]+splittedDate[1]+splittedDate[2])
+        print("randomDate " + String(todaySeed!))
+        print("randomStored" + String(storedSeed))
+        print(storedSeed != todaySeed)
+        if storedSeed != todaySeed {
+            // a new day
+            // decrese sentences priorities
+            Sentences.decreseAllSentencesPriority()
+            let notSoRandomSource1 = GKMersenneTwisterRandomSource(seed: UInt64(todaySeed ?? 0))
             let numberForToday = GKRandomDistribution(randomSource: notSoRandomSource1,
                                                       lowestValue: 0,
-                                                      highestValue: to)
-            UserDefaults.standard.set(curentDate?.timeIntervalSince1970, forKey: "RandomNumberSeed")
+                                                      highestValue: maxValue)
+            UserDefaults.standard.set(todaySeed, forKey: "RandomNumberSeed")
             UserDefaults.standard.set(numberForToday.nextInt(), forKey: "RandomNumber")
-            return numberForToday.nextInt()
          }
          return UserDefaults.standard.integer(forKey: "RandomNumber")
     }
