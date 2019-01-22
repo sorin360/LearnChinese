@@ -105,7 +105,7 @@ class Words: NSManagedObject {
                 fetchRequest.predicate = NSPredicate(format: "chinese CONTAINS %@", filter)
             }
             else {
-                fetchRequest.predicate = NSPredicate(format: "english CONTAINS %@", filter)
+                fetchRequest.predicate = NSPredicate(format: "ANY english CONTAINS[c] %@", filter)
             }
             
             //        fetchRequest.fetchLimit = 1

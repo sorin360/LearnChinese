@@ -16,12 +16,12 @@ class PracticeTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
        // myFlshcardsBunchList = MyFlashcards.retrieveData()
-        hskBunchList = HskFlashcards.retrieveData()
-        
+        hskBunchList = HskFlashcards.retrieveData() as! [HskFlashcards]
+     
 
     }
     override func viewWillAppear(_ animated: Bool) {
-        let newData = MyFlashcards.retrieveData()
+        let newData = MyFlashcards.retrieveData() as! [MyFlashcards]
         self.hidesBottomBarWhenPushed = false
         if newData != myFlshcardsBunchList {
             myFlshcardsBunchList = newData
@@ -30,6 +30,11 @@ class PracticeTableViewController: UITableViewController {
         }
         super.viewWillAppear(animated)
     }
+    
+  /*  override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    */
     // MARK: - Table view data source
 
 
@@ -71,7 +76,11 @@ class PracticeTableViewController: UITableViewController {
         headerLabel.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 0.2)
         switch section {
         case 0:
-            headerLabel.text = " My libraries"
+            if myFlshcardsBunchList.count == 0 {
+                headerLabel.text = " You haven't create your own libraries yet"
+            } else {
+                headerLabel.text = " My libraries"
+            }
             
         default:
             headerLabel.text = " HSK"

@@ -15,20 +15,10 @@ class FlashcardDetailsCollectionViewController: UICollectionViewController, UICo
     lazy var words: [Words] = []
     var indexPath: IndexPath = IndexPath(item: 0, section: 0)
     
-    override func viewDidLoad() {
- 
-        super.viewDidLoad()
-        
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         self.collectionView.scrollToItem(at: indexPath, at: .right, animated: false)
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-        
-        // Register cell classes
-        //   self.collectionView!.register(FlashcardCollectionViewCell.self, forCellWithReuseIdentifier: "flashcardCell")
-        
-        // Do any additional setup after loading the view.
     }
-    
     
      // MARK: - Navigation
      
@@ -56,7 +46,23 @@ class FlashcardDetailsCollectionViewController: UICollectionViewController, UICo
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "detailsCell", for: indexPath) as! FlashcardDetailsCollectionViewCell
         // if let flashcardCell = cell as? FlashcardCollectionViewCell {
-        cell.hanziLabelCollectionCell?.text = words[indexPath.row].chinese ?? ""
+       // cell.hanziLabelCollectionCell?.text = words[indexPath.row].chinese ?? ""
+        
+        if words[indexPath.row].veryKnown{
+            cell.layer.borderColor =  #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
+            cell.hanziLabelCollectionCell?.attributedText = NSAttributedString(string: words[indexPath.row].chinese ?? "", attributes: [NSAttributedString.Key.foregroundColor : #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)])
+        }
+        else if words[indexPath.row].flashcard != nil {
+            cell.layer.borderColor = UIColor.red.cgColor
+            cell.hanziLabelCollectionCell?.attributedText = NSAttributedString(string: words[indexPath.row].chinese ?? "", attributes: [NSAttributedString.Key.foregroundColor : UIColor.red])
+        } else {
+            cell.layer.borderColor = UIColor.blue.cgColor
+            cell.hanziLabelCollectionCell?.attributedText = NSAttributedString(string: words[indexPath.row].chinese ?? "", attributes: [NSAttributedString.Key.foregroundColor : UIColor.blue])
+        }
+        
+        
+        
+        
         cell.pinyinLabelCollectionCell.text = words[indexPath.row].pinyin ?? ""
         cell.translationLabelColectionCell.text = words[indexPath.row].english ?? ""
         cell.word = words[indexPath.row]
@@ -65,6 +71,12 @@ class FlashcardDetailsCollectionViewController: UICollectionViewController, UICo
         }
         else {
             cell.IknowitButtonCollectionCell.setAttributedTitle(NSAttributedString(string: "I know it"), for: .normal)
+        }
+        if words[indexPath.row].flashcard != nil {
+            cell.AddToLibraryButton.setAttributedTitle(NSAttributedString(string: "Remove from library"), for: .normal)
+        }
+        else {
+            cell.AddToLibraryButton.setAttributedTitle(NSAttributedString(string: "Add to library"), for: .normal)
         }
         cell.layer.cornerRadius = 10.0
         cell.layer.borderWidth = 1.0

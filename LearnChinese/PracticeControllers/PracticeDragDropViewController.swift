@@ -8,24 +8,83 @@
 
 import UIKit
 
-class PracticeDragDropViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDragDelegate, UICollectionViewDropDelegate, UIGestureRecognizerDelegate{
+class PracticeDragDropViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDragDelegate, UICollectionViewDropDelegate, UIGestureRecognizerDelegate {
     
     var practiceDragDrop: PracticeDragDrop?
-    var contentCollectionOne:[String] = []
+    
+    var lifeStatus = 4 { //"⭐️⭐️⭐️⭐️" {
+        didSet{
+            
+            switch lifeStatus {
+            case 4:
+                self.navigationItem.title = "⭐️⭐️⭐️⭐️"
+            case 3:
+                self.navigationItem.title = "⭐️⭐️⭐️"
+            case 2:
+                self.navigationItem.title = "⭐️⭐️"
+            case 1:
+                self.navigationItem.title = "⭐️"
+            default:
+                    self.showMessageDialog(title: "Sorry...",
+                                           subtitle: "These sentences seem to be too difficult for you, try to choose some easier words for practice",
+                                           actionTitle: "OK", cancelActionTitle: nil)
+                    { () in
+                        
+                        self.navigationController?.popViewController(animated: true)
+                    }
+            }
+        }
+    }
+    
+    
+    
+    var contentCollectionOne:[String] = [] {
+        didSet {
+            if !contentCollectionOne.isEmpty {
+                checkButton.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+                checkButton.isEnabled = true
+                
+            } else {
+                checkButton.isEnabled = false
+                checkButton.backgroundColor = .clear
+            }
+        }
+    }
+  
+
     var contentCollectionTwo:[String] = []
     
     @IBOutlet weak var textForTranslation: UILabel!
     
-    @IBOutlet weak var scoreLabel: UILabel!
+   // @IBOutlet weak var scoreLabel: UILabel!
+    
+    @IBOutlet weak var scoreButton: UIBarButtonItem!
+    
+    @IBOutlet weak var checkButton: UIButton! {
+        didSet {
+            checkButton.backgroundColor = .clear
+            checkButton.layer.cornerRadius = 15
+            checkButton.layer.borderWidth = 2
+            checkButton.layer.borderColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+            checkButton.setTitleColor(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 1), for: .normal)
+            checkButton.isEnabled = false
+            
+        }
+    }
     
     @IBOutlet weak var progressView: UIProgressView! {
         didSet{
             progressView.setProgress(0.0, animated: true)
+           // progressView.layer.cornerRadius = 20
+         
         }
     }
     
     @IBAction func endPracticeButton(_ sender: Any) {
-        self.navigationController?.popViewController(animated: true)
+        showMessageDialog(title: "Are you sure you want to end this sesion?", subtitle: "The score gained by now won't be saved", actionTitle: "OK", cancelActionTitle: "Cancel") { () in
+             self.navigationController?.popViewController(animated: true)
+            }
+       
     }
 
     @IBOutlet weak var colectionViewOne: UICollectionView! {
@@ -34,10 +93,24 @@ class PracticeDragDropViewController: UIViewController, UICollectionViewDelegate
             colectionViewOne.delegate = self
             colectionViewOne.dragDelegate = self
             colectionViewOne.dragInteractionEnabled = true
+            colectionViewOne.dropDelegate = self
             let swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(self.swipeDown(_:)))
             swipeGesture.direction = .down
             colectionViewOne.addGestureRecognizer(swipeGesture)
             swipeGesture.delegate = self
+            let alignedFlowLayout = LeftAlignedCollectionViewFlowLayout()
+            alignedFlowLayout.minimumInteritemSpacing = 1
+            alignedFlowLayout.minimumLineSpacing = 1
+            colectionViewOne.collectionViewLayout = alignedFlowLayout
+            let backgroundView = StripedView()
+            colectionViewOne.backgroundView = backgroundView
+          //  let image = UIImage(named: "line.png")
+           
+          //  image?.size = CGSize(width: 0.0, height: 0.0)
+          //  colectionViewOne.backgroundColor = UIColor.init  .init(patternImage: image!)
+                
+                //UIColor.colorWithPatternImage(UIImage(named:DrawOnImage(startingImage: image!))!)
+  
         }
     }
     
@@ -60,17 +133,17 @@ class PracticeDragDropViewController: UIViewController, UICollectionViewDelegate
         if (checkResult?.0)! {
             showMessageDialog(title: "Correct",
                               subtitle: "Answer: \((checkResult?.1)!)",
-                actionTitle: "OK")
-            { (input:String?) in
+                actionTitle: "OK", cancelActionTitle: nil)
+            { () in
                 
  
-                self.scoreLabel.text = "score: " + (self.practiceDragDrop?.getScore() ?? "00")
+                self.scoreButton.title = "score: " + (self.practiceDragDrop?.getScore() ?? "00")
                 if self.practiceDragDrop?.curentSentenceIndex == self.practiceDragDrop?.sentences.count {
                     
                     self.showMessageDialog(title: "Congratulations!!!",
                                            subtitle: "Your score is \(self.practiceDragDrop?.getScore() ?? "0")",
-                        actionTitle: "OK")
-                    { (input:String?) in
+                        actionTitle: "OK", cancelActionTitle: nil)
+                    { () in
                    
                         let score = Int(self.practiceDragDrop?.getScore() ?? "0") ?? 0
                         let date = Date().stripTime()
@@ -87,17 +160,20 @@ class PracticeDragDropViewController: UIViewController, UICollectionViewDelegate
             }
             
         } else {
-            self.scoreLabel.text = "score: " + (practiceDragDrop?.getScore() ?? "00")
-            
+            self.scoreButton.title = "score: " + (practiceDragDrop?.getScore() ?? "00")
+               lifeStatus -= 1
             showWrongAnswerDialog(title: "Sorry...", subtitle: "Wrong answer", answer: (checkResult?.1)!) { (option :String?) in
                 switch option {
                 case "Skip":
                     if self.practiceDragDrop?.curentSentenceIndex == self.practiceDragDrop?.sentences.count {
                         self.showMessageDialog(title: "Congratulations!!!",
                                                subtitle: "Your score is \((checkResult?.1)!)",
-                            actionTitle: "OK")
-                        { (input:String?) in
+                            actionTitle: "OK", cancelActionTitle: nil)
+                        { () in
+                            let score = Int(self.practiceDragDrop?.getScore() ?? "0") ?? 0
+                            let date = Date().stripTime()
                             
+                            Scores.update(with: score, at: date)
                             self.navigationController?.popViewController(animated: true)
                         }
                     }
@@ -113,40 +189,46 @@ class PracticeDragDropViewController: UIViewController, UICollectionViewDelegate
                     self.colectionViewTwo.reloadData()
                 }
             }
+            
+         
         }
     }
     // MARK: - Configurations
-    
+    /*
     override var prefersStatusBarHidden: Bool {
         return true
     }
-    
+    */
     override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+       // self.navigationController?.setNavigationBarHidden(true, animated: animated)
+         self.tabBarController?.tabBar.isHidden = true
         super.viewWillAppear(animated)
+        if (practiceDragDrop?.sentences.count)! > 0 {
+            loadModel()
+        } else {
+            showMessageDialog(title: "Not sentences found",
+                              subtitle: "Please select more libraries for prctice",
+                              actionTitle: "OK", cancelActionTitle: nil)
+            { () in
+                
+                self.navigationController?.popViewController(animated: true)
+            }
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+      //  self.navigationController?.setNavigationBarHidden(false, animated: animated)
         self.tabBarController?.tabBar.isHidden = false
         super.viewWillDisappear(animated)
     }
     
     override func viewDidLoad() {
-        let image = #imageLiteral(resourceName: "background")
-        self.view.backgroundColor = UIColor(patternImage: image)
+        lifeStatus = 4
         
-        if (practiceDragDrop?.sentences.count)! > 0 {
-            loadModel()
-        } else {
-            showMessageDialog(title: "Not sentences found",
-                              subtitle: "Please select more words",
-                              actionTitle: "OK")
-            { (input:String?) in
-                
-                self.navigationController?.popViewController(animated: true)
-            }
-        }
+     //   let image = #imageLiteral(resourceName: "background")
+        self.view.backgroundColor = UIColor.white // UIColor(patternImage: image)
+    
+        
         super.viewDidLoad()
     }
     // MARK: - Collection
@@ -157,7 +239,7 @@ class PracticeDragDropViewController: UIViewController, UICollectionViewDelegate
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if collectionView == colectionViewOne {
-             return CGSize(width: contentCollectionOne[indexPath.row].count * 20, height: 40)
+             return CGSize(width: contentCollectionOne[indexPath.row].count * 15, height: 30)
         }
         else {
             return CGSize(width: contentCollectionTwo[indexPath.row].count * 20, height: 40)
@@ -265,7 +347,7 @@ class PracticeDragDropViewController: UIViewController, UICollectionViewDelegate
                     colectionViewOne.deleteItems(at: [tapIndexPath])
                 
                 practiceDragDrop?.updateScore(with: -10)
-                self.scoreLabel.text = "score: " + (practiceDragDrop?.getScore() ?? "00")
+                self.scoreButton.title = "score: " + (practiceDragDrop?.getScore() ?? "00")
             }
         }
     }
@@ -288,3 +370,67 @@ class PracticeDragDropViewController: UIViewController, UICollectionViewDelegate
     }
 }
 
+class LeftAlignedCollectionViewFlowLayout: UICollectionViewFlowLayout {
+    
+  
+    override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
+        let attributes = super.layoutAttributesForElements(in: rect)
+        
+        var leftMargin = sectionInset.left
+        var maxY: CGFloat = -1.0
+        attributes?.forEach { layoutAttribute in
+            if layoutAttribute.frame.origin.y >= maxY {
+                leftMargin = sectionInset.left
+            }
+            
+            layoutAttribute.frame.origin.x = leftMargin
+            
+            leftMargin += layoutAttribute.frame.width + minimumInteritemSpacing
+            maxY = max(layoutAttribute.frame.maxY , maxY)
+        }
+        
+        return attributes
+    }
+}
+
+class StripedView: UIView {
+    
+    override func draw(_ rect: CGRect) {
+        //// Set pattern tile colors width and height; adjust the color width to adjust pattern.
+        let color1 = UIColor.white
+        let color1Width: CGFloat = 30
+        let color1Height: CGFloat = 30
+        
+        let color2 = #colorLiteral(red: 0.8647956285, green: 0.8647956285, blue: 0.8647956285, alpha: 1)
+        let color2Width: CGFloat = 1
+        let color2Height: CGFloat = 1
+        
+        
+        //// Set pattern tile orientation vertical.
+        let patternWidth: CGFloat = min(color1Width, color2Width)
+        let patternHeight: CGFloat = (color1Height + color2Height)
+        
+        //// Set pattern tile size.
+        let patternSize = CGSize(width: patternWidth, height: patternHeight)
+        
+        //// Draw pattern tile
+        let context = UIGraphicsGetCurrentContext()
+        UIGraphicsBeginImageContextWithOptions(patternSize, false, 0.0)
+        
+        let color1Path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: color1Width, height: color1Height))
+        color1.setFill()
+        color1Path.fill()
+        
+        let color2Path = UIBezierPath(rect: CGRect(x: 0, y: color1Height, width: color2Width, height: color2Height))
+        color2.setFill()
+        color2Path.fill()
+        
+        
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        //// Draw pattern in view
+        UIColor(patternImage: image!).setFill()
+        context!.fill(rect)
+    }
+}

@@ -24,7 +24,7 @@ class PopulateDBfromJSON {
             do{
 
                 
-                let myData = try JSONDecoder().decode(CodableHskFlashcardsModel.self, from: dataResponse)
+                let myData = try JSONDecoder().decode([CodableHskFlashcardsModel].self, from: dataResponse)
    
                 HskFlashcards.addFlashcardBunch(in: context, with: myData)
                 

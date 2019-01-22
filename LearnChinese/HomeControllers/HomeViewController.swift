@@ -14,101 +14,92 @@ import CoreData
 
 class HomeViewController: UIViewController, UITabBarControllerDelegate{
 
-    
     @IBOutlet weak var knownWordsCounterButton: UIButton!
     
-    @IBOutlet weak var pinyinLabel: UILabel!
+    @IBOutlet weak var pinyinLabel: UILabel!  {
+        didSet {
+            pinyinLabel.backgroundColor = .clear
+            pinyinLabel.layer.cornerRadius = 15
+            pinyinLabel.layer.borderWidth = 2
+            pinyinLabel.layer.borderColor = UIColor.red.cgColor
+        }
+    }
 
-    @IBOutlet weak var hanziButton: UIButton!
+    @IBOutlet weak var hanziButton: UIButton! {
+        didSet {
+            hanziButton.backgroundColor = .clear
+            hanziButton.layer.cornerRadius = 15
+            hanziButton.layer.borderWidth = 2
+            hanziButton.layer.borderColor = UIColor.blue.cgColor
+        }
+    }
     
-    @IBOutlet weak var translationLabel: UILabel!
-    
-
-    var knownWords: [Words] = []
-  
-    var container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
+    @IBOutlet weak var translationLabel: UILabel! 
     
     @IBOutlet weak var chart: Chart!
     
-    let sideSelectorHeight: CGFloat = 0
+    var knownWords:[Words] = []
+    var container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
     
-   
-    override func viewDidLoad() {
-      
-   
-        let lastDaysScores = Scores.getLast7DaysScores()
-        var data: [(x: Double, y: Double)] = []
-        for index in 0...6 {
-            data += [(x: Double(index), y: Double(lastDaysScores[6 - index].value))]
-        }
-
-        let series = ChartSeries(data: data)
-        series.area = true
-
-        chart.xLabels = [6, 0, 1, 2, 3, 4, 5]
+    var homeModel = Home()
+    
+    @IBOutlet weak var settingsButton: UIButton!
+        // change background
+        // pinyin or hanzi
+        // clear score
+        //
+    
+    
+    func updateChart(){
         
-        var labelsAsString: [String] = []
-       
-        let formatter = DateFormatter()
-        formatter.dateFormat = "EEEE"
-        for index in 0...6 {
-            labelsAsString += [formatter.string(from:  Calendar.current.date(byAdding: .day, value: index, to: Date())!).prefix(3).description]
-        }
-  
+        let series = homeModel.getChartSeries()
+        var weekDays = homeModel.getWeekDaysLabels()
+        
+        chart.xLabels = [6, 0, 1, 2, 3, 4, 5]
         chart.xLabelsFormatter = { (labelIndex: Int, labelValue: Double) -> String in
-            return labelsAsString[labelIndex]
+            return weekDays[labelIndex]
         }
-      
-
         chart.backgroundColor = UIColor.white
+        
         chart.add(series)
         
-      //  self.view.addSubview(chart.view
-        
-      
+    }
+    
+    override func viewDidLoad() {
+        print("step1")
+        setCharacterOfTheDay()
+        print("step2")
     
     }
   
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        updateChart()
         updateKnownWords()
-         setCharacterOfTheDay()
         super.viewWillAppear(animated)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+       self.navigationController?.setNavigationBarHidden(false, animated: animated)
         super.viewWillDisappear(animated)
     }
-
-/*
-    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-        let tabBarIndex = tabBarController.selectedIndex
-        if viewController is HomeViewController {
-            print("First tab")
-        } else if viewController is PracticeTableViewController {
-            print("Second tab")
-        }
-        if tabBarIndex == 0 {
-            self.updateKnownWords()
-        }
-    }
-    */
    
     func updateKnownWords(){
         knownWords = Words.getKnownWords()
         knownWordsCounterButton.setAttributedTitle(NSAttributedString(string: String(knownWords.count)), for: .normal)
-       // knownWordsCounterButton.setAttributedTitle(NSAttributedString(string: String(Sentences.retrieveData())), for: .normal)
+  
     }
     
-
-    
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
     // MARK: - Navigation
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "knownWords" {
             let flashcadsCollectionController = segue.destination as? FlashcardsCollectionViewController
-            flashcadsCollectionController?.words = knownWords
+           // flashcadsCollectionController?.words = knownWords
+            flashcadsCollectionController?.navigationItem.title = "Well known words"
         }
         
         if segue.identifier == "wordOfTheDay" {
@@ -116,8 +107,6 @@ class HomeViewController: UIViewController, UITabBarControllerDelegate{
                 destination.words = [Words.getTheWordOfTheDay()!]
             }
         }
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
     }
     
     func setCharacterOfTheDay(){
@@ -125,7 +114,7 @@ class HomeViewController: UIViewController, UITabBarControllerDelegate{
         //TO DO add this in same function with updateView
         let wordOfTheDay = Words.getTheWordOfTheDay()
         pinyinLabel.text = wordOfTheDay?.pinyin
-        hanziButton.setTitle(wordOfTheDay?.chinese, for: .normal)
+        hanziButton.setTitle(" \(wordOfTheDay?.chinese ?? "--") ", for: .normal)
         translationLabel.text = wordOfTheDay?.english
     }
     

@@ -48,7 +48,7 @@ class Scores: NSManagedObject {
                 objectUpdate.value += Int16(score)
             } else {
                 let newScore = Scores(context: managedContext)
-                newScore.time = Date().stripTime()
+                newScore.time = date.stripTime()
                 newScore.value = Int16(score)
             }
             do{
@@ -76,20 +76,47 @@ class Scores: NSManagedObject {
             
             //Prepare the request of type NSFetchRequest  for the entity
             let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Scores")
-            let sort = NSSortDescriptor(key: "time", ascending: true)
+            let sort = NSSortDescriptor(key: "time", ascending: false)
             
             fetchRequest.sortDescriptors = [sort]
 
             do {
                 var result = try managedContext.fetch(fetchRequest) as? [Scores] ?? []
+             //   result[count-1]//cea mai mare data
+                var count = result.count
+                let today = Date()
+      
                 
-                while result.count < 7 {
+               var index = 0
+                    
+                    while index < result.count{
+       
+                        if result[index].time != Calendar.current.date(byAdding: .day, value: 0 - index, to: today)?.stripTime(){
+                            let newScore = Scores(context: managedContext)
+                            newScore.time = Calendar.current.date(byAdding: .day, value: 0 - index, to: today)?.stripTime()
+                            newScore.value = 0
+                            result.insert(newScore, at: index)
+                        }
+                        else {
+                            break
+                        }
+                    index += 1
+                }
+                print(Date())
+                count = result.count
+ 
+             /*   while result.count < 7 {
+                    
                     let newScore = Scores(context: managedContext)
                     newScore.time = Date().stripTime()
                     newScore.value = 0
                     result += [newScore]
+                }*/
+                if result.count > 7 {
+                    return Array(result.suffix(from: result.count - 7))
+                } else {
+                    return result
                 }
-                return result
                 /*  for data in result as! [NSManagedObject] {
                  let flashcard = data as? MyFlashcards
                  let name = flashcard?.name ?? ""
@@ -107,6 +134,13 @@ class Scores: NSManagedObject {
                  //  colectedData
                  }
                  */
+                do{
+                    try managedContext.save()
+                }
+                catch
+                {
+                    print(error)
+                }
             } catch {
                 
                 print("Failed")
@@ -119,9 +153,23 @@ class Scores: NSManagedObject {
 extension Date {
     
     func stripTime() -> Date {
-        let components = Calendar.current.dateComponents([.year, .month, .day], from: self)
+      /*  let components = Calendar.current.dateComponents([.year, .month, .day], from: self)
+        print(components.day)
         let date = Calendar.current.date(from: components)
-        return date!
+        print("strip \(date)")
+         
+         */
+     
+        let dateFormatter = DateFormatter()
+        //To prevent displaying either date or time, set the desired style to NoStyle.
+        dateFormatter.dateStyle = DateFormatter.Style.short //Set time style
+ 
+        dateFormatter.timeZone = TimeZone.current
+        let localDate = dateFormatter.string(from: self)
+        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        return dateFormatter.date(from: localDate)!
+       // (bySettingHour: 12, minute: 60, second: 60, of: self)!
+       // return date!
     }
     
 }

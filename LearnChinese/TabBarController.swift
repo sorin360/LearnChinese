@@ -18,41 +18,38 @@ class TabBarController:  UITabBarController, UITabBarControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.delegate = self
-        // Do any additional setup after loading the view, typically from a nib.
-        let someDate = Date() + 1
-     
-        
-        let notSoRandomSource1 = GKMersenneTwisterRandomSource(seed: UInt64(someDate.timeIntervalSince1970))
-        let numberForToday = GKRandomDistribution(randomSource: notSoRandomSource1,
-                                                  lowestValue: 1,
-                                                  highestValue: 2000)
-        let first = numberForToday.nextInt()
-        
-        print(first)
-       
-         let image = #imageLiteral(resourceName: "background")
+   /*
+        Scores.update(with: 50, at: Calendar.current.date(byAdding: .day, value: 0 - 0, to: Date().stripTime())!)
+        Scores.update(with: 20, at: Calendar.current.date(byAdding: .day, value: 0 - 1, to: Date().stripTime())!)
+        Scores.update(with: 100, at: Calendar.current.date(byAdding: .day, value: 0 - 2, to: Date().stripTime())!)
+        Scores.update(with: 90, at: Calendar.current.date(byAdding: .day, value: 0 - 3, to: Date().stripTime())!)
+        Scores.update(with: 90, at: Calendar.current.date(byAdding: .day, value: 0 - 4, to: Date().stripTime())!)
+        Scores.update(with: 60, at: Calendar.current.date(byAdding: .day, value: 0 - 5, to: Date().stripTime())!)
+        Scores.update(with: 100, at: Calendar.current.date(byAdding: .day, value: 0 - 6, to: Date().stripTime())!)
+   */
+        let searchViewController = SearchTableViewController()
+        searchViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
+        self.viewControllers = [searchViewController]
+        setViewBackground()
 
+     
+    }
+    
+    func setViewBackground(){
+        
+        let image = #imageLiteral(resourceName: "background")
         let newWidth = view.frame.width
         let newHeight = view.frame.height
         UIGraphicsBeginImageContext(CGSize(width: CGFloat(newWidth), height: CGFloat(newHeight)))
         image.draw(in: CGRect(x: 0, y: 0, width: Int(newWidth), height: Int(newHeight)))
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        
         UINavigationBar.appearance().setBackgroundImage(newImage, for: .default)
-      //  UINavigationBar.appearance().contentMode = .scaleAspectFill
         self.navigationController?.navigationBar.setBackgroundImage(image, for: UIBarMetrics.default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
-        //  var hsk = CodableHskFlashcardsModel(level: "hsk1", words: [word, word])
         
-        //let jsonData: Data? = try? JSONEncoder().encode(hsk)
-        // let jsonResponse = try? JSONSerialization.jsonObject(with:
-        //      jsonData!, options: [])
-      //  tabBarController?.delegate = self
-     
     }
-    
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -73,7 +70,8 @@ class TabBarController:  UITabBarController, UITabBarControllerDelegate {
             
             self.container?.performBackgroundTask(){ context in
                 
-                guard let url = URL(string: "https://api.myjson.com/bins/13mxps") else {return}
+            //    guard let url = URL(string: "https://api.myjson.com/bins/13mxps") else {return} hsk1
+                guard let url = URL(string: "https://api.npoint.io/2bf2a384525003b3f831") else {return}
                 
                 URLSession.shared.dataTask(with: url, completionHandler:  { (data, response, error) in
                     guard let dataResponse = data,
@@ -81,9 +79,8 @@ class TabBarController:  UITabBarController, UITabBarControllerDelegate {
                             print(error?.localizedDescription ?? "Response Error")
                             return }
                     do{
-                        
-                        
-                        let myData = try JSONDecoder().decode(CodableHskFlashcardsModel.self, from: dataResponse)
+
+                        let myData = try JSONDecoder().decode([CodableHskFlashcardsModel].self, from: dataResponse)
                         
                         HskFlashcards.addFlashcardBunch(in: context, with: myData)
                         DispatchQueue.main.async {
@@ -134,8 +131,6 @@ class TabBarController:  UITabBarController, UITabBarControllerDelegate {
                             }
                         }
                         
-                        //   self.dismiss(animated: false, completion: nil)
-                        
                     } catch let parsingError {
                         print("Error", parsingError)
                     }
@@ -146,17 +141,11 @@ class TabBarController:  UITabBarController, UITabBarControllerDelegate {
 
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-        let tabBarIndex = tabBarController.selectedIndex
+   
         if let navigationController = viewController as? UINavigationController {
-            print("First tab")
             navigationController.popToRootViewController(animated: true)
-        } else if ((viewController as? PracticeTableViewController) != nil) {
-            print("Second tab")
         }
-/*
-        if tabBarIndex == 0 {
-            self.updateKnownWords()
-        }*/
+
     }
 
 

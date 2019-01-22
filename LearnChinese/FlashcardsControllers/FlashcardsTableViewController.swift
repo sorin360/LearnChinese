@@ -26,29 +26,14 @@ class FlashcardsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        myFlshcardsBunchList = MyFlashcards.retrieveData()
+      //  myFlshcardsBunchList = MyFlashcards.retrieveData()
         hskFlshcardsBunchList = HskFlashcards.retrieveData()
-        let image = #imageLiteral(resourceName: "background")
-        let image1 = #imageLiteral(resourceName: "background2")
-      //  tableView.backgroundView = UIImageView(image: image1)
-        let newImage = image.resizableImage(withCapInsets: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0), resizingMode: .stretch)
-        
-        
-        //self.view.backgroundColor = UIColor(patternImage: newImage)
-        //flshcardsBunchList = []
-        
-        
-     /*   for flashcard in myFlshcardsBunchList {
-            flshcardsBunchList += [flashcard.name ?? "Unknown"]
-        }*/
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-        
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+         myFlshcardsBunchList = MyFlashcards.retrieveData()
+         self.tableView.reloadData()
     }
     
     // MARK: - Table view data source
@@ -69,13 +54,32 @@ class FlashcardsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "flashcardsBunchCell", for: indexPath)
+        
+        var knownCountersAttributedString: NSMutableAttributedString = NSMutableAttributedString(string: "")
+        var unknownCountersAttributedString: NSMutableAttributedString = NSMutableAttributedString(string: "")
+        var inLibCountersAttributedString: NSMutableAttributedString = NSMutableAttributedString(string: "")
+        
         switch segmentedControl.selectedSegmentIndex {
+            
         case 0:
             cell.textLabel?.text = myFlshcardsBunchList[indexPath.row].name ?? "Unknown"
+     
+            inLibCountersAttributedString = NSMutableAttributedString(string: "  " + String(myFlshcardsBunchList[indexPath.row].words?.count ?? 0), attributes: [NSAttributedString.Key.foregroundColor : UIColor.red])
+          
         default:
             cell.textLabel?.text = hskFlshcardsBunchList[indexPath.row].level ?? "Unknown"
+            knownCountersAttributedString = NSMutableAttributedString(string: "  " + String(hskFlshcardsBunchList[indexPath.row].words?.filter { ($0 as! Words).veryKnown == true }.count ?? 0), attributes: [NSAttributedString.Key.foregroundColor : #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)])
+            unknownCountersAttributedString = NSMutableAttributedString(string: "  " + String(hskFlshcardsBunchList[indexPath.row].words?.filter { ($0 as! Words).veryKnown == false && ($0 as! Words).flashcard == nil}.count ?? 0), attributes: [NSAttributedString.Key.foregroundColor : UIColor.blue])
+            inLibCountersAttributedString = NSMutableAttributedString(string: "  " + String(hskFlshcardsBunchList[indexPath.row].words?.filter { ($0 as! Words).flashcard != nil }.count ?? 0), attributes: [NSAttributedString.Key.foregroundColor : UIColor.red])
         }
         
+        
+        let countersAttributedString = unknownCountersAttributedString
+        
+        
+        countersAttributedString.append(inLibCountersAttributedString)
+        countersAttributedString.append(knownCountersAttributedString)
+        cell.detailTextLabel?.attributedText = countersAttributedString
         return cell
     }
     
@@ -95,16 +99,19 @@ class FlashcardsTableViewController: UITableViewController {
             // Delete the row from the data source
             switch segmentedControl.selectedSegmentIndex {
             case 0:
+                     MyFlashcards.delete(myFlashcards: myFlshcardsBunchList[indexPath.row])
                 myFlshcardsBunchList.remove(at: indexPath.row)
-                
+                 tableView.deleteRows(at: [indexPath], with: .fade)
+           
             default:
-                hskFlshcardsBunchList.remove(at: indexPath.row)
+                break
+              //  hskFlshcardsBunchList.remove(at: indexPath.row)
 
-              //  cell.textLabel?.text = hskFlshcardsBunchList[indexPath.row].level ?? "Unknown"
+              //  cell.textLabel?.text =NSMutableAttributedString hskFlshcardsBunchList[indexPath.row].level ?? "Unknown"
             }
 
             //flshcardsBunchList.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
+           
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }
@@ -135,14 +142,20 @@ class FlashcardsTableViewController: UITableViewController {
             if let selectedCellIndex = tableView.indexPath(for: selectedCell) {
                 if let destination = segue.destination as? FlashcardsCollectionViewController {
                     
-                    
-                    switch segmentedControl.selectedSegmentIndex {
+                   switch segmentedControl.selectedSegmentIndex {
                     case 0:
-                        destination.words = myFlshcardsBunchList[selectedCellIndex.row].words?.allObjects as? [Words] ?? []
+                        destination.selectedSegmentIndex = 0
+                        destination.selectedIndex = selectedCellIndex.row
+                        destination.navigationItem.title = myFlshcardsBunchList[selectedCellIndex.row].name ?? "Unknown"
+                        // = myFlshcardsBunchList[selectedCellIndex.row].
+                    //    destination.words = myFlshcardsBunchList[selectedCellIndex.row].words?.allObjects as? [Words] ?? []
                         
                     // print(myFlshcardsBunchList[selectedCellIndex.row])
                     default:
-                        destination.words = hskFlshcardsBunchList[selectedCellIndex.row].words?.allObjects as? [Words] ?? []
+                        destination.selectedSegmentIndex = 1
+                        destination.selectedIndex = selectedCellIndex.row
+                        destination.navigationItem.title = hskFlshcardsBunchList[selectedCellIndex.row].level ?? "Unknown"// = hskFlshcardsBunchList[selectedCellIndex.row]
+                       // destination.words = hskFlshcardsBunchList[selectedCellIndex.row].words?.allObjects as? [Words] ?? []
                         //  print(hskFlshcardsBunchList[selectedCellIndex.row].words?.allObjects)
                         
                     }
@@ -165,7 +178,7 @@ class FlashcardsTableViewController: UITableViewController {
          MyFlashcards.addFlashcardBunch(in: context, with: "test")
          }*/
         
-        showInputDialog(title: "Add flashcards library",
+        showInputDialog(title: "Add library",
                         subtitle: "Please enter the name below.",
                         actionTitle: "Add",
                         cancelTitle: "Cancel",
@@ -181,7 +194,7 @@ class FlashcardsTableViewController: UITableViewController {
                 //  HskFlashcards.addFlashcardBunch(in: context, with: input ?? "Unknown")
                
                 DispatchQueue.main.async {
-                    self.myFlshcardsBunchList = MyFlashcards.retrieveData()
+                    self.myFlshcardsBunchList = MyFlashcards.retrieveData() as! [MyFlashcards]
                     self.tableView.reloadData()
                 }           
             }
@@ -214,6 +227,7 @@ class FlashcardsTableViewController: UITableViewController {
     }
     
 }
+/*
 extension UITableViewController {
     func showInputDialog(title:String? = nil,
                          subtitle:String? = nil,
@@ -241,3 +255,4 @@ extension UITableViewController {
         self.present(alert, animated: true, completion: nil)
     }
 }
+*/

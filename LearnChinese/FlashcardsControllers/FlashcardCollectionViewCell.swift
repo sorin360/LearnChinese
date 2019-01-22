@@ -10,7 +10,7 @@ import UIKit
 
 class FlashcardCollectionViewCell: UICollectionViewCell {
     
-    @IBOutlet weak var hanziLabelCollectionCell: UILabel?
+    @IBOutlet weak var hanziLabelCollectionCell: UILabel!
     
 
     @IBOutlet weak var pinyinLabelCollectionCell: UILabel!

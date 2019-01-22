@@ -12,7 +12,13 @@ class PracticeDragDrop {
     
     var sentences:[Sentences] = []
     var curentSentenceIndex = 0
-    var score = 0
+    var score: Int = 0 {
+        didSet {
+            if score < 0 {
+                score = 0
+            }
+        }
+    }
 
     
     init(myFlashcards:[MyFlashcards], hskFlashcards:[HskFlashcards]){
@@ -20,7 +26,10 @@ class PracticeDragDrop {
     }
     
     func getSentence() -> Sentences{
-        return self.sentences[curentSentenceIndex]
+        let sentence =  self.sentences[curentSentenceIndex]
+        sentence.priority -= 1
+        Sentences.update(with: sentence)
+        return sentence
         
     }
     

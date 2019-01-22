@@ -12,20 +12,23 @@ extension UIViewController {
     func showMessageDialog(title:String? = nil,
                            subtitle:String? = nil,
                            actionTitle:String? = "OK",
-                           actionHandler: ((_ text: String?) -> Void)? = nil) {
+                           cancelActionTitle:String? ,
+                           actionHandler: (() -> Void)? = nil) {
         
         let alert = UIAlertController(title: title, message: subtitle, preferredStyle: .alert)
         
         alert.addAction(UIAlertAction(title: actionTitle, style: .destructive, handler: { (action:UIAlertAction) in
-            guard let textField =  alert.textFields?.first else {
-                actionHandler?(nil)
-                return
-            }
-            actionHandler?(textField.text)
+            actionHandler?()
         }))
+        if cancelActionTitle != nil {
+            alert.addAction(UIAlertAction(title: cancelActionTitle, style: .destructive, handler: { (action:UIAlertAction) in
+                return
+            }))
+        }
         
         self.present(alert, animated: true, completion: nil)
     }
+    
     
     func showWrongAnswerDialog(title:String? = nil,
                                subtitle:String? = nil,
@@ -50,15 +53,41 @@ extension UIViewController {
         
         alert.addAction(UIAlertAction(title: actionTitleAnswer, style: .destructive, handler: { (action:UIAlertAction) in
             self.showMessageDialog(title: "Correct answer:",
-                                   subtitle: "\(String(describing: answer))",
-                actionTitle: "OK")
-            { (input:String?) in
+                                   subtitle: "\(String(describing: answer ?? "" ))",
+                actionTitle: "OK", cancelActionTitle: nil)
+            { () in
                 actionHandler?("Skip")
                 return
             }
         }))
         
         
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func showInputDialog(title:String? = nil,
+                         subtitle:String? = nil,
+                         actionTitle:String? = "Add",
+                         cancelTitle:String? = "Cancel",
+                         inputPlaceholder:String? = nil,
+                         inputKeyboardType:UIKeyboardType = UIKeyboardType.default,
+                         cancelHandler: ((UIAlertAction) -> Swift.Void)? = nil,
+                         actionHandler: ((_ text: String?) -> Void)? = nil) {
+        
+        let alert = UIAlertController(title: title, message: subtitle, preferredStyle: .alert)
+        alert.addTextField { (textField:UITextField) in
+            textField.placeholder = inputPlaceholder
+            textField.keyboardType = inputKeyboardType
+        }
+        alert.addAction(UIAlertAction(title: actionTitle, style: .destructive, handler: { (action:UIAlertAction) in
+            guard let textField =  alert.textFields?.first else {
+                actionHandler?(nil)
+                return
+            }
+            actionHandler?(textField.text)
+        }))
+        alert.addAction(UIAlertAction(title: cancelTitle, style: .cancel, handler: cancelHandler))
         
         self.present(alert, animated: true, completion: nil)
     }

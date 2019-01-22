@@ -13,14 +13,12 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate{
     
 
     let searchController = UISearchController(searchResultsController: nil)
-
-    var data = ["San Francisco","New York","San Jose","Chicago","Los Angeles","Austin","Seattle"]
     var filtered:[Words] = []
     
     override func viewDidLoad() {
         let searchBar = UISearchBar()
         searchBar.placeholder = "Chinese/English"
-        searchBar.showsCancelButton = false
+         searchBar.showsCancelButton = false
         searchBar.delegate = self
         self.navigationItem.titleView = searchBar
         super.viewDidLoad()
@@ -61,10 +59,12 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate{
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
       //  let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! UITableViewCell
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-       
-            cell.textLabel?.text = filtered[indexPath.row].chinese
-     
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! SearchTableViewCell
+        
+
+            cell.chineseLabel.text = filtered[indexPath.row].chinese
+            cell.pinyinLabel.text =  filtered[indexPath.row].pinyin
+            cell.englishLabel.text = filtered[indexPath.row].english
         
         return cell;
     }
@@ -109,14 +109,18 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate{
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if let selectedCell = sender as? UITableViewCell {
+            if let selectedCellIndex = tableView.indexPath(for: selectedCell) {
+                if let destination = segue.destination as? FlashcardDetailsCollectionViewController {
+                    destination.words = filtered
+                    destination.indexPath = selectedCellIndex
+                }
+            }
+        }
     }
-    */
-
 }
