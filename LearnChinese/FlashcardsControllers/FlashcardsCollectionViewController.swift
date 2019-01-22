@@ -10,13 +10,15 @@ import UIKit
 
 private let reuseIdentifier = "Cell"
 
-class FlashcardsCollectionViewController: UICollectionViewController,  UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
+class FlashcardsCollectionViewController: UICollectionViewController,  UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate, UICollectionViewDelegateFlowLayout {
     
 
    
     var myPickerView : UIPickerView!
-    
     var pickerOptionTextField = UITextField()
+    
+    var filterCellsButton: UIBarButtonItem!
+    var sortCellsButton: UIBarButtonItem!
     
     var words: [Words] = [] 
     var selectedSegmentIndex = -1
@@ -25,13 +27,32 @@ class FlashcardsCollectionViewController: UICollectionViewController,  UIPickerV
     private var row = 0
     
    
-    @IBOutlet weak var filterButtonOutlet: UIBarButtonItem!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.addSubview(pickerOptionTextField)
         self.pickerOptionTextField.delegate = self
         self.pickerOptionTextField.isHidden = true
+        
+        // setup navbar right buttons
+        filterCellsButton = UIBarButtonItem(image: UIImage(named: "filter"
+        ), style: .plain, target: self, action: #selector(self.filterCellsAction))
+       // filterCellsButton.tintColor = UIColor.purple
+        
+        sortCellsButton = UIBarButtonItem(image: UIImage(named: "sort"
+        ), style: .plain, target: self, action: #selector(self.sortCellsAction))
+       // sortCellsButton.tintColor = UIColor.red
+        
+        navigationItem.rightBarButtonItems = [filterCellsButton, sortCellsButton]
+        navigationItem.backBarButtonItem?.tintColor = UIColor.green
+        navigationItem.titleView?.tintColor = UIColor.white
+        navigationController?.navigationBar.tintColor = UIColor.green
+
+        self.collectionView.register(FlashcardCollectionViewCell.self, forCellWithReuseIdentifier: "flashcardCell")
+        
+        self.collectionView.backgroundColor = UIColor.white
+        
       //  self.collectionView.scr
        
     }
@@ -43,18 +64,18 @@ class FlashcardsCollectionViewController: UICollectionViewController,  UIPickerV
         switch selectedSegmentIndex {
         case 0:
              words = MyFlashcards.retrieveData()[selectedIndex].words?.allObjects as? [Words] ?? []
-             filterButtonOutlet.isEnabled = false
-             filterButtonOutlet.tintColor = .clear
+             filterCellsButton.isEnabled = false
+             filterCellsButton.tintColor = .clear
            // filterButtonOutlet.view
       
         case 1:
              words = HskFlashcards.retrieveData()[selectedIndex].words?.allObjects as? [Words] ?? []
-             filterButtonOutlet.isEnabled = true
-             filterButtonOutlet.tintColor = nil
+             filterCellsButton.isEnabled = true
+             filterCellsButton.tintColor = nil
         default:
              words = Words.getKnownWords()
-             filterButtonOutlet.isEnabled = false
-             filterButtonOutlet.tintColor = .clear
+             filterCellsButton.isEnabled = false
+             filterCellsButton.tintColor = .clear
              
             
         }
@@ -91,11 +112,12 @@ class FlashcardsCollectionViewController: UICollectionViewController,  UIPickerV
         textField.inputAccessoryView = toolBar
         
     }
+    
     func textFieldDidBeginEditing(_ textField: UITextField) {
         self.pickUp(pickerOptionTextField)
     }
     
-    @IBAction func sortCellsButton(_ sender: UIBarButtonItem) {
+    @objc func sortCellsAction() {
 
        // pickerViewOptions = ["Ascending by hanzi","Descending by hanzi", "Ascending by pinyin", "Descending by hanzi", "Ascending by priority", "Descending by priority"]
         pickerViewOptions = SortBy.allCases.map{$0.rawValue}
@@ -103,12 +125,13 @@ class FlashcardsCollectionViewController: UICollectionViewController,  UIPickerV
        
     }
   
-    @IBAction func filterCellsButton(_ sender: UIBarButtonItem) {
+    @objc func filterCellsAction() {
         
         pickerViewOptions =  Filters.allCases.map{$0.rawValue}
         pickerOptionTextField.becomeFirstResponder()
         
     }
+    
     @objc func doneClick() {
      //sort or filter
        
@@ -201,20 +224,20 @@ class FlashcardsCollectionViewController: UICollectionViewController,  UIPickerV
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "flashcardCell", for: indexPath) as! FlashcardCollectionViewCell
         // if let flashcardCell = cell as? FlashcardCollectionViewCell {
        // cell.hanziLabelCollectionCell.text = words[indexPath.row].chinese ?? ""
-        cell.pinyinLabelCollectionCell.text = words[indexPath.row].pinyin ?? ""
+        cell.pinyinLabelText = words[indexPath.row].pinyin ?? ""
         cell.layer.cornerRadius = 10.0
         cell.layer.borderWidth = 1.0
-    
+ 
         if words[indexPath.row].veryKnown{
             cell.layer.borderColor =  #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
-            cell.hanziLabelCollectionCell.attributedText = NSAttributedString(string: words[indexPath.row].chinese ?? "", attributes: [NSAttributedString.Key.foregroundColor : #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)])
+            cell.hanziLabelText = NSAttributedString(string: words[indexPath.row].chinese ?? "", attributes: [NSAttributedString.Key.foregroundColor : #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)])
         }
         else if words[indexPath.row].flashcard != nil {
                 cell.layer.borderColor = UIColor.red.cgColor
-                cell.hanziLabelCollectionCell.attributedText = NSAttributedString(string: words[indexPath.row].chinese ?? "", attributes: [NSAttributedString.Key.foregroundColor : UIColor.red])
+                cell.hanziLabelText = NSAttributedString(string: words[indexPath.row].chinese ?? "", attributes: [NSAttributedString.Key.foregroundColor : UIColor.red])
             } else {
             cell.layer.borderColor = UIColor.blue.cgColor
-            cell.hanziLabelCollectionCell.attributedText = NSAttributedString(string: words[indexPath.row].chinese ?? "", attributes: [NSAttributedString.Key.foregroundColor : UIColor.blue])
+            cell.hanziLabelText = NSAttributedString(string: words[indexPath.row].chinese ?? "", attributes: [NSAttributedString.Key.foregroundColor : UIColor.blue])
             }
        
     /*    else {
@@ -227,7 +250,10 @@ class FlashcardsCollectionViewController: UICollectionViewController,  UIPickerV
         return cell
     }
     
-    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
+    {
+        return CGSize(width: 85, height: 85)
+    }
     
     
     // MARK: UICollectionViewDelegate

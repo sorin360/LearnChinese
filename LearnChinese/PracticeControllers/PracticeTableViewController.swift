@@ -17,7 +17,7 @@ class PracticeTableViewController: UITableViewController {
         super.viewDidLoad()
        // myFlshcardsBunchList = MyFlashcards.retrieveData()
         hskBunchList = HskFlashcards.retrieveData() as! [HskFlashcards]
-     
+   //     setupNavigationBarItems()
 
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -30,6 +30,7 @@ class PracticeTableViewController: UITableViewController {
         }
         super.viewWillAppear(animated)
     }
+
     
   /*  override var prefersStatusBarHidden: Bool {
         return true

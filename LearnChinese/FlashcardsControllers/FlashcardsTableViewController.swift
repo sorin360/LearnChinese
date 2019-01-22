@@ -11,16 +11,14 @@ import CoreData
 
 class FlashcardsTableViewController: UITableViewController {
     
-   // var flshcardsBunchList: [String] = []
-    
+
     var myFlshcardsBunchList: [MyFlashcards] = []
     var hskFlshcardsBunchList: [HskFlashcards] = []
-    /*   didSet {
-     for flashcard in hskFlshcardsBunchList {
-     flshcardsBunchList += [flashcard.level ?? "Unknown"]
-     }
-     }*/
-
+   
+    var segmentedControl: UISegmentedControl!
+    var addButton: UIBarButtonItem!
+    
+    
     var container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
     
     
@@ -28,6 +26,25 @@ class FlashcardsTableViewController: UITableViewController {
         super.viewDidLoad()
       //  myFlshcardsBunchList = MyFlashcards.retrieveData()
         hskFlshcardsBunchList = HskFlashcards.retrieveData()
+        
+        
+        self.tableView.register(SearchTableViewCell.self, forCellReuseIdentifier: "flashcardsBunchCell")
+        
+        
+        // setup segmentedControl
+        let items = ["My Libraries", "HSKs"]
+        segmentedControl = UISegmentedControl(items: items)
+        segmentedControl.backgroundColor = UIColor.white
+        segmentedControl.tintColor = UIColor.black
+        segmentedControl.selectedSegmentIndex = 0
+        segmentedControl.addTarget(self, action: #selector(self.segmentChanged), for: .valueChanged)
+        navigationItem.titleView = segmentedControl
+        
+        // setup addButton
+        addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.addButtonAction))
+        addButton.tintColor = UIColor.green
+        navigationItem.rightBarButtonItem = addButton
+    
 
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -54,6 +71,7 @@ class FlashcardsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "flashcardsBunchCell", for: indexPath)
+       // cell.editingStyle = UITableViewCell.CellStyle.value2
         
         var knownCountersAttributedString: NSMutableAttributedString = NSMutableAttributedString(string: "")
         var unknownCountersAttributedString: NSMutableAttributedString = NSMutableAttributedString(string: "")
@@ -83,16 +101,6 @@ class FlashcardsTableViewController: UITableViewController {
         return cell
     }
     
-    
-    
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //   performSegue(withIdentifier: "flashCards", sender: tableView)
-        //  print(flshcardsBunchList[indexPath.row])
-    }
-    
-    
-    
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
@@ -117,6 +125,27 @@ class FlashcardsTableViewController: UITableViewController {
         }
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let destination = FlashcardsCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout.init())
+            
+            switch segmentedControl.selectedSegmentIndex {
+            case 0:
+                destination.selectedSegmentIndex = 0
+                destination.selectedIndex = indexPath.row
+                destination.navigationItem.title = myFlshcardsBunchList[indexPath.row].name ?? "Unknown"
+            default:
+                destination.selectedSegmentIndex = 1
+                destination.selectedIndex = indexPath.row
+                destination.navigationItem.title = hskFlshcardsBunchList[indexPath.row].level ?? "Unknown"
+                
+            }
+        let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
+        navigationController?.navigationBar.titleTextAttributes = textAttributes
+        
+        navigationController?.pushViewController(destination, animated: true)
+  
+            // TO DO: do not get all the words
+    }
     
     /*
      // Override to support rearranging the table view.
@@ -137,7 +166,7 @@ class FlashcardsTableViewController: UITableViewController {
     // MARK: - Navigation
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+ /*   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let selectedCell = sender as? UITableViewCell {
             if let selectedCellIndex = tableView.indexPath(for: selectedCell) {
                 if let destination = segue.destination as? FlashcardsCollectionViewController {
@@ -169,14 +198,9 @@ class FlashcardsTableViewController: UITableViewController {
     }
     
     
-    @IBOutlet weak var addButton: UIBarButtonItem!
-    
-    @IBAction func addButtonAction(_ sender: UIBarButtonItem) {
-        /* flshcardsBunchList += ["test"]
-         tableView.reloadData()
-         container?.performBackgroundTask(){ context in
-         MyFlashcards.addFlashcardBunch(in: context, with: "test")
-         }*/
+*/
+    @objc func addButtonAction() {
+        
         
         showInputDialog(title: "Add library",
                         subtitle: "Please enter the name below.",
@@ -201,9 +225,9 @@ class FlashcardsTableViewController: UITableViewController {
         }
     }
     
-    @IBOutlet weak var segmentedControl: UISegmentedControl!
+
     
-    @IBAction func segmentChanged(_ sender: UISegmentedControl) {
+    @objc func segmentChanged() {
         
         
         switch segmentedControl.selectedSegmentIndex {

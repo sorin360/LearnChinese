@@ -27,9 +27,22 @@ class TabBarController:  UITabBarController, UITabBarControllerDelegate {
         Scores.update(with: 60, at: Calendar.current.date(byAdding: .day, value: 0 - 5, to: Date().stripTime())!)
         Scores.update(with: 100, at: Calendar.current.date(byAdding: .day, value: 0 - 6, to: Date().stripTime())!)
    */
+    
         let searchViewController = SearchTableViewController()
-        searchViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
-        self.viewControllers = [searchViewController]
+        let navControllerSearch = UINavigationController(rootViewController: searchViewController)
+   
+        navControllerSearch.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
+        
+        let flashcardsViewController = FlashcardsTableViewController()
+        let navControllerFlashcards = UINavigationController(rootViewController: flashcardsViewController)
+        
+        flashcardsViewController.tabBarItem = UITabBarItem(title: "Library", image: UIImage(named: "library"), tag: 1)
+        
+        let tabBarList = [navControllerSearch, navControllerFlashcards]
+        
+        viewControllers = tabBarList
+        
+  
         setViewBackground()
 
      
@@ -48,7 +61,8 @@ class TabBarController:  UITabBarController, UITabBarControllerDelegate {
         self.navigationController?.navigationBar.setBackgroundImage(image, for: UIBarMetrics.default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
-        
+        self.navigationController?.navigationBar.tintColor = UIColor.green
+       
     }
     
     override func viewDidAppear(_ animated: Bool) {

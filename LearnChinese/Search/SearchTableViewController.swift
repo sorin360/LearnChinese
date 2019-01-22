@@ -21,6 +21,7 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate{
          searchBar.showsCancelButton = false
         searchBar.delegate = self
         self.navigationItem.titleView = searchBar
+        self.tableView.register(SearchTableViewCell.self, forCellReuseIdentifier: "Cell")
         super.viewDidLoad()
       
        // tableView.backgroundView = UIImageView(image: image)
