@@ -10,17 +10,28 @@ import UIKit
 import GameplayKit
 import SwiftChart
 import CoreData
-import AVFoundation
+
 
 
 class HomeViewController: UIViewController, UITabBarControllerDelegate{
 
+    var speakerButtonCollectionCell: UIButton = {
+        var button = UIButton()
+        
+        button.setImage(UIImage(named: "speaker"), for: .normal)
+        button.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     var wordOfTheDayTitle: UILabel = {
         var label = UILabel()
         label.textAlignment = .center
-        label.font = UIFont.italicSystemFont(ofSize: 20)
+        label.font = label.font.withSize(22)
         label.numberOfLines = 0
-        label.text = "The word of the day"
+        label.attributedText = NSAttributedString(string: "The word of the day", attributes:
+            [.underlineStyle: NSUnderlineStyle.single.rawValue])
         label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
@@ -40,7 +51,7 @@ class HomeViewController: UIViewController, UITabBarControllerDelegate{
     var knownWordsCounterButton: UIButton = {
         var button = UIButton()
         button.setBackgroundImage(UIImage(named: "yellowButton"), for: .normal)
-        button.titleLabel?.font = button.titleLabel?.font.withSize(50)
+        button.titleLabel?.font = button.titleLabel?.font.withSize(60)
         button.titleLabel?.textColor = UIColor.blue
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -49,6 +60,7 @@ class HomeViewController: UIViewController, UITabBarControllerDelegate{
     var pinyinButton: UIButton = {
         var button = UIButton()
         button.setTitleColor(UIColor.red, for: .normal)
+        button.titleLabel?.font = button.titleLabel?.font.withSize(20)
         button.backgroundColor = .clear
         button.layer.cornerRadius = 15
         button.layer.borderWidth = 2
@@ -60,6 +72,7 @@ class HomeViewController: UIViewController, UITabBarControllerDelegate{
     var hanziButton: UIButton = {
         var button = UIButton()
         button.setTitleColor(UIColor.blue, for: .normal)
+        button.titleLabel?.font = button.titleLabel?.font.withSize(28)
         button.backgroundColor = .clear
         button.layer.cornerRadius = 15
         button.layer.borderWidth = 2
@@ -70,6 +83,9 @@ class HomeViewController: UIViewController, UITabBarControllerDelegate{
     
     var translationLabel: UILabel = {
         var label = UILabel()
+        label.font = UIFont.boldSystemFont(ofSize: 21)
+        label.numberOfLines = 0
+        label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -122,6 +138,11 @@ class HomeViewController: UIViewController, UITabBarControllerDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        knownWordsCounterButton.addTarget(self, action: #selector(self.knownWordsCounterButtonAction), for: .allTouchEvents)
+        hanziButton.addTarget(self, action: #selector(self.wordOfTheDayButtonAction), for: .allTouchEvents)
+
+        
         let backgroundImageView = UIImageView()
         backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
         backgroundImageView.image = UIImage(named: "background")
@@ -195,13 +216,13 @@ class HomeViewController: UIViewController, UITabBarControllerDelegate{
         
         wordOfTheDayContentView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
         wordOfTheDayContentView.topAnchor.constraint(equalTo: knownWordsCounterButton.bottomAnchor).isActive = true
-        wordOfTheDayContentView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.95).isActive = true
+        wordOfTheDayContentView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.85).isActive = true
         wordOfTheDayContentView.bottomAnchor.constraint(equalTo: chartSubView.topAnchor, constant: -30).isActive = true
         
         let wordOfTheDayStackView: UIStackView = {
             let stackView = UIStackView()
             stackView.axis = NSLayoutConstraint.Axis.horizontal
-            stackView.alignment = .center
+            stackView.alignment = .fill
             stackView.distribution = .fillEqually
             stackView.spacing = 5
             stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -221,14 +242,15 @@ class HomeViewController: UIViewController, UITabBarControllerDelegate{
         
         // use whatever constraint method you like to
         // constrain subView to the size of stackView.
+        subView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
         subView.topAnchor.constraint(equalTo: wordOfTheDayContentView.topAnchor, constant: -20).isActive = true
         subView.bottomAnchor.constraint(equalTo: wordOfTheDayContentView.bottomAnchor, constant: 20).isActive = true
-        subView.leftAnchor.constraint(equalTo: wordOfTheDayContentView.leftAnchor).isActive = true
-        subView.rightAnchor.constraint(equalTo: wordOfTheDayContentView.rightAnchor).isActive = true
+         subView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.95).isActive = true
 
         
         wordOfTheDayContentView.addArrangedSubview(wordOfTheDayTitle)
         wordOfTheDayContentView.addArrangedSubview(wordOfTheDayStackView)
+        //wordOfTheDayContentView.addArrangedSubview(speakerButtonCollectionCell)
         wordOfTheDayContentView.addArrangedSubview(translationLabel)
         /*
         wordOfTheDayTitle.centerXAnchor.constraint(equalTo: wordOfTheDayContentView.centerXAnchor).isActive = true
@@ -315,12 +337,7 @@ class HomeViewController: UIViewController, UITabBarControllerDelegate{
         updateKnownWords()
         super.viewWillAppear(animated)
         
-        let utterance = AVSpeechUtterance(string: "你在干嘛")
-        utterance.voice = AVSpeechSynthesisVoice(language: "zh-CN")
-        utterance.rate = 0.5
         
-        let synthesizer = AVSpeechSynthesizer()
-        synthesizer.speak(utterance)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -339,6 +356,17 @@ class HomeViewController: UIViewController, UITabBarControllerDelegate{
     }
     // MARK: - Navigation
 
+    @objc func wordOfTheDayButtonAction(){
+        let destination = FlashcardDetailsCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout.init())
+        destination.words = [Words.getTheWordOfTheDay()!]
+        navigationController?.pushViewController(destination, animated: true)
+    }
+    @objc func knownWordsCounterButtonAction(){
+        let flashcadsCollectionController = FlashcardsCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout.init())
+        // flashcadsCollectionController?.words = knownWords
+        flashcadsCollectionController.navigationItem.title = "Well known words"
+        navigationController?.pushViewController(flashcadsCollectionController, animated: true)
+    }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "knownWords" {
             let flashcadsCollectionController = segue.destination as? FlashcardsCollectionViewController

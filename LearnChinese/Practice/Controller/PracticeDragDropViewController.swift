@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class PracticeDragDropViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDragDelegate, UICollectionViewDropDelegate, UIGestureRecognizerDelegate {
     
@@ -37,13 +38,13 @@ class PracticeDragDropViewController: UIViewController, UICollectionViewDelegate
     }
     
     var speakerButton: UIButton = {
-        var addToLibraryButton = UIButton()
+        var button = UIButton()
         
-        addToLibraryButton.setImage(UIImage(named: "speaker"), for: .normal)
-        addToLibraryButton.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-        
-        addToLibraryButton.translatesAutoresizingMaskIntoConstraints = false
-        return addToLibraryButton
+        button.setImage(UIImage(named: "speaker"), for: .normal)
+        button.tintColor = #colorLiteral(red: 0.06727838991, green: 1, blue: 0.2576389901, alpha: 1)
+       
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
     }()
     
     var contentCollectionOne:[String] = [] {
@@ -237,6 +238,7 @@ class PracticeDragDropViewController: UIViewController, UICollectionViewDelegate
         super.viewDidLoad()
         
         checkButton.addTarget(self, action: #selector(self.checkButtonAction), for: UIControl.Event.allTouchEvents)
+         speakerButton.addTarget(self, action: #selector(self.speakerButtonAction), for: UIControl.Event.allTouchEvents)
         
         lifeStatus = 4
         
@@ -254,22 +256,26 @@ class PracticeDragDropViewController: UIViewController, UICollectionViewDelegate
         progressView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         
         view.addSubview(speakerButton)
+        
+        view.addSubview(textForTranslation)
+        
+        speakerButton.heightAnchor.constraint(equalToConstant: 20.0).isActive = true
+        speakerButton.widthAnchor.constraint(equalToConstant: 20.0).isActive = true
         speakerButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 8.0).isActive = true
-        speakerButton.rightAnchor.constraint(equalTo: textForTranslation.leftAnchor, constant: 4.0).isActive = true
+        speakerButton.rightAnchor.constraint(equalTo: textForTranslation.leftAnchor, constant: -4.0).isActive = true
         speakerButton.topAnchor.constraint(equalTo: progressView.bottomAnchor, constant: 8.0).isActive = true
         
     
         
-        view.addSubview(textForTranslation)
         textForTranslation.leftAnchor.constraint(equalTo: speakerButton.rightAnchor).isActive = true
-        textForTranslation.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        textForTranslation.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 8.0).isActive = true
         textForTranslation.topAnchor.constraint(equalTo: progressView.bottomAnchor, constant: 8.0).isActive = true
         
         self.colectionViewOne = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewLayout.init())
         self.colectionViewOne.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(colectionViewOne)
-        colectionViewOne.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        colectionViewOne.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        colectionViewOne.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 8.0).isActive = true
+        colectionViewOne.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 8.0).isActive = true
         colectionViewOne.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.4).isActive = true
         colectionViewOne.topAnchor.constraint(equalTo: textForTranslation.bottomAnchor, constant: 8.0).isActive = true
         colectionViewOne.register(PracticeDragDropCellCollectionViewCell.self, forCellWithReuseIdentifier: "dragDropCell")
@@ -279,16 +285,16 @@ class PracticeDragDropViewController: UIViewController, UICollectionViewDelegate
         
         colectionViewTwo.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(colectionViewTwo)
-        colectionViewTwo.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        colectionViewTwo.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        colectionViewTwo.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 8.0).isActive = true
+        colectionViewTwo.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 8.0).isActive = true
         colectionViewTwo.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.4).isActive = true
         colectionViewTwo.topAnchor.constraint(equalTo: colectionViewOne.bottomAnchor, constant: 8.0).isActive = true
         colectionViewTwo.register(PracticeDragDropCellCollectionViewCell.self, forCellWithReuseIdentifier: "dragDropCell")
         
         view.addSubview(checkButton)
         checkButton.topAnchor.constraint(equalTo: colectionViewTwo.bottomAnchor, constant: 8.0).isActive = true
-        checkButton.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        checkButton.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        checkButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        checkButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.9).isActive = true
     
        
         
@@ -302,10 +308,10 @@ class PracticeDragDropViewController: UIViewController, UICollectionViewDelegate
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if collectionView == colectionViewOne {
-             return CGSize(width: contentCollectionOne[indexPath.row].count * 15, height: 30)
+             return CGSize(width: contentCollectionOne[indexPath.row].count * 15, height: 25)
         }
         else {
-            return CGSize(width: contentCollectionTwo[indexPath.row].count * 20, height: 40)
+            return CGSize(width: contentCollectionTwo[indexPath.row].count * 18, height: 35)
         }
     }
     
@@ -386,11 +392,22 @@ class PracticeDragDropViewController: UIViewController, UICollectionViewDelegate
     }
 
     
+    @objc func speakerButtonAction() {
+        
+    }
     @objc func swipeUp(_ recognizer: UITapGestureRecognizer)  {
           print("single tap")
         if recognizer.state == UIGestureRecognizer.State.ended {
             let tapLocation = recognizer.location(in: self.colectionViewTwo)
             if let tapIndexPath = self.colectionViewTwo.indexPathForItem(at: tapLocation) {
+                
+                let utterance = AVSpeechUtterance(string: String(contentCollectionTwo[tapIndexPath.item].split(separator: "/")[0]))
+                utterance.voice = AVSpeechSynthesisVoice(language: "zh-CN")
+                utterance.rate = 0.5
+                
+                let synthesizer = AVSpeechSynthesizer()
+                synthesizer.speak(utterance)
+                
                 contentCollectionOne.insert(contentCollectionTwo[tapIndexPath.item], at: IndexPath(item: contentCollectionOne.count, section: 0).item)
                 colectionViewOne.reloadData()
                 contentCollectionTwo.remove(at: tapIndexPath.item)
@@ -462,8 +479,7 @@ class StripedView: UIView {
         //// Set pattern tile colors width and height; adjust the color width to adjust pattern.
         let color1 = UIColor.white
         let color1Width: CGFloat = 30
-        let color1Height: CGFloat = 30
-        
+        let color1Height: CGFloat = 25 // cell height
         let color2 = #colorLiteral(red: 0.8647956285, green: 0.8647956285, blue: 0.8647956285, alpha: 1)
         let color2Width: CGFloat = 1
         let color2Height: CGFloat = 1

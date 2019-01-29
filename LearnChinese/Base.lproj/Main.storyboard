@@ -316,11 +316,11 @@
                                                         </attributedString>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <stackView opaque="NO" contentMode="scaleAspectFit" distribution="fillEqually" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="718-Rg-p0J">
+                                                    <stackView opaque="NO" contentMode="scaleAspectFit" distribution="fillEqually" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="718-Rg-p0J">
                                                         <rect key="frame" x="20" y="108" width="319" height="46"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nct-An-ewp">
-                                                                <rect key="frame" x="0.0" y="0.0" width="155.5" height="46"/>
+                                                                <rect key="frame" x="0.0" y="10" width="155.5" height="26.5"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                                                 <color key="textColor" red="1" green="0.1199185312" blue="0.16148700630000001" alpha="0.84705882349999995" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <nil key="highlightedColor"/>
@@ -862,6 +862,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="5Xc-Ms-dj3"/>
-        <segue reference="kWW-go-d4L"/>
+        <segue reference="6aX-dR-QaE"/>
     </inferredMetricsTieBreakers>
 </document>
