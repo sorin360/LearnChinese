@@ -10,6 +10,19 @@ import UIKit
 
 class PracticeDragDropCellCollectionViewCell: UICollectionViewCell {
     
+  
+    var cellTextLabel: UILabel = {
+        var label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
     
-    @IBOutlet weak var cellTextLabel: UILabel!
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        self.addSubview(cellTextLabel)
+        
+        cellTextLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor)
+        cellTextLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+    }
 }

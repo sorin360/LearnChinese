@@ -13,15 +13,28 @@ class PracticeTableViewController: UITableViewController {
     var myFlshcardsBunchList: [MyFlashcards] = []
     var hskBunchList: [HskFlashcards] = []
     
+    var startPracticeButton: UIBarButtonItem!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-       // myFlshcardsBunchList = MyFlashcards.retrieveData()
-        hskBunchList = HskFlashcards.retrieveData() as! [HskFlashcards]
-   //     setupNavigationBarItems()
+        self.tableView.register(PracticeTableViewCell.self, forCellReuseIdentifier: "reuseIdentifier")
+        hskBunchList = HskFlashcards.retrieveData() 
+
+        startPracticeButton = UIBarButtonItem(barButtonSystemItem: .play, target: self, action: #selector(self.startPracticeAction))
+        
+        navigationItem.rightBarButtonItem = startPracticeButton
+    
+       
+        let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
+        navigationController?.navigationBar.titleTextAttributes = textAttributes
+        navigationItem.title = "Select libraries for practice"
+        
+        navigationController?.navigationBar.tintColor = UIColor.green
+
 
     }
     override func viewWillAppear(_ animated: Bool) {
-        let newData = MyFlashcards.retrieveData() as! [MyFlashcards]
+        let newData = MyFlashcards.retrieveData()
         self.hidesBottomBarWhenPushed = false
         if newData != myFlshcardsBunchList {
             myFlshcardsBunchList = newData
@@ -74,7 +87,7 @@ class PracticeTableViewController: UITableViewController {
     }
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerLabel = UILabel()
-        headerLabel.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 0.2)
+        headerLabel.backgroundColor = #colorLiteral(red: 0.7261344178, green: 0.9914394021, blue: 1, alpha: 1)
         switch section {
         case 0:
             if myFlshcardsBunchList.count == 0 {
@@ -127,10 +140,8 @@ class PracticeTableViewController: UITableViewController {
     
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    @objc func startPracticeAction(){
         let allCells = tableView.visibleCells
         var myFlashcardsSelected:[MyFlashcards] = []
         var hskFlashcardsSelected:[HskFlashcards] = []
@@ -149,9 +160,11 @@ class PracticeTableViewController: UITableViewController {
                 //do something with hskBunchList[item]
             }
         }
-        if let destination = segue.destination as? PracticeDragDropViewController {
-            destination.practiceDragDrop = PracticeDragDrop(myFlashcards: myFlashcardsSelected, hskFlashcards: hskFlashcardsSelected)
-        }
+        let destination = PracticeDragDropViewController()
+        destination.practiceDragDrop = PracticeDragDrop(myFlashcards: myFlashcardsSelected, hskFlashcards: hskFlashcardsSelected)
+        
         self.hidesBottomBarWhenPushed = true
+        
+        navigationController?.pushViewController(destination, animated: true)
     }
 }

@@ -22,6 +22,9 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate{
         searchBar.delegate = self
         self.navigationItem.titleView = searchBar
         self.tableView.register(SearchTableViewCell.self, forCellReuseIdentifier: "Cell")
+        self.tableView.keyboardDismissMode = .onDrag
+       // self.navigationItem.backBarButtonItem?.tintColor = UIColor.green
+         navigationController?.navigationBar.tintColor = UIColor.green
         super.viewDidLoad()
       
        // tableView.backgroundView = UIImageView(image: image)
@@ -70,9 +73,19 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate{
         return cell;
     }
   
-    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+      //  if let selectedCell = sender as? UITableViewCell {
+          //  if let selectedCellIndex = tableView.indexPath(for: selectedCell) {
+        let destination = FlashcardDetailsCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout.init())
+            destination.words = filtered
+            destination.indexPath = indexPath
+        navigationController?.pushViewController(destination, animated: true)
+                //}
+           // }
+      //  }
+    }
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 44.0
+        return 50.0
     }
 
     /*
@@ -114,7 +127,7 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate{
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+   /* override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let selectedCell = sender as? UITableViewCell {
             if let selectedCellIndex = tableView.indexPath(for: selectedCell) {
                 if let destination = segue.destination as? FlashcardDetailsCollectionViewController {
@@ -123,5 +136,5 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate{
                 }
             }
         }
-    }
+    }*/
 }

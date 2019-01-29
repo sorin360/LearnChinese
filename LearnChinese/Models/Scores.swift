@@ -113,7 +113,7 @@ class Scores: NSManagedObject {
                     result += [newScore]
                 }*/
                 if result.count > 7 {
-                    return Array(result.suffix(from: result.count - 7))
+                    return Array(result.prefix(upTo: 7))
                 } else {
                     return result
                 }

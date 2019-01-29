@@ -10,14 +10,13 @@ import UIKit
 
 class FlashcardCollectionViewCell: UICollectionViewCell {
     
-    var hanziLabelText: NSAttributedString?
-    var pinyinLabelText: String?
+ //   var hanziLabelText: NSAttributedString?
+  //  var pinyinLabelText: String?
     
     var hanziLabelCollectionCell: UILabel = {
         let hanziLabel = UILabel()
         hanziLabel.font = hanziLabel.font.withSize(26)
         hanziLabel.textAlignment = .center
-
         hanziLabel.translatesAutoresizingMaskIntoConstraints = false
         return hanziLabel
     }()
@@ -79,14 +78,17 @@ class FlashcardCollectionViewCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
+        /*
         if let hanziLabelText = hanziLabelText {
             hanziLabelCollectionCell.attributedText = hanziLabelText
+          //  self.layer.borderColor = (hanziLabelText.attribute(NSAttributedString.Key.foregroundColor, at: 0, effectiveRange: nil) as! UIColor).cgColor
+            
         }
         if let pinyinLabelText = pinyinLabelText {
             pinyinLabelCollectionCell.text = pinyinLabelText
         }
     }
-    
+    */
+    }
     
 }

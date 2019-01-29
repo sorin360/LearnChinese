@@ -27,18 +27,23 @@ class TabBarController:  UITabBarController, UITabBarControllerDelegate {
         Scores.update(with: 60, at: Calendar.current.date(byAdding: .day, value: 0 - 5, to: Date().stripTime())!)
         Scores.update(with: 100, at: Calendar.current.date(byAdding: .day, value: 0 - 6, to: Date().stripTime())!)
    */
-    
-        let searchViewController = SearchTableViewController()
-        let navControllerSearch = UINavigationController(rootViewController: searchViewController)
-   
-        navControllerSearch.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
+        let homeViewController = HomeViewController()
+        let navControllerHome = UINavigationController(rootViewController: homeViewController)
+        homeViewController.tabBarItem = UITabBarItem(title: "Home", image: UIImage(named: "home"), tag: 0)
         
         let flashcardsViewController = FlashcardsTableViewController()
         let navControllerFlashcards = UINavigationController(rootViewController: flashcardsViewController)
-        
         flashcardsViewController.tabBarItem = UITabBarItem(title: "Library", image: UIImage(named: "library"), tag: 1)
         
-        let tabBarList = [navControllerSearch, navControllerFlashcards]
+        let practiceViewController = PracticeTableViewController()
+        let navControllerPractice = UINavigationController(rootViewController: practiceViewController)
+        practiceViewController.tabBarItem = UITabBarItem(title: "Practice", image: UIImage(named: "practice"), tag: 2)
+        
+        let searchViewController = SearchTableViewController()
+        let navControllerSearch = UINavigationController(rootViewController: searchViewController)
+        searchViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 3)
+        
+        let tabBarList = [navControllerHome, navControllerFlashcards, navControllerPractice, navControllerSearch]
         
         viewControllers = tabBarList
         

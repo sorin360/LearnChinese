@@ -11,34 +11,142 @@ import CoreData
 
 class FlashcardDetailsCollectionViewCell: UICollectionViewCell, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate{
     
-     var container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
+    var container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
    
     var word: Words? {
         didSet{
             if word?.veryKnown != nil && (word?.veryKnown)! {
-                AddToLibraryButton.isHidden = true
+                addToLibraryButtonCollectionCell.isHidden = true
             } else {
-                AddToLibraryButton.isHidden = false
+                addToLibraryButtonCollectionCell.isHidden = false
             }
         }
     }
     var myFlashcards: [MyFlashcards] = []
     private var row = 0
     
-    @IBOutlet weak var hanziLabelCollectionCell: UILabel?
-    @IBOutlet weak var pinyinLabelCollectionCell: UILabel!
-    @IBOutlet weak var translationLabelColectionCell: UILabel!
+    var hanziLabelCollectionCell: UILabel = {
+        var hanziLabel = UILabel()
+        hanziLabel.font = hanziLabel.font.withSize(35)
+        hanziLabel.textAlignment = .center
+        hanziLabel.translatesAutoresizingMaskIntoConstraints = false
+        return hanziLabel
+    }()
     
- 
-    @IBOutlet weak var choseLibraryTextField: UITextField!
+    var pinyinLabelCollectionCell: UILabel = {
+        var pinyinLabel = UILabel()
+        pinyinLabel.font = pinyinLabel.font.withSize(20)
+        pinyinLabel.textAlignment = .center
+        pinyinLabel.translatesAutoresizingMaskIntoConstraints = false
+        return pinyinLabel
+    }()
+    var translationLabelColectionCell: UILabel = {
+        var translationLabel = UILabel()
+        translationLabel.font = translationLabel.font.withSize(20)
+        translationLabel.textAlignment = .center
+        translationLabel.lineBreakMode = .byWordWrapping
+        translationLabel.numberOfLines = 0
+        translationLabel.translatesAutoresizingMaskIntoConstraints = false
+        return translationLabel
+    }()
+    
+    var choseLibraryTextField: UITextField = {
+        var choseLibrary = UITextField()
+        choseLibrary.translatesAutoresizingMaskIntoConstraints = false
+        return choseLibrary
+    }()
+    var speakerButtonCollectionCell: UIButton = {
+        var addToLibraryButton = UIButton()
+     
+        addToLibraryButton.setImage(UIImage(named: "speaker"), for: .normal)
+        addToLibraryButton.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+    
+        addToLibraryButton.translatesAutoresizingMaskIntoConstraints = false
+        return addToLibraryButton
+    }()
+    
+    var addToLibraryButtonCollectionCell: UIButton = {
+        var addToLibraryButton = UIButton()
+        addToLibraryButton.layer.cornerRadius = 10.0
+        addToLibraryButton.layer.borderWidth = 1.0
+        addToLibraryButton.layer.borderColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+        addToLibraryButton.layer.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        addToLibraryButton.tintColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+    
+        addToLibraryButton.translatesAutoresizingMaskIntoConstraints = false
+        return addToLibraryButton
+    }()
+    
+    var iKnowitButtonCollectionCell: UIButton = {
+        var iKnowItButton = UIButton()
+        iKnowItButton.layer.cornerRadius = 10.0
+        iKnowItButton.layer.borderWidth = 1.0
+        iKnowItButton.layer.borderColor = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
+        iKnowItButton.layer.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        iKnowItButton.tintColor = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
+        iKnowItButton.translatesAutoresizingMaskIntoConstraints = false
+        return iKnowItButton
+    }()
+    
     var myPickerView : UIPickerView!
     
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        
         myFlashcards = MyFlashcards.retrieveData()
+        
         self.choseLibraryTextField.delegate = self
         self.choseLibraryTextField.isHidden = true
+        
+        // cell configuration
+        self.backgroundColor = UIColor.white
+        
+        //Stack View
+        let mainStackView = UIStackView()
+        mainStackView.axis = NSLayoutConstraint.Axis.vertical
+        mainStackView.distribution = UIStackView.Distribution.equalSpacing
+        mainStackView.alignment = UIStackView.Alignment.center
+        mainStackView.spacing = 2.0
+        
+        let buttonsStackView = UIStackView()
+        buttonsStackView.axis = NSLayoutConstraint.Axis.horizontal
+        buttonsStackView.distribution = UIStackView.Distribution.fillEqually
+        buttonsStackView.alignment = UIStackView.Alignment.center
+        buttonsStackView.spacing = 0.0
+        buttonsStackView.addArrangedSubview(addToLibraryButtonCollectionCell)
+        buttonsStackView.addArrangedSubview(iKnowitButtonCollectionCell)
+        buttonsStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let hanziPinyinStackView = UIStackView()
+        hanziPinyinStackView.axis = NSLayoutConstraint.Axis.vertical
+        hanziPinyinStackView.distribution = UIStackView.Distribution.equalSpacing
+        hanziPinyinStackView.alignment = UIStackView.Alignment.center
+        hanziPinyinStackView.spacing = 2.0
+        hanziPinyinStackView.addArrangedSubview(hanziLabelCollectionCell)
+        hanziPinyinStackView.addArrangedSubview(pinyinLabelCollectionCell)
+        hanziPinyinStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        
+        mainStackView.addArrangedSubview(hanziPinyinStackView)
+        mainStackView.addArrangedSubview(speakerButtonCollectionCell)
+        mainStackView.addArrangedSubview(translationLabelColectionCell)
+        mainStackView.addArrangedSubview(buttonsStackView)
+        mainStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.addSubview(mainStackView)
+        
+    
+        buttonsStackView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true //, multiplier:
+        buttonsStackView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
+        buttonsStackView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
+        buttonsStackView.bottomAnchor.constraint(equalTo: mainStackView.bottomAnchor).isActive = true
+        
+        mainStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: self.frame.height / 7).isActive = true
+        mainStackView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
+        mainStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0 - self.frame.height / 7
+            ).isActive = true
+        mainStackView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
         
     }
     
@@ -81,7 +189,7 @@ class FlashcardDetailsCollectionViewCell: UICollectionViewCell, UIPickerViewDele
             if myFlashcards.count > row {
                 myFlashcards[row].addToWords(newWord)
                 MyFlashcards.update(myFlashcards: myFlashcards[row])
-                AddToLibraryButton.setAttributedTitle(NSAttributedString(string: "Remove from library"), for: .normal)
+                addToLibraryButtonCollectionCell.setAttributedTitle(NSAttributedString(string: "Remove from library"), for: .normal)
             }
         }
     }
@@ -141,31 +249,11 @@ class FlashcardDetailsCollectionViewCell: UICollectionViewCell, UIPickerViewDele
     }
 
     
-    @IBOutlet weak var AddToLibraryButton: UIButton!{
-        didSet {
-            AddToLibraryButton.layer.cornerRadius = 10.0
-            AddToLibraryButton.layer.borderWidth = 1.0
-            AddToLibraryButton.layer.borderColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
-            AddToLibraryButton.layer.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-            AddToLibraryButton.tintColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
-            
-        }
-    }
-    @IBOutlet weak var IknowitButtonCollectionCell: UIButton! {
-        didSet {
-            IknowitButtonCollectionCell.layer.cornerRadius = 10.0
-            IknowitButtonCollectionCell.layer.borderWidth = 1.0
-            IknowitButtonCollectionCell.layer.borderColor = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
-             IknowitButtonCollectionCell.layer.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-             IknowitButtonCollectionCell.tintColor = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
-
-        }
-    }
     
-    @IBAction func AddRemoveToLibraryButton(_ sender: Any) {
+    @objc func AddRemoveToLibraryButton() {
         if let flashcard = word?.flashcard {
             flashcard.removeFromWords(word!)
-            AddToLibraryButton.setAttributedTitle(NSAttributedString(string: "Add to library"), for: .normal)
+            addToLibraryButtonCollectionCell.setAttributedTitle(NSAttributedString(string: "Add to library"), for: .normal)
 
         }
         else {
@@ -173,20 +261,20 @@ class FlashcardDetailsCollectionViewCell: UICollectionViewCell, UIPickerViewDele
         }
     }
     
-    @IBAction func IknowitButton(_ sender: UIButton) {
+    @objc func IknowitButton() {
         if let newWord = word {
             if newWord.veryKnown {
                 newWord.veryKnown = false
                 word?.veryKnown = false
-                IknowitButtonCollectionCell.setAttributedTitle(NSAttributedString(string: "I know it"), for: .normal)
+                iKnowitButtonCollectionCell.setAttributedTitle(NSAttributedString(string: "I know it"), for: .normal)
                // AddToLibraryButton.isHidden = false
-                UIView.transition(with: AddToLibraryButton, duration: 0.5, options: .transitionCrossDissolve, animations: {
-                    self.AddToLibraryButton.isHidden = false
+                UIView.transition(with: addToLibraryButtonCollectionCell, duration: 0.5, options: .transitionCrossDissolve, animations: {
+                    self.addToLibraryButtonCollectionCell.isHidden = false
                 })
             }
             else {
-                UIView.transition(with: AddToLibraryButton, duration: 0.5, options: .transitionCrossDissolve, animations: {
-                    self.AddToLibraryButton.isHidden = true
+                UIView.transition(with: addToLibraryButtonCollectionCell, duration: 0.5, options: .transitionCrossDissolve, animations: {
+                    self.addToLibraryButtonCollectionCell.isHidden = true
                 })
                 
                 if let flashcard = word?.flashcard {
@@ -195,7 +283,7 @@ class FlashcardDetailsCollectionViewCell: UICollectionViewCell, UIPickerViewDele
                 
                 newWord.veryKnown = true
                 word?.veryKnown = true
-                IknowitButtonCollectionCell.setAttributedTitle(NSAttributedString(string: "I don't know it"), for: .normal)
+                iKnowitButtonCollectionCell.setAttributedTitle(NSAttributedString(string: "I don't know it"), for: .normal)
                 
             }
             Words.update(with: newWord)

@@ -28,14 +28,14 @@ class FlashcardsTableViewController: UITableViewController {
         hskFlshcardsBunchList = HskFlashcards.retrieveData()
         
         
-        self.tableView.register(SearchTableViewCell.self, forCellReuseIdentifier: "flashcardsBunchCell")
+      //  self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "flashcardsBunchCell")
         
         
         // setup segmentedControl
         let items = ["My Libraries", "HSKs"]
         segmentedControl = UISegmentedControl(items: items)
-        segmentedControl.backgroundColor = UIColor.white
-        segmentedControl.tintColor = UIColor.black
+        segmentedControl.backgroundColor = UIColor.clear
+        segmentedControl.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         segmentedControl.selectedSegmentIndex = 0
         segmentedControl.addTarget(self, action: #selector(self.segmentChanged), for: .valueChanged)
         navigationItem.titleView = segmentedControl
@@ -70,9 +70,11 @@ class FlashcardsTableViewController: UITableViewController {
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "flashcardsBunchCell", for: indexPath)
+        var cell = tableView.dequeueReusableCell(withIdentifier: "flashcardsBunchCell")//, for: indexPath)
        // cell.editingStyle = UITableViewCell.CellStyle.value2
-        
+        if cell == nil {
+            cell = UITableViewCell.init(style: UITableViewCell.CellStyle.value1, reuseIdentifier: "flashcardsBunchCell")
+        }
         var knownCountersAttributedString: NSMutableAttributedString = NSMutableAttributedString(string: "")
         var unknownCountersAttributedString: NSMutableAttributedString = NSMutableAttributedString(string: "")
         var inLibCountersAttributedString: NSMutableAttributedString = NSMutableAttributedString(string: "")
@@ -80,12 +82,12 @@ class FlashcardsTableViewController: UITableViewController {
         switch segmentedControl.selectedSegmentIndex {
             
         case 0:
-            cell.textLabel?.text = myFlshcardsBunchList[indexPath.row].name ?? "Unknown"
-     
+            cell!.textLabel?.text = myFlshcardsBunchList[indexPath.row].name ?? "Unknown"
+
             inLibCountersAttributedString = NSMutableAttributedString(string: "  " + String(myFlshcardsBunchList[indexPath.row].words?.count ?? 0), attributes: [NSAttributedString.Key.foregroundColor : UIColor.red])
           
         default:
-            cell.textLabel?.text = hskFlshcardsBunchList[indexPath.row].level ?? "Unknown"
+            cell!.textLabel?.text = hskFlshcardsBunchList[indexPath.row].level ?? "Unknown"
             knownCountersAttributedString = NSMutableAttributedString(string: "  " + String(hskFlshcardsBunchList[indexPath.row].words?.filter { ($0 as! Words).veryKnown == true }.count ?? 0), attributes: [NSAttributedString.Key.foregroundColor : #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)])
             unknownCountersAttributedString = NSMutableAttributedString(string: "  " + String(hskFlshcardsBunchList[indexPath.row].words?.filter { ($0 as! Words).veryKnown == false && ($0 as! Words).flashcard == nil}.count ?? 0), attributes: [NSAttributedString.Key.foregroundColor : UIColor.blue])
             inLibCountersAttributedString = NSMutableAttributedString(string: "  " + String(hskFlshcardsBunchList[indexPath.row].words?.filter { ($0 as! Words).flashcard != nil }.count ?? 0), attributes: [NSAttributedString.Key.foregroundColor : UIColor.red])
@@ -97,8 +99,8 @@ class FlashcardsTableViewController: UITableViewController {
         
         countersAttributedString.append(inLibCountersAttributedString)
         countersAttributedString.append(knownCountersAttributedString)
-        cell.detailTextLabel?.attributedText = countersAttributedString
-        return cell
+        cell!.detailTextLabel?.attributedText = countersAttributedString
+        return cell!
     }
     
     // Override to support editing the table view.
@@ -141,8 +143,8 @@ class FlashcardsTableViewController: UITableViewController {
             }
         let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
         navigationController?.navigationBar.titleTextAttributes = textAttributes
-        
         navigationController?.pushViewController(destination, animated: true)
+        
   
             // TO DO: do not get all the words
     }

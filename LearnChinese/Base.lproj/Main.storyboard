@@ -30,15 +30,15 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jlT-wG-db9">
-                                            <rect key="frame" x="16" y="12" width="33.5" height="20.5"/>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="fdfdf ldf nfnsd spdfn s fsfns dns idnffsd lnd;sonf s;o ns dfnsdfknskdnf ldm" textAlignment="natural" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jlT-wG-db9">
+                                            <rect key="frame" x="16" y="12" width="343" height="20.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Vyk-iN-gxy">
-                                            <rect key="frame" x="315" y="12" width="44" height="20.5"/>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="3434343" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Vyk-iN-gxy">
+                                            <rect key="frame" x="359" y="12" width="0.0" height="20.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
@@ -62,12 +62,12 @@
                         <segmentedControl key="titleView" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="ty2-Lo-naf">
                             <rect key="frame" x="87.5" y="7" width="200" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <segments>
                                 <segment title="My libraries"/>
                                 <segment title="HSK"/>
                             </segments>
-                            <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <color key="tintColor" red="0.06727838991" green="1" blue="0.25763899010000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
                                 <action selector="segmentChanged:" destination="CV6-Z3-FBq" eventType="valueChanged" id="rnC-9b-PfA"/>
                             </connections>
@@ -177,7 +177,7 @@
                         </collectionViewFlowLayout>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="detailsCell" id="tPd-ra-RBZ" customClass="FlashcardDetailsCollectionViewCell" customModule="LearnChinese" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="33" width="380" height="537"/>
+                                <rect key="frame" x="0.0" y="30.5" width="380" height="537"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
                                     <rect key="frame" x="0.0" y="0.0" width="380" height="537"/>
@@ -216,11 +216,11 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
-                                                <stackView opaque="NO" contentMode="scaleAspectFit" distribution="fillEqually" alignment="center" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="XMJ-8B-hyr">
+                                                <stackView opaque="NO" contentMode="scaleAspectFit" distribution="fillEqually" alignment="center" spacing="80" translatesAutoresizingMaskIntoConstraints="NO" id="XMJ-8B-hyr">
                                                     <rect key="frame" x="0.0" y="310" width="380" height="36"/>
                                                     <subviews>
                                                         <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageSizeForAccessibilityContentSizeCategory="YES" adjustsImageWhenDisabled="NO" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Cox-Mh-cI9">
-                                                            <rect key="frame" x="0.0" y="0.0" width="189.5" height="36"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="150" height="36"/>
                                                             <viewLayoutGuide key="safeArea" id="g9x-9d-vqL"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                             <state key="normal" title="Add to library"/>
@@ -229,7 +229,7 @@
                                                             </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="k71-32-m3q">
-                                                            <rect key="frame" x="190.5" y="0.0" width="189.5" height="36"/>
+                                                            <rect key="frame" x="230" y="0.0" width="150" height="36"/>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                             <state key="normal" title="I know it"/>
@@ -247,10 +247,10 @@
                                     <constraint firstItem="XMJ-8B-hyr" firstAttribute="width" secondItem="tPd-ra-RBZ" secondAttribute="width" id="aXU-AL-Haz"/>
                                 </constraints>
                                 <connections>
-                                    <outlet property="AddToLibraryButton" destination="Cox-Mh-cI9" id="cyb-JY-ROi"/>
-                                    <outlet property="IknowitButtonCollectionCell" destination="k71-32-m3q" id="vCD-nJ-6ct"/>
+                                    <outlet property="addToLibraryButtonCollectionCell" destination="Cox-Mh-cI9" id="cyb-JY-ROi"/>
                                     <outlet property="choseLibraryTextField" destination="ch6-dU-O6l" id="qGU-ws-fnC"/>
                                     <outlet property="hanziLabelCollectionCell" destination="GGd-2q-kHi" id="1Ho-Hx-m73"/>
+                                    <outlet property="iKnowitButtonCollectionCell" destination="k71-32-m3q" id="vCD-nJ-6ct"/>
                                     <outlet property="pinyinLabelCollectionCell" destination="NL3-h6-Yjb" id="7f9-mt-XGx"/>
                                     <outlet property="translationLabelColectionCell" destination="I5M-Zg-MXj" id="drB-D8-TGi"/>
                                 </connections>
@@ -295,20 +295,21 @@
                                                 </state>
                                             </button>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MRu-zS-0Dt" customClass="Chart" customModule="SwiftChart">
-                                                <rect key="frame" x="8" y="592.5" width="359" height="326.5"/>
+                                                <rect key="frame" x="8" y="617" width="359" height="302"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AMh-9Q-m7z">
-                                                <rect key="frame" x="8" y="300" width="359" height="229.5"/>
+                                            <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AMh-9Q-m7z">
+                                                <rect key="frame" x="8" y="300" width="359" height="254"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="253" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4TA-dL-XGt">
-                                                        <rect key="frame" x="83.5" y="29" width="192.5" height="24.5"/>
+                                                        <rect key="frame" x="83.5" y="29" width="192.5" height="49"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <color key="tintColor" red="1" green="0.1199185312" blue="0.16148700630000001" alpha="0.84705882349999995" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <attributedString key="attributedText">
                                                             <fragment content="Character of the day">
                                                                 <attributes>
                                                                     <font key="NSFont" size="21" name=".SFNSDisplay"/>
+                                                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="2" tighteningFactorForTruncation="0.0"/>
                                                                     <integer key="NSUnderline" value="1"/>
                                                                 </attributes>
                                                             </fragment>
@@ -316,7 +317,7 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <stackView opaque="NO" contentMode="scaleAspectFit" distribution="fillEqually" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="718-Rg-p0J">
-                                                        <rect key="frame" x="20" y="83.5" width="319" height="46"/>
+                                                        <rect key="frame" x="20" y="108" width="319" height="46"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nct-An-ewp">
                                                                 <rect key="frame" x="0.0" y="0.0" width="155.5" height="46"/>
@@ -339,7 +340,7 @@
                                                         </subviews>
                                                     </stackView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="flgkdm " textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9v0-58-hIZ">
-                                                        <rect key="frame" x="8" y="159.5" width="343" height="40"/>
+                                                        <rect key="frame" x="8" y="184" width="343" height="40"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="PFA-4u-ocD"/>
                                                         </constraints>
@@ -382,7 +383,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i4T-Ya-DC7">
-                                                <rect key="frame" x="8" y="537.5" width="359" height="55"/>
+                                                <rect key="frame" x="8" y="562" width="359" height="55"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <attributedString key="attributedText">
                                                     <fragment content="Scores on the last 7 days">
@@ -573,7 +574,7 @@
         <!--Select libraries for practice-->
         <scene sceneID="fWC-V7-wtw">
             <objects>
-                <tableViewController id="lrx-mr-2xU" customClass="PracticeTableViewController" customModule="LearnChinese" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="lrx-mr-2xU" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="cpN-IB-4r0">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -582,7 +583,7 @@
                         <color key="sectionIndexBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="sectionIndexTrackingBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="reuseIdentifier" id="bmq-hC-htS" customClass="PracticeTableViewCell" customModule="LearnChinese" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="reuseIdentifier" id="bmq-hC-htS">
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="bmq-hC-htS" id="Dcy-d7-QZe">
@@ -645,7 +646,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="colectionOneCell" id="aNs-7V-eXR" customClass="PracticeDragDropCellCollectionViewCell" customModule="LearnChinese" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="" id="aNs-7V-eXR">
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
@@ -707,7 +708,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="colectionOneCell" id="HwH-kX-CcO" customClass="PracticeDragDropCellCollectionViewCell" customModule="LearnChinese" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="colectionOneCell" id="HwH-kX-CcO">
                                         <rect key="frame" x="0.0" y="0.0" width="59" height="38"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
@@ -789,7 +790,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="P5F-4O-aBI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2210" y="-1119"/>
+            <point key="canvasLocation" x="2208.8000000000002" y="-1119.4902548725638"/>
         </scene>
         <!--Home-->
         <scene sceneID="zAY-Uy-c55">
@@ -860,7 +861,7 @@
         <image name="yellowButton" width="240" height="240"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="W0Y-nD-QkJ"/>
+        <segue reference="5Xc-Ms-dj3"/>
         <segue reference="kWW-go-d4L"/>
     </inferredMetricsTieBreakers>
 </document>

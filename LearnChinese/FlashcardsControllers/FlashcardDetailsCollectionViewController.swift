@@ -15,10 +15,28 @@ class FlashcardDetailsCollectionViewController: UICollectionViewController, UICo
     lazy var words: [Words] = []
     var indexPath: IndexPath = IndexPath(item: 0, section: 0)
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.collectionView.register(FlashcardDetailsCollectionViewCell.self, forCellWithReuseIdentifier: "detailsCell")
+        
+        self.collectionView.backgroundColor = UIColor.white
+        if let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            flowLayout.scrollDirection = .horizontal
+        }
+        self.collectionView.isPagingEnabled = true
+        self.collectionView.layoutIfNeeded()
+        
+    }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.collectionView.scrollToItem(at: indexPath, at: .right, animated: false)
+
+        collectionView.scrollToItem(at: indexPath, at: .right, animated: true)
+        print("scroll \(indexPath.row)")
     }
+    /*(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.collectionView.scrollToItem(at: indexPath, at: .right, animated: false)
+    }*/
     
      // MARK: - Navigation
      
@@ -38,6 +56,7 @@ class FlashcardDetailsCollectionViewController: UICollectionViewController, UICo
         return words.count
     }
     
+   
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize{
         return CGSize(width: view.frame.width, height: view.frame.height)
@@ -48,16 +67,19 @@ class FlashcardDetailsCollectionViewController: UICollectionViewController, UICo
         // if let flashcardCell = cell as? FlashcardCollectionViewCell {
        // cell.hanziLabelCollectionCell?.text = words[indexPath.row].chinese ?? ""
         
+        
+        
+        
         if words[indexPath.row].veryKnown{
             cell.layer.borderColor =  #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
-            cell.hanziLabelCollectionCell?.attributedText = NSAttributedString(string: words[indexPath.row].chinese ?? "", attributes: [NSAttributedString.Key.foregroundColor : #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)])
+            cell.hanziLabelCollectionCell.attributedText = NSAttributedString(string: words[indexPath.row].chinese ?? "", attributes: [NSAttributedString.Key.foregroundColor : #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)])
         }
         else if words[indexPath.row].flashcard != nil {
             cell.layer.borderColor = UIColor.red.cgColor
-            cell.hanziLabelCollectionCell?.attributedText = NSAttributedString(string: words[indexPath.row].chinese ?? "", attributes: [NSAttributedString.Key.foregroundColor : UIColor.red])
+            cell.hanziLabelCollectionCell.attributedText = NSAttributedString(string: words[indexPath.row].chinese ?? "", attributes: [NSAttributedString.Key.foregroundColor : UIColor.red])
         } else {
             cell.layer.borderColor = UIColor.blue.cgColor
-            cell.hanziLabelCollectionCell?.attributedText = NSAttributedString(string: words[indexPath.row].chinese ?? "", attributes: [NSAttributedString.Key.foregroundColor : UIColor.blue])
+            cell.hanziLabelCollectionCell.attributedText = NSAttributedString(string: words[indexPath.row].chinese ?? "", attributes: [NSAttributedString.Key.foregroundColor : UIColor.blue])
         }
         
         
@@ -67,16 +89,16 @@ class FlashcardDetailsCollectionViewController: UICollectionViewController, UICo
         cell.translationLabelColectionCell.text = words[indexPath.row].english ?? ""
         cell.word = words[indexPath.row]
         if words[indexPath.row].veryKnown {
-            cell.IknowitButtonCollectionCell.setAttributedTitle(NSAttributedString(string: "I don't know it"), for: .normal)
+            cell.iKnowitButtonCollectionCell.setAttributedTitle(NSAttributedString(string: "I don't know it"), for: .normal)
         }
         else {
-            cell.IknowitButtonCollectionCell.setAttributedTitle(NSAttributedString(string: "I know it"), for: .normal)
+            cell.iKnowitButtonCollectionCell.setAttributedTitle(NSAttributedString(string: "I know it"), for: .normal)
         }
         if words[indexPath.row].flashcard != nil {
-            cell.AddToLibraryButton.setAttributedTitle(NSAttributedString(string: "Remove from library"), for: .normal)
+            cell.addToLibraryButtonCollectionCell.setAttributedTitle(NSAttributedString(string: "Remove from library"), for: .normal)
         }
         else {
-            cell.AddToLibraryButton.setAttributedTitle(NSAttributedString(string: "Add to library"), for: .normal)
+            cell.addToLibraryButtonCollectionCell.setAttributedTitle(NSAttributedString(string: "Add to library"), for: .normal)
         }
         cell.layer.cornerRadius = 10.0
         cell.layer.borderWidth = 1.0
@@ -88,16 +110,16 @@ class FlashcardDetailsCollectionViewController: UICollectionViewController, UICo
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
+
+  
   //  override func viewDidLayoutSubviews() {
    //     super.viewDidLayoutSubviews()
   //      collectionView.reloadData()
   //  }
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-        self.collectionView.scrollToItem(at: indexPath, at: .right, animated: false)
-     //   self.collectionView.scrollToItem(at: indexPath, at: .right, animated: false)
-        // Reload here
-    }
+
     // MARK: UICollectionViewDelegate
     
     /*

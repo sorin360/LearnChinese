@@ -31,6 +31,11 @@ class FlashcardsCollectionViewController: UICollectionViewController,  UIPickerV
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        self.collectionView.reloadData()
+        
+        
         self.view.addSubview(pickerOptionTextField)
         self.pickerOptionTextField.delegate = self
         self.pickerOptionTextField.isHidden = true
@@ -46,14 +51,35 @@ class FlashcardsCollectionViewController: UICollectionViewController,  UIPickerV
         
         navigationItem.rightBarButtonItems = [filterCellsButton, sortCellsButton]
         navigationItem.backBarButtonItem?.tintColor = UIColor.green
-        navigationItem.titleView?.tintColor = UIColor.white
+        //navigationItem.titleView?.tintColor = UIColor.white
         navigationController?.navigationBar.tintColor = UIColor.green
 
         self.collectionView.register(FlashcardCollectionViewCell.self, forCellWithReuseIdentifier: "flashcardCell")
         
         self.collectionView.backgroundColor = UIColor.white
+ 
+        switch selectedSegmentIndex {
+        case 0:
+            words = MyFlashcards.retrieveData()[selectedIndex].words?.allObjects as? [Words] ?? []
+            filterCellsButton.isEnabled = false
+            filterCellsButton.tintColor = .clear
+            // filterButtonOutlet.view
+            
+        case 1:
+            words = HskFlashcards.retrieveData()[selectedIndex].words?.allObjects as? [Words] ?? []
+            filterCellsButton.isEnabled = true
+            filterCellsButton.tintColor = nil
+        default:
+            words = Words.getKnownWords()
+            filterCellsButton.isEnabled = false
+            filterCellsButton.tintColor = .clear
+            
+            
+        }
         
-      //  self.collectionView.scr
+        // create a flag that knows if the database changed
+        
+        
        
     }
 
@@ -61,25 +87,7 @@ class FlashcardsCollectionViewController: UICollectionViewController,  UIPickerV
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        switch selectedSegmentIndex {
-        case 0:
-             words = MyFlashcards.retrieveData()[selectedIndex].words?.allObjects as? [Words] ?? []
-             filterCellsButton.isEnabled = false
-             filterCellsButton.tintColor = .clear
-           // filterButtonOutlet.view
-      
-        case 1:
-             words = HskFlashcards.retrieveData()[selectedIndex].words?.allObjects as? [Words] ?? []
-             filterCellsButton.isEnabled = true
-             filterCellsButton.tintColor = nil
-        default:
-             words = Words.getKnownWords()
-             filterCellsButton.isEnabled = false
-             filterCellsButton.tintColor = .clear
-             
-            
-        }
-        self.collectionView.reloadData()
+       
         
     }
     
@@ -173,7 +181,7 @@ class FlashcardsCollectionViewController: UICollectionViewController,  UIPickerV
         pickerOptionTextField.resignFirstResponder()
         self.collectionView.reloadData()
        
-        self.collectionView.contentOffset = CGPoint(x: 0, y: 0 - self.navigationController!.navigationBar.frame.height - UIApplication.shared.statusBarFrame.height)
+      //  self.collectionView.contentOffset = CGPoint(x: 0, y: 0 - self.navigationController!.navigationBar.frame.height - UIApplication.shared.statusBarFrame.height)
         // .scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
     }
     @objc func cancelClick() {
@@ -181,7 +189,7 @@ class FlashcardsCollectionViewController: UICollectionViewController,  UIPickerV
     }
     
     // MARK: - Navigation
-    
+   /*
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using [segue destinationViewController].
@@ -203,7 +211,7 @@ class FlashcardsCollectionViewController: UICollectionViewController,  UIPickerV
         }
         
     }
-    
+    */
     
     // MARK: UICollectionViewDataSource
     
@@ -224,22 +232,31 @@ class FlashcardsCollectionViewController: UICollectionViewController,  UIPickerV
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "flashcardCell", for: indexPath) as! FlashcardCollectionViewCell
         // if let flashcardCell = cell as? FlashcardCollectionViewCell {
        // cell.hanziLabelCollectionCell.text = words[indexPath.row].chinese ?? ""
-        cell.pinyinLabelText = words[indexPath.row].pinyin ?? ""
+        cell.pinyinLabelCollectionCell.text = words[indexPath.row].pinyin ?? ""
         cell.layer.cornerRadius = 10.0
         cell.layer.borderWidth = 1.0
  
+        //cell.hanziLabelCollectionCell.text = words[indexPath.row].chinese ?? ""
+       // cell.hanziLabelCollectionCell.attributedText = NSAttributedString(string: words[indexPath.row].chinese ?? "", attributes: [NSAttributedString.Key.foregroundColor : #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)])
+        
+        
+        
         if words[indexPath.row].veryKnown{
-            cell.layer.borderColor =  #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
-            cell.hanziLabelText = NSAttributedString(string: words[indexPath.row].chinese ?? "", attributes: [NSAttributedString.Key.foregroundColor : #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)])
+           // cell.layer.borderColor =  #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
+            cell.hanziLabelCollectionCell.attributedText = NSAttributedString(string: words[indexPath.row].chinese ?? "", attributes: [NSAttributedString.Key.foregroundColor : #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)])
+            cell.layer.borderColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
         }
         else if words[indexPath.row].flashcard != nil {
-                cell.layer.borderColor = UIColor.red.cgColor
-                cell.hanziLabelText = NSAttributedString(string: words[indexPath.row].chinese ?? "", attributes: [NSAttributedString.Key.foregroundColor : UIColor.red])
+              //  cell.layer.borderColor = UIColor.red.cgColor
+                cell.hanziLabelCollectionCell.attributedText = NSAttributedString(string: words[indexPath.row].chinese ?? "", attributes: [NSAttributedString.Key.foregroundColor : UIColor.red])
+            cell.layer.borderColor = UIColor.red.cgColor
             } else {
+           // cell.layer.borderColor = UIColor.blue.cgColor
+            cell.hanziLabelCollectionCell.attributedText = NSAttributedString(string: words[indexPath.row].chinese ?? "", attributes: [NSAttributedString.Key.foregroundColor : UIColor.blue])
             cell.layer.borderColor = UIColor.blue.cgColor
-            cell.hanziLabelText = NSAttributedString(string: words[indexPath.row].chinese ?? "", attributes: [NSAttributedString.Key.foregroundColor : UIColor.blue])
             }
        
+      //   cell.layer.borderColor = (hanziLabelText.attribute(NSAttributedString.Key.foregroundColor, at: 0, effectiveRange: nil) as! UIColor).cgColor
     /*    else {
             cell.layer.borderColor = UIColor.green.cgColor
         }*/
@@ -254,7 +271,26 @@ class FlashcardsCollectionViewController: UICollectionViewController,  UIPickerV
     {
         return CGSize(width: 85, height: 85)
     }
+
     
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // Pass the selected object to the new view controller.
+        let destination = FlashcardDetailsCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout.init())
+
+        destination.words = words
+        print("wor\(words[indexPath.row].pinyin)")
+        if let selectedCell = collectionView as? FlashcardCollectionViewCell {
+            if let selectedCellIndex = collectionView.indexPath(for: selectedCell) {
+              
+   
+                    print("worddd\(words[selectedCellIndex.row].pinyin)")
+                
+                // TO DO: do not get all the words
+            }
+        }
+        destination.indexPath = indexPath
+        navigationController?.pushViewController(destination, animated: true)
+    }
     
     // MARK: UICollectionViewDelegate
     

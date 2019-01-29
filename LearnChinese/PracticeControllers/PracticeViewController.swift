@@ -38,8 +38,6 @@ class PracticeViewController: UIViewController {
     
     @IBOutlet weak var textForTranslation: UILabel!
     
-    // @IBOutlet weak var scoreLabel: UILabel!
-    
     @IBOutlet weak var scoreButton: UIBarButtonItem!
     
     @IBOutlet weak var checkButton: UIButton! {
