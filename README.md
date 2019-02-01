@@ -20,4 +20,5 @@ What things you need to install the software and how to install them
 
 What things you need to install the software and how to install them
 
-![alternativetext](https://github.com/sorin360/HSKs/blob/master/home.png =100x20)
+![alternativetext](https://github.com/sorin360/HSKs/blob/master/home.png)
+<img src="https://github.com/sorin360/HSKs/blob/master/home.png" alt="alt text" width="800" height="1700">
