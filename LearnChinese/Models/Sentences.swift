@@ -64,7 +64,7 @@ class Sentences: NSManagedObject {
         
     }
     
-    static func decreseAllSentencesPriority(){
+    static func increseAllSentencesPriority(){
         
         //As we know that container is set up in the AppDelegates so we need to refer that container.
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
@@ -79,7 +79,7 @@ class Sentences: NSManagedObject {
             
             let result = try managedContext.fetch(fetchRequest)
             for sentence in result as! [Sentences] {
-                sentence.priority -= 1
+                sentence.priority += 1
             }
 
                 do{
@@ -126,7 +126,7 @@ class Sentences: NSManagedObject {
         return 0
     }
     
-    static func getSentences(for myFlashcardsSelected: [MyFlashcards], and hskFlashcardsSelected: [HskFlashcards]) -> [Sentences] {
+    static func getSentences(for myFlashcardsSelected: [MyFlashcards], hsk hskFlashcardsSelected: [HskFlashcards]) -> [Sentences] {
     
         var foundSentences:[Sentences] = []
         //As we know that container is set up in the AppDelegates so we need to refer that container.
@@ -150,7 +150,7 @@ class Sentences: NSManagedObject {
             }
             let listSet = Set(selectedWords)
            
-            let sort = NSSortDescriptor(key: "priority", ascending: true)
+            let sort = NSSortDescriptor(key: "priority", ascending: false)
             
             fetchRequest.sortDescriptors = [sort]
             
@@ -159,7 +159,7 @@ class Sentences: NSManagedObject {
                 for sentence in (result as? [Sentences] ?? []) {
                     let hanzi = sentence.chinese?.map{ String($0) }
                     let findListSet = Set(hanzi ?? [])
-                    print(sentence.english)
+                    print(sentence.priority)
                  //   let list = ["我","不","爱","你","了"]
                    // let findList = ["我","爱","了"]
                    // let listSet = Set(list)
@@ -169,7 +169,7 @@ class Sentences: NSManagedObject {
                     if findListSet.isSubset(of: listSet) {
                         foundSentences += [sentence]
                     }
-                    if foundSentences.count == 10 {
+                    if foundSentences.count == 5 {
                         break
                     }
                     

@@ -10,9 +10,12 @@ import UIKit
 
 class SettingsTableViewController: UITableViewController {
 
+    var options = ["Feedback", "Rate the App", "Help", "Terms of use", "About"]
     override func viewDidLoad() {
         super.viewDidLoad()
-
+    tableView.isScrollEnabled = false
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -24,23 +27,49 @@ class SettingsTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return options.count
     }
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
 
-        // Configure the cell...
+        cell.textLabel?.text = options[indexPath.row]
 
         return cell
     }
-    */
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        switch options[indexPath.row] {
+        case "Terms of use":
+            guard let url = URL(string: "https://google.com") else { return }
+            UIApplication.shared.open(url)
+        default:
+            guard let url = URL(string: "https://google.com") else { return }
+            UIApplication.shared.open(url)
+        }
+    }
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+      
+        let footerView = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 50))
+        footerView.text = "© 2019 Sorin Lica"
+        footerView.textAlignment = .center
+        footerView.textColor = UIColor.black
+        footerView.backgroundColor = UIColor.white
+        return footerView
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        
+        return 50
+    }
+    
 
     /*
     // Override to support conditional editing of the table view.

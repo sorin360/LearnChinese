@@ -14,7 +14,7 @@ class TabBarController:  UITabBarController, UITabBarControllerDelegate {
     
     var container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
     
-    
+    // new link https://sorin360.github.io/hsk-vocabulary/hsk-vocab-json/hsk-level-1.json
     override func viewDidLoad() {
         super.viewDidLoad()
         self.delegate = self
@@ -123,7 +123,7 @@ class TabBarController:  UITabBarController, UITabBarControllerDelegate {
                     }
                 }).resume()
                 
-                guard let urlSentences = URL(string: "https://api.myjson.com/bins/9i63g") else {return}
+                guard let urlSentences = URL(string: "https://sorin360.github.io/HSKs/hskSentences1-2.json") else {return}
                 
                 URLSession.shared.dataTask(with: urlSentences, completionHandler:  { (data, response, error) in
                     guard let dataResponse = data,

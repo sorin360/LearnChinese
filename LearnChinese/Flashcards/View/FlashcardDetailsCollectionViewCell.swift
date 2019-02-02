@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import AVFoundation
 
 class FlashcardDetailsCollectionViewCell: UICollectionViewCell, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate{
     
@@ -96,6 +97,9 @@ class FlashcardDetailsCollectionViewCell: UICollectionViewCell, UIPickerViewDele
         
         myFlashcards = MyFlashcards.retrieveData()
         
+        addToLibraryButtonCollectionCell.addTarget(self, action: #selector(self.AddRemoveToLibraryButton), for: UIControl.Event.touchDown)
+        iKnowitButtonCollectionCell.addTarget(self, action: #selector(self.IknowitButton), for: UIControl.Event.touchDown)
+        speakerButtonCollectionCell.addTarget(self, action: #selector(self.speakerButtonAction), for: UIControl.Event.touchDown)
         self.choseLibraryTextField.delegate = self
         self.choseLibraryTextField.isHidden = true
         
@@ -113,7 +117,7 @@ class FlashcardDetailsCollectionViewCell: UICollectionViewCell, UIPickerViewDele
         buttonsStackView.axis = NSLayoutConstraint.Axis.horizontal
         buttonsStackView.distribution = UIStackView.Distribution.fillEqually
         buttonsStackView.alignment = UIStackView.Alignment.center
-        buttonsStackView.spacing = 0.0
+        buttonsStackView.spacing = 1.0
         buttonsStackView.addArrangedSubview(addToLibraryButtonCollectionCell)
         buttonsStackView.addArrangedSubview(iKnowitButtonCollectionCell)
         buttonsStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -132,6 +136,7 @@ class FlashcardDetailsCollectionViewCell: UICollectionViewCell, UIPickerViewDele
         mainStackView.addArrangedSubview(speakerButtonCollectionCell)
         mainStackView.addArrangedSubview(translationLabelColectionCell)
         mainStackView.addArrangedSubview(buttonsStackView)
+        mainStackView.addArrangedSubview(choseLibraryTextField)
         mainStackView.translatesAutoresizingMaskIntoConstraints = false
         
         self.addSubview(mainStackView)
@@ -149,7 +154,14 @@ class FlashcardDetailsCollectionViewCell: UICollectionViewCell, UIPickerViewDele
         mainStackView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
         
     }
-    
+    @objc func speakerButtonAction(){
+        let utterance = AVSpeechUtterance(string:hanziLabelCollectionCell.text ?? " ")
+        utterance.voice = AVSpeechSynthesisVoice(language: "zh-CN")
+        utterance.rate = 0.5
+        
+        let synthesizer = AVSpeechSynthesizer()
+        synthesizer.speak(utterance)
+    }
     func pickUp(_ textField : UITextField){
         
         // UIPickerView
@@ -264,16 +276,17 @@ class FlashcardDetailsCollectionViewCell: UICollectionViewCell, UIPickerViewDele
     @objc func IknowitButton() {
         if let newWord = word {
             if newWord.veryKnown {
+                UIView.transition(with: addToLibraryButtonCollectionCell, duration: 0.5, options: .showHideTransitionViews, animations: {
+                    self.addToLibraryButtonCollectionCell.isHidden = false
+                })
                 newWord.veryKnown = false
                 word?.veryKnown = false
                 iKnowitButtonCollectionCell.setAttributedTitle(NSAttributedString(string: "I know it"), for: .normal)
-               // AddToLibraryButton.isHidden = false
-                UIView.transition(with: addToLibraryButtonCollectionCell, duration: 0.5, options: .transitionCrossDissolve, animations: {
-                    self.addToLibraryButtonCollectionCell.isHidden = false
-                })
+              //  AddToLibraryButton.isHidden = false
+               
             }
             else {
-                UIView.transition(with: addToLibraryButtonCollectionCell, duration: 0.5, options: .transitionCrossDissolve, animations: {
+                UIView.transition(with: addToLibraryButtonCollectionCell, duration: 0.5, options: .showHideTransitionViews, animations: {
                     self.addToLibraryButtonCollectionCell.isHidden = true
                 })
                 
@@ -285,6 +298,7 @@ class FlashcardDetailsCollectionViewCell: UICollectionViewCell, UIPickerViewDele
                 word?.veryKnown = true
                 iKnowitButtonCollectionCell.setAttributedTitle(NSAttributedString(string: "I don't know it"), for: .normal)
                 
+              //  self.addToLibraryButtonCollectionCell.isHidden = true
             }
             Words.update(with: newWord)
         }

@@ -11,8 +11,6 @@ import GameplayKit
 import SwiftChart
 import CoreData
 
-
-
 class HomeViewController: UIViewController, UITabBarControllerDelegate{
 
     var speakerButtonCollectionCell: UIButton = {
@@ -37,6 +35,18 @@ class HomeViewController: UIViewController, UITabBarControllerDelegate{
         return label
     }()
     
+    var chartTitle: UILabel = {
+        var label = UILabel()
+        label.textAlignment = .center
+        label.font = label.font.withSize(22)
+        label.numberOfLines = 0
+        label.attributedText = NSAttributedString(string: "Scores on the last 7 days", attributes:
+            [.underlineStyle: NSUnderlineStyle.single.rawValue])
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        return label
+    }()
+    
     var knownWordsCounterButtonSubtitle: UILabel = {
         var label = UILabel()
         label.textAlignment = .center
@@ -52,7 +62,7 @@ class HomeViewController: UIViewController, UITabBarControllerDelegate{
         var button = UIButton()
         button.setBackgroundImage(UIImage(named: "yellowButton"), for: .normal)
         button.titleLabel?.font = button.titleLabel?.font.withSize(60)
-        button.titleLabel?.textColor = UIColor.blue
+        button.titleLabel?.textColor = #colorLiteral(red: 0.03470817438, green: 0.5300959564, blue: 0.9903107271, alpha: 1)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -96,13 +106,23 @@ class HomeViewController: UIViewController, UITabBarControllerDelegate{
         return chart
     }()
     
+    var settingsButton: UIButton = {
+        var button = UIButton()
+        button.setTitleColor(UIColor.blue, for: .normal)
+        button.setTitle("Settings", for: UIControl.State.normal)
+        button.backgroundColor = UIColor.yellow
+        button.layer.cornerRadius = 10.0
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     var knownWords:[Words] = []
     
     var container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
     
     var homeModel = Home()
     
-    var settingsButton: UIButton!
+   // var settingsButton: UIButton!
     
     func updateChart(){
      
@@ -139,9 +159,14 @@ class HomeViewController: UIViewController, UITabBarControllerDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        knownWordsCounterButton.addTarget(self, action: #selector(self.knownWordsCounterButtonAction), for: .allTouchEvents)
-        hanziButton.addTarget(self, action: #selector(self.wordOfTheDayButtonAction), for: .allTouchEvents)
-
+        knownWordsCounterButton.addTarget(self, action: #selector(self.knownWordsCounterButtonAction), for: .touchDown)
+        hanziButton.addTarget(self, action: #selector(self.wordOfTheDayButtonAction), for: .touchDown)
+        settingsButton.addTarget(self, action: #selector(self.settingsButtonAction), for: .touchDown)
+        
+        let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
+        navigationController?.navigationBar.titleTextAttributes = textAttributes
+        
+         navigationController?.navigationBar.tintColor = UIColor.green
         
         let backgroundImageView = UIImageView()
         backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -184,18 +209,25 @@ class HomeViewController: UIViewController, UITabBarControllerDelegate{
         chartSubView.backgroundColor = .white
         chartSubView.layer.cornerRadius = 10
         chartSubView.translatesAutoresizingMaskIntoConstraints = false
-        
+        chartSubView.addSubview(chartTitle)
         chartSubView.addSubview(chart)
         
-        chart.topAnchor.constraint(equalTo: chartSubView.topAnchor, constant: 5).isActive = true
+        chartTitle.topAnchor.constraint(equalTo: chartSubView.topAnchor, constant: 10).isActive = true
+        chartTitle.centerXAnchor.constraint(equalTo: chartSubView.centerXAnchor).isActive = true
+        chartTitle.leftAnchor.constraint(equalTo: chartSubView.leftAnchor, constant: 5).isActive = true
+        chartTitle.rightAnchor.constraint(equalTo: chartSubView.rightAnchor, constant: -5).isActive = true
+        chartTitle.bottomAnchor.constraint(equalTo: chart.topAnchor, constant: -10).isActive = true
+        
+        chart.topAnchor.constraint(equalTo: chartTitle.bottomAnchor).isActive = true
          chart.leftAnchor.constraint(equalTo: chartSubView.leftAnchor, constant: 5).isActive = true
          chart.rightAnchor.constraint(equalTo: chartSubView.rightAnchor, constant: -5).isActive = true
          chart.bottomAnchor.constraint(equalTo: chartSubView.bottomAnchor, constant: -5).isActive = true
+        
         contentView.addSubview(knownWordsCounterButton)
         contentView.addSubview(knownWordsCounterButtonSubtitle)
         contentView.addSubview(wordOfTheDayContentView)
          contentView.addSubview(chartSubView)
-          contentView.addSubview(label2)
+          contentView.addSubview(settingsButton)
        
         
     
@@ -270,16 +302,16 @@ class HomeViewController: UIViewController, UITabBarControllerDelegate{
         translationLabel.widthAnchor.constraint(equalTo: wordOfTheDayContentView.widthAnchor, multiplier: 3/4).isActive = true
         translationLabel.bottomAnchor.constraint(equalTo: wordOfTheDayContentView.bottomAnchor).isActive = true
     */
-        chartSubView.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        chartSubView.heightAnchor.constraint(equalToConstant: 250).isActive = true
         chartSubView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
         chartSubView.topAnchor.constraint(equalTo: wordOfTheDayContentView.bottomAnchor).isActive = true
         chartSubView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.95).isActive = true
-        chartSubView.bottomAnchor.constraint(equalTo: label2.topAnchor).isActive = true
+        chartSubView.bottomAnchor.constraint(equalTo: settingsButton.topAnchor, constant: -10.0).isActive = true
         
-        label2.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-        label2.topAnchor.constraint(equalTo: chartSubView.bottomAnchor).isActive = true
-        label2.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 3/4).isActive = true
-        label2.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        settingsButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+        settingsButton.topAnchor.constraint(equalTo: chartSubView.bottomAnchor).isActive = true
+        settingsButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 3/4).isActive = true
+        settingsButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10).isActive = true
       //  chartSubView.addSubview(label2)
    /*
        label2.centerXAnchor.constraint(equalTo: chartSubView.centerXAnchor).isActive = true
@@ -290,8 +322,13 @@ class HomeViewController: UIViewController, UITabBarControllerDelegate{
         
         wordOfTheDayStackView.widthAnchor.constraint(equalTo: wordOfTheDayContentView.widthAnchor, multiplier: 0.95).isActive = true
         
-        
-        
+   
+    }
+    
+    
+    @objc func settingsButtonAction(){
+        let destination = SettingsTableViewController()
+        navigationController?.pushViewController(destination, animated: true)
     }
     
     let wordOfTheDayContentView: UIStackView = {

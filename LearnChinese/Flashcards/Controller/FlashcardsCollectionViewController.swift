@@ -25,15 +25,12 @@ class FlashcardsCollectionViewController: UICollectionViewController,  UIPickerV
     var selectedIndex = 0
     var pickerViewOptions = [String]()
     private var row = 0
-    
-   
-    
-    
+  
     override func viewDidLoad() {
         super.viewDidLoad()
         
         
-        self.collectionView.reloadData()
+        
         
         
         self.view.addSubview(pickerOptionTextField)
@@ -49,8 +46,8 @@ class FlashcardsCollectionViewController: UICollectionViewController,  UIPickerV
         ), style: .plain, target: self, action: #selector(self.sortCellsAction))
        // sortCellsButton.tintColor = UIColor.red
         
-        navigationItem.rightBarButtonItems = [filterCellsButton, sortCellsButton]
-        navigationItem.backBarButtonItem?.tintColor = UIColor.green
+        navigationItem.rightBarButtonItems = [sortCellsButton, filterCellsButton]
+       // navigationItem.backBarButtonItem?.tintColor = UIColor.green
         //navigationItem.titleView?.tintColor = UIColor.white
         navigationController?.navigationBar.tintColor = UIColor.green
 
@@ -58,6 +55,17 @@ class FlashcardsCollectionViewController: UICollectionViewController,  UIPickerV
         
         self.collectionView.backgroundColor = UIColor.white
  
+       
+        // create a flag that knows if the database changed
+        
+        
+       
+    }
+
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         switch selectedSegmentIndex {
         case 0:
             words = MyFlashcards.retrieveData()[selectedIndex].words?.allObjects as? [Words] ?? []
@@ -76,18 +84,7 @@ class FlashcardsCollectionViewController: UICollectionViewController,  UIPickerV
             
             
         }
-        
-        // create a flag that knows if the database changed
-        
-        
-       
-    }
-
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-       
+        self.collectionView.reloadData()
         
     }
     

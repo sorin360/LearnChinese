@@ -177,7 +177,7 @@ class Words: NSManagedObject {
         if storedSeed != todaySeed {
             // a new day
             // decrese sentences priorities
-            Sentences.decreseAllSentencesPriority()
+            Sentences.increseAllSentencesPriority()
             let notSoRandomSource1 = GKMersenneTwisterRandomSource(seed: UInt64(todaySeed ?? 0))
             let numberForToday = GKRandomDistribution(randomSource: notSoRandomSource1,
                                                       lowestValue: 0,
@@ -191,5 +191,16 @@ class Words: NSManagedObject {
 extension String {
     var containsChineseCharacters: Bool {
         return self.range(of: "\\p{Han}", options: .regularExpression) != nil
+    }
+}
+
+extension Words {
+    func shortTranslation() -> String {
+        let shortTranslations = self.english?.split(separator: ",")
+        if shortTranslations != nil {
+            return String(shortTranslations?[0] ?? " ")
+        } else {
+            return self.english ?? " "
+        }
     }
 }

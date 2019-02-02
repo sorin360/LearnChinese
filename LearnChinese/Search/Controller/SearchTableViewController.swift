@@ -25,6 +25,7 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate{
         self.tableView.keyboardDismissMode = .onDrag
        // self.navigationItem.backBarButtonItem?.tintColor = UIColor.green
          navigationController?.navigationBar.tintColor = UIColor.green
+        self.view.backgroundColor = UIColor.white
         super.viewDidLoad()
       
        // tableView.backgroundView = UIImageView(image: image)

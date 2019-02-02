@@ -1,5 +1,5 @@
 //
-//  PracticeDragDropViewController.swift
+//  PracticeTranslateSentenceViewController.swift
 //  LearnChinese
 //
 //  Created by Sorin Lica on 16/12/2018.
@@ -9,43 +9,10 @@
 import UIKit
 import AVFoundation
 
-class PracticeDragDropViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDragDelegate, UICollectionViewDropDelegate, UIGestureRecognizerDelegate {
+class PracticeTranslateSentenceViewController: PracticeViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDragDelegate, UICollectionViewDropDelegate, UIGestureRecognizerDelegate, UINavigationControllerDelegate {
     
-    var practiceDragDrop: PracticeDragDrop?
-    
-    var lifeStatus = 4 { //"⭐️⭐️⭐️⭐️" {
-        didSet{
-            
-            switch lifeStatus {
-            case 4:
-                self.navigationItem.title = "⭐️⭐️⭐️⭐️"
-            case 3:
-                self.navigationItem.title = "⭐️⭐️⭐️"
-            case 2:
-                self.navigationItem.title = "⭐️⭐️"
-            case 1:
-                self.navigationItem.title = "⭐️"
-            default:
-                    self.showMessageDialog(title: "Sorry...",
-                                           subtitle: "These sentences seem to be too difficult for you, try to choose some easier words for practice",
-                                           actionTitle: "OK", cancelActionTitle: nil)
-                    { () in
-                        
-                        self.navigationController?.popViewController(animated: true)
-                    }
-            }
-        }
-    }
-    
-    var speakerButton: UIButton = {
-        var button = UIButton()
-        
-        button.setImage(UIImage(named: "speaker"), for: .normal)
-        button.tintColor = #colorLiteral(red: 0.06727838991, green: 1, blue: 0.2576389901, alpha: 1)
-       
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+    var practiceTranslateSentence: PracticeTranslateSentence? //model
+
     
     var contentCollectionOne:[String] = [] {
         didSet {
@@ -63,52 +30,6 @@ class PracticeDragDropViewController: UIViewController, UICollectionViewDelegate
 
     var contentCollectionTwo:[String] = []
  
-     // tabbar
-    
-    var scoreButton: UIBarButtonItem!
-    
-    var endPracticeButton: UIBarButtonItem!
-    
-    var checkButton: UIButton = {
-        var button = UIButton()
-        button.backgroundColor = .clear
-        button.layer.cornerRadius = 15
-        button.layer.borderWidth = 2
-        button.layer.borderColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
-        button.setTitleColor(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 1), for: .normal)
-        button.isEnabled = false
-        button.setTitle("Check", for: UIControl.State.normal)
-        
-        button.translatesAutoresizingMaskIntoConstraints = false
-    
-        return button
-    }()
-    
-    var progressView: UIProgressView = {
-        var progress = UIProgressView()
-        progress.setProgress(0.0, animated: true)
-        progress.translatesAutoresizingMaskIntoConstraints = false
-        return progress
-    }()
-    
-  
-    
-    @objc func endPracticeButtonAction() {
-        showMessageDialog(title: "Are you sure you want to end this sesion?", subtitle: "The score gained by now won't be saved", actionTitle: "OK", cancelActionTitle: "Cancel") { () in
-             self.navigationController?.popViewController(animated: true)
-            }
-       
-    }
-
-    
-    //dragdropcontroller
-    
-    var textForTranslation: UILabel = {
-        var label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
     var colectionViewOne: UICollectionView! {
         didSet{
             colectionViewOne.dataSource = self
@@ -144,9 +65,9 @@ class PracticeDragDropViewController: UIViewController, UICollectionViewDelegate
     
     @objc func checkButtonAction() {
         
-        progressView.progress = Float(practiceDragDrop?.curentSentenceIndex ?? 0) / Float(practiceDragDrop?.sentences.count ?? 0)
+       
         
-        let checkResult = practiceDragDrop?.check(theAnswer: contentCollectionOne)
+        let checkResult = practiceTranslateSentence?.check(theAnswer: contentCollectionOne)
         if (checkResult?.0)! {
             showMessageDialog(title: "Correct",
                               subtitle: "Answer: \((checkResult?.1)!)",
@@ -154,15 +75,15 @@ class PracticeDragDropViewController: UIViewController, UICollectionViewDelegate
             { () in
                 
  
-                self.scoreButton.title = "score: " + (self.practiceDragDrop?.getScore() ?? "00")
-                if self.practiceDragDrop?.curentSentenceIndex == self.practiceDragDrop?.sentences.count {
+               // self.scoreButton.title = "score: " + (self.practiceTranslateSentence?.getScore() ?? "00")
+                if self.practiceTranslateSentence?.practice?.progressStatus == 1.0 {
                     
                     self.showMessageDialog(title: "Congratulations!!!",
-                                           subtitle: "Your score is \(self.practiceDragDrop?.getScore() ?? "0")",
+                                           subtitle: "Your score is \(self.practiceTranslateSentence?.getScore() ?? "0")",
                         actionTitle: "OK", cancelActionTitle: nil)
                     { () in
                    
-                        let score = Int(self.practiceDragDrop?.getScore() ?? "0") ?? 0
+                        let score = Int(self.practiceTranslateSentence?.getScore() ?? "0") ?? 0
                         let date = Date().stripTime()
                         
                         Scores.update(with: score, at: date)
@@ -170,36 +91,46 @@ class PracticeDragDropViewController: UIViewController, UICollectionViewDelegate
                     }
                 }
                 else {
+                    self.navigationController?.popViewController(animated: false)
+                    /*
                     self.loadModel()
                     self.colectionViewOne.reloadData()
-                    self.colectionViewTwo.reloadData()
+                    self.colectionViewTwo.reloadData()*/
                 }
             }
             
         } else {
-            self.scoreButton.title = "score: " + (practiceDragDrop?.getScore() ?? "00")
+           // self.scoreButton.title = "score: " + (practiceTranslateSentence?.getScore() ?? "00")
                lifeStatus -= 1
+            practiceTranslateSentence?.practice?.lifeStatus -= 1
             showWrongAnswerDialog(title: "Sorry...", subtitle: "Wrong answer", answer: (checkResult?.1)!) { (option :String?) in
                 switch option {
                 case "Skip":
-                    if self.practiceDragDrop?.curentSentenceIndex == self.practiceDragDrop?.sentences.count {
+                    if self.practiceTranslateSentence?.practice?.progressStatus == 1.0  {
                         self.showMessageDialog(title: "Congratulations!!!",
                                                subtitle: "Your score is \((checkResult?.1)!)",
                             actionTitle: "OK", cancelActionTitle: nil)
                         { () in
-                            let score = Int(self.practiceDragDrop?.getScore() ?? "0") ?? 0
+                            let score = Int(self.practiceTranslateSentence?.getScore() ?? "0") ?? 0
                             let date = Date().stripTime()
                             
                             Scores.update(with: score, at: date)
-                            self.navigationController?.popViewController(animated: true)
+                            self.navigationController?.popViewController(animated: false)
                         }
                     }
-                    else {
+                    else { /*
                         self.loadModel()
                         self.colectionViewOne.reloadData()
                         self.colectionViewTwo.reloadData()
+ */                     self.contentCollectionOne = []
+                        self.navigationController?.popViewController(animated: false)
                     }
                 default:
+                    //update progress and score (retry)
+                    self.progressView.progress = self.practiceTranslateSentence?.practice?.progressStatus ?? 0.0
+                    
+                    self.scoreButton.title = "score: " + (self.practiceTranslateSentence?.getScore() ?? "00")
+                    
                     self.contentCollectionTwo.append(contentsOf: self.contentCollectionOne)
                     self.contentCollectionOne = []
                     self.colectionViewOne.reloadData()
@@ -210,75 +141,54 @@ class PracticeDragDropViewController: UIViewController, UICollectionViewDelegate
          
         }
     }
+    
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        (viewController as? PracticeManagerViewController)?.practiceTranslateSentence = practiceTranslateSentence // Here you pass the to your original view controller
+    }
 
     override func viewWillAppear(_ animated: Bool) {
        // self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        
+
         self.tabBarController?.tabBar.isHidden = true
         super.viewWillAppear(animated)
-        if (practiceDragDrop?.sentences.count)! > 0 {
+        
+       
+        
+        if (practiceTranslateSentence?.sentences.count)! > 0 {
             loadModel()
-        } else {
-            showMessageDialog(title: "Not sentences found",
-                              subtitle: "Please select more libraries for prctice",
-                              actionTitle: "OK", cancelActionTitle: nil)
-            { () in
-                
-                self.navigationController?.popViewController(animated: true)
+            if !(textForTranslation.text?.containsChineseCharacters)! {
+                speakerButton.isHidden = true
+            } else {
+                speakerButton.isHidden = false
             }
+        } else {
+
+                self.navigationController?.popViewController(animated: false)
+            
         }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
       //  self.navigationController?.setNavigationBarHidden(false, animated: animated)
-        self.tabBarController?.tabBar.isHidden = false
+        
         super.viewWillDisappear(animated)
+        self.tabBarController?.tabBar.isHidden = false
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        checkButton.addTarget(self, action: #selector(self.checkButtonAction), for: UIControl.Event.allTouchEvents)
-         speakerButton.addTarget(self, action: #selector(self.speakerButtonAction), for: UIControl.Event.allTouchEvents)
-        
-        lifeStatus = 4
-        
-        self.view.backgroundColor = UIColor.white
-        
-        self.scoreButton = UIBarButtonItem(title: "score: 0", style: .plain, target: self, action: nil)
-        navigationItem.rightBarButtonItem = scoreButton
-        
-        self.endPracticeButton = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(self.endPracticeButtonAction))
-        navigationItem.leftBarButtonItem = endPracticeButton
-        
-        view.addSubview(progressView)
-        progressView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        progressView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        progressView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        
-        view.addSubview(speakerButton)
-        
-        view.addSubview(textForTranslation)
-        
-        speakerButton.heightAnchor.constraint(equalToConstant: 20.0).isActive = true
-        speakerButton.widthAnchor.constraint(equalToConstant: 20.0).isActive = true
-        speakerButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 8.0).isActive = true
-        speakerButton.rightAnchor.constraint(equalTo: textForTranslation.leftAnchor, constant: -4.0).isActive = true
-        speakerButton.topAnchor.constraint(equalTo: progressView.bottomAnchor, constant: 8.0).isActive = true
-        
-    
-        
-        textForTranslation.leftAnchor.constraint(equalTo: speakerButton.rightAnchor).isActive = true
-        textForTranslation.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 8.0).isActive = true
-        textForTranslation.topAnchor.constraint(equalTo: progressView.bottomAnchor, constant: 8.0).isActive = true
-        
+        navigationController?.delegate = self
+        checkButton.addTarget(self, action: #selector(self.checkButtonAction), for: UIControl.Event.touchDown)
+   
         self.colectionViewOne = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewLayout.init())
         self.colectionViewOne.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(colectionViewOne)
         colectionViewOne.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 8.0).isActive = true
         colectionViewOne.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 8.0).isActive = true
         colectionViewOne.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.4).isActive = true
-        colectionViewOne.topAnchor.constraint(equalTo: textForTranslation.bottomAnchor, constant: 8.0).isActive = true
-        colectionViewOne.register(PracticeDragDropCellCollectionViewCell.self, forCellWithReuseIdentifier: "dragDropCell")
+        colectionViewOne.topAnchor.constraint(greaterThanOrEqualTo: textForTranslation.bottomAnchor, constant: 8.0).isActive = true
+        colectionViewOne.register(PracticeTranslateSentenceCellCollectionViewCell.self, forCellWithReuseIdentifier: "dragDropCell")
         
 
         self.colectionViewTwo = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
@@ -286,10 +196,10 @@ class PracticeDragDropViewController: UIViewController, UICollectionViewDelegate
         colectionViewTwo.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(colectionViewTwo)
         colectionViewTwo.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 8.0).isActive = true
-        colectionViewTwo.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 8.0).isActive = true
+        colectionViewTwo.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -8.0).isActive = true
         colectionViewTwo.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.4).isActive = true
         colectionViewTwo.topAnchor.constraint(equalTo: colectionViewOne.bottomAnchor, constant: 8.0).isActive = true
-        colectionViewTwo.register(PracticeDragDropCellCollectionViewCell.self, forCellWithReuseIdentifier: "dragDropCell")
+        colectionViewTwo.register(PracticeTranslateSentenceCellCollectionViewCell.self, forCellWithReuseIdentifier: "dragDropCell")
         
         view.addSubview(checkButton)
         checkButton.topAnchor.constraint(equalTo: colectionViewTwo.bottomAnchor, constant: 8.0).isActive = true
@@ -307,11 +217,20 @@ class PracticeDragDropViewController: UIViewController, UICollectionViewDelegate
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        var label = UILabel()
+        label.backgroundColor = UIColor.yellow
+        label.font = label.font.withSize(20)
+        label.textAlignment = .center
+        
         if collectionView == colectionViewOne {
-             return CGSize(width: contentCollectionOne[indexPath.row].count * 15, height: 25)
+            // return CGSize(width: contentCollectionOne[indexPath.row].count * 15, height: 25)
+            label.text = contentCollectionOne[indexPath.row]
+        
+            return CGSize(width: label.intrinsicContentSize.width + 10, height: 25)
         }
         else {
-            return CGSize(width: contentCollectionTwo[indexPath.row].count * 18, height: 35)
+            label.text = contentCollectionTwo[indexPath.row]
+            return CGSize(width: label.intrinsicContentSize.width + 20, height: 35)
         }
     }
     
@@ -351,7 +270,7 @@ class PracticeDragDropViewController: UIViewController, UICollectionViewDelegate
     }
     
     func dragItem(at indexpath: IndexPath) -> [UIDragItem]{
-        if let attributedString = (colectionViewOne.cellForItem(at: indexpath) as? PracticeDragDropCellCollectionViewCell)?.cellTextLabel.attributedText{
+        if let attributedString = (colectionViewOne.cellForItem(at: indexpath) as? PracticeTranslateSentenceCellCollectionViewCell)?.cellTextLabel.attributedText{
             let dragItem = UIDragItem(itemProvider: NSItemProvider(object: attributedString))
             dragItem.localObject = attributedString
             return [dragItem]
@@ -373,7 +292,7 @@ class PracticeDragDropViewController: UIViewController, UICollectionViewDelegate
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == colectionViewOne {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "dragDropCell", for: indexPath) as! PracticeDragDropCellCollectionViewCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "dragDropCell", for: indexPath) as! PracticeTranslateSentenceCellCollectionViewCell
             cell.cellTextLabel.text = contentCollectionOne[indexPath.row]
             cell.isUserInteractionEnabled = true
             cell.isUserInteractionEnabled = true
@@ -381,33 +300,31 @@ class PracticeDragDropViewController: UIViewController, UICollectionViewDelegate
             return cell
         }
         else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "dragDropCell", for: indexPath) as! PracticeDragDropCellCollectionViewCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "dragDropCell", for: indexPath) as! PracticeTranslateSentenceCellCollectionViewCell
             cell.cellTextLabel.text = contentCollectionTwo[indexPath.row]
             cell.isUserInteractionEnabled = true
             cell.cellTextLabel.sizeToFit()
-
+            cell.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+            cell.cellTextLabel.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
             return cell
         }
         
     }
 
-    
-    @objc func speakerButtonAction() {
-        
-    }
+ 
     @objc func swipeUp(_ recognizer: UITapGestureRecognizer)  {
           print("single tap")
         if recognizer.state == UIGestureRecognizer.State.ended {
             let tapLocation = recognizer.location(in: self.colectionViewTwo)
             if let tapIndexPath = self.colectionViewTwo.indexPathForItem(at: tapLocation) {
-                
-                let utterance = AVSpeechUtterance(string: String(contentCollectionTwo[tapIndexPath.item].split(separator: "/")[0]))
-                utterance.voice = AVSpeechSynthesisVoice(language: "zh-CN")
-                utterance.rate = 0.5
-                
-                let synthesizer = AVSpeechSynthesizer()
-                synthesizer.speak(utterance)
-                
+                if contentCollectionTwo[tapIndexPath.item].containsChineseCharacters {
+                    let utterance = AVSpeechUtterance(string: String(contentCollectionTwo[tapIndexPath.item].split(separator: "/")[0]))
+                    utterance.voice = AVSpeechSynthesisVoice(language: "zh-CN")
+                    utterance.rate = 0.5
+                    
+                    let synthesizer = AVSpeechSynthesizer()
+                    synthesizer.speak(utterance)
+                }
                 contentCollectionOne.insert(contentCollectionTwo[tapIndexPath.item], at: IndexPath(item: contentCollectionOne.count, section: 0).item)
                 colectionViewOne.reloadData()
                 contentCollectionTwo.remove(at: tapIndexPath.item)
@@ -426,90 +343,28 @@ class PracticeDragDropViewController: UIViewController, UICollectionViewDelegate
                     contentCollectionOne.remove(at: tapIndexPath.item)
                     colectionViewOne.deleteItems(at: [tapIndexPath])
                 
-                practiceDragDrop?.updateScore(with: -10)
-                self.scoreButton.title = "score: " + (practiceDragDrop?.getScore() ?? "00")
+                practiceTranslateSentence?.updateScore(with: -10)
+                self.scoreButton.title = "score: " + (practiceTranslateSentence?.getScore() ?? "00")
             }
         }
     }
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
-    
+
     func loadModel(){
-        textForTranslation.text = practiceDragDrop?.getSentence().english ?? "missing sentence"
+      //  textForTranslation.text = practiceDragDrop?.getSentence().english ?? "missing sentence"
+        progressView.progress = practiceTranslateSentence?.practice?.progressStatus ?? 0.0
+      
+        self.scoreButton.title = "score: " + (practiceTranslateSentence?.getScore() ?? "00")
+        
         contentCollectionOne = []
-        contentCollectionTwo = practiceDragDrop?.getShuffledWords() ?? []
-    }
-}
-
-class LeftAlignedCollectionViewFlowLayout: UICollectionViewFlowLayout {
-    
-  
-    override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
-        let attributes = super.layoutAttributesForElements(in: rect)
-        
-        var leftMargin = sectionInset.left
-        var maxY: CGFloat = -1.0
-        attributes?.forEach { layoutAttribute in
-            if layoutAttribute.frame.origin.y >= maxY {
-                leftMargin = sectionInset.left
-            }
-            
-            layoutAttribute.frame.origin.x = leftMargin
-            
-            leftMargin += layoutAttribute.frame.width + minimumInteritemSpacing
-            maxY = max(layoutAttribute.frame.maxY , maxY)
+        if Bool.random() {
+            textForTranslation.text = practiceTranslateSentence?.getChineseSentence()
+            contentCollectionTwo = practiceTranslateSentence?.getShuffledEnglishWords() ?? [" "]
+        } else {
+            textForTranslation.text = practiceTranslateSentence?.getEnglishSentence()
+            contentCollectionTwo = practiceTranslateSentence?.getShuffledChineseWords() ?? [" "]
         }
-        
-        return attributes
-    }
-}
-
-class StripedView: UIView {
-    
-    override func draw(_ rect: CGRect) {
-        //// Set pattern tile colors width and height; adjust the color width to adjust pattern.
-        let color1 = UIColor.white
-        let color1Width: CGFloat = 30
-        let color1Height: CGFloat = 25 // cell height
-        let color2 = #colorLiteral(red: 0.8647956285, green: 0.8647956285, blue: 0.8647956285, alpha: 1)
-        let color2Width: CGFloat = 1
-        let color2Height: CGFloat = 1
+       // contentCollectionTwo = practiceDragDrop?.getShuffledWords() ?? []
         
         
-        //// Set pattern tile orientation vertical.
-        let patternWidth: CGFloat = min(color1Width, color2Width)
-        let patternHeight: CGFloat = (color1Height + color2Height)
-        
-        //// Set pattern tile size.
-        let patternSize = CGSize(width: patternWidth, height: patternHeight)
-        
-        //// Draw pattern tile
-        let context = UIGraphicsGetCurrentContext()
-        UIGraphicsBeginImageContextWithOptions(patternSize, false, 0.0)
-        
-        let color1Path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: color1Width, height: color1Height))
-        color1.setFill()
-        color1Path.fill()
-        
-        let color2Path = UIBezierPath(rect: CGRect(x: 0, y: color1Height, width: color2Width, height: color2Height))
-        color2.setFill()
-        color2Path.fill()
-        
-        
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        //// Draw pattern in view
-        UIColor(patternImage: image!).setFill()
-        context!.fill(rect)
     }
 }

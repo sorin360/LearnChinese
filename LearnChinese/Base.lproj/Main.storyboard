@@ -630,7 +630,7 @@
         <!--Title-->
         <scene sceneID="WYe-Nn-hav">
             <objects>
-                <viewController id="1Df-yl-A3V" customClass="PracticeDragDropViewController" customModule="LearnChinese" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="1Df-yl-A3V" customClass="PracticeTranslateSentenceViewController" customModule="LearnChinese" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="4zA-XN-Mth">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -685,7 +685,7 @@
                                     <action selector="checkButton:" destination="1Df-yl-A3V" eventType="touchUpInside" id="yOF-gu-Jyt"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="missing sentence" lineBreakMode="tailTruncation" numberOfLines="6" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ua9-dO-SRV">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="djasnd s;ad a;sd asj d;askdj ;asjd a;sjd a;sdj asj das;jd a;skdja;skdj" lineBreakMode="tailTruncation" numberOfLines="0" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ua9-dO-SRV">
                                 <rect key="frame" x="8" y="80" width="359" height="40"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
