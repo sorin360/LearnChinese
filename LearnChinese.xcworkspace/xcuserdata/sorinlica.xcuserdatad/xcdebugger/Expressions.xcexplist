@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "closure #2 in UIViewController.showInputDialog(title:subtitle:actionTitle:cancelTitle:inputPlaceholder:inputKeyboardType:cancelHandler:actionHandler:):UIViewControllerExtensions.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "textField.text">
+            </PersistentString>
+            <PersistentString
+               value = "textField.text != &quot;&quot;">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PracticeTranslateSentence.getShuffledChineseWords():PracticeTranslateSentence.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "hanzi.count == pinyin.count">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PracticeTranslateWord.getChineseWord():PracticeTranslateWord.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "words">
+            </PersistentString>
+            <PersistentString
+               value = "curentWordIndex">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "FlashcardCollectionViewCell.init(frame:):FlashcardCollectionViewCell.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "hanziLabelCollectionCell">
+            </PersistentString>
+            <PersistentString
+               value = "self.hanziLabelCollectionCell.bottomAnchor">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "FlashcardsCollectionViewController.viewDidLoad():FlashcardsCollectionViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = " navigationController?.navigationItem.titleView">
+            </PersistentString>
+            <PersistentString
+               value = "navigationItem.titleView">
+            </PersistentString>
+            <PersistentString
+               value = "navigationItem.backBarButtonItem">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "FlashcardDetailsCollectionViewController.viewDidLoad():FlashcardDetailsCollectionViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "indexPath">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PracticeDragDrop.getShuffledChineseWords():PracticeDragDrop.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.sentences[curentSentenceIndex].english">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SearchTableViewController.viewDidLoad():SearchTableViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.navigationItem">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PracticeTranslateWordViewController.viewWillAppear(_:):PracticeTranslateWordViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.practiceTranslateWord?.practice?.progressStatus">
+            </PersistentString>
+            <PersistentString
+               value = "Int((self.practiceTranslateWord?.practice?.progressStatus)!)">
+            </PersistentString>
+            <PersistentString
+               value = "practiceTranslateWord?.practice?.score">
+            </PersistentString>
+            <PersistentString
+               value = "(((self.practiceTranslateWord?.practice?.progressStatus)! * 10).rounded())">
+            </PersistentString>
+            <PersistentString
+               value = "textForTranslation.text">
+            </PersistentString>
+            <PersistentString
+               value = "textForTranslation.text?">
+            </PersistentString>
+            <PersistentString
+               value = "self.practiceTranslateWord?.practice?.progressStatus.rounded()">
+            </PersistentString>
+            <PersistentString
+               value = "0.6.round()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "static Scores.getLast7DaysScores():Scores.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "result[index].time != Calendar.current.date(byAdding: .day, value: 0 - index, to: today)?.stripTime()">
+            </PersistentString>
+            <PersistentString
+               value = "Calendar.current.date(byAdding: .day, value: 0 - index, to: today)?.stripTime()">
+            </PersistentString>
+            <PersistentString
+               value = "result[1].time">
+            </PersistentString>
+            <PersistentString
+               value = "result[2].time == result[1].time">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "Home.getChartSeries():Home.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #1 in TabBarController.viewDidAppear(_:):TabBarController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "FlashcardsCollectionViewController.collectionView(_:cellForItemAt:):FlashcardsCollectionViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "words[indexPath.row].chinese">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "FlashcardDetailsCollectionViewController.viewWillAppear(_:):FlashcardDetailsCollectionViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "indexPath">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PracticeViewController.collectionView(_:cellForItemAt:):PracticeViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "colectionViewZero.contentSize.height">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "HomeViewController.setupViews():HomeViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "contentView.frame">
+            </PersistentString>
+            <PersistentString
+               value = "contentView.widthAnchor">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PracticeTableViewController.viewWillAppear(_:):PracticeTableViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "asd">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "Date.stripTime():Scores.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "Calendar.current.date(bySettingHour: 1, minute: 30, second: 0, of: Date())">
+            </PersistentString>
+            <PersistentString
+               value = "TimeZone.current.secondsFromGMT()">
+            </PersistentString>
+            <PersistentString
+               value = "Calendar.current.date(bySetting: .hour, value: 0, of: Date())">
+            </PersistentString>
+            <PersistentString
+               value = "dateFormatter.date(from: localDate)">
+            </PersistentString>
+            <PersistentString
+               value = "localDate">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PracticeDragDropViewController.viewWillAppear(_:):PracticeDragDropViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "practiceDragDrop?.sentences.count">
+            </PersistentString>
+            <PersistentString
+               value = "practiceDragDrop">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "FlashcardsTableViewController.tableView(_:numberOfRowsInSection:):FlashcardsTableViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "myFlshcardsBunchList">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "FlashcardCollectionViewCell.layoutSubviews():FlashcardCollectionViewCell.swift">
+      </ContextState>
+      <ContextState
+         contextName = "PracticeDragDropViewController.loadModel():PracticeDragDropViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "practiceDragDrop?.getSentence().english">
+            </PersistentString>
+            <PersistentString
+               value = "practiceDragDrop?.getSentence()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PracticeTranslateSentenceCellCollectionViewCell.layoutSubviews():PracticeTranslateSentenceCellCollectionViewCell.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "chineseLabel.intrinsicContentSize.width">
+            </PersistentString>
+            <PersistentString
+               value = "self.layer.width">
+            </PersistentString>
+            <PersistentString
+               value = "chineseLabel.text">
+            </PersistentString>
+            <PersistentString
+               value = "self.layer.frame.width">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #1 in FlashcardsTableViewController.addButtonAction():FlashcardsTableViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "newLib.name">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PracticeTranslateSentenceViewController.collectionView(_:layout:sizeForItemAt:):PracticeTranslateSentenceViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "contentCollectionOne">
+            </PersistentString>
+            <PersistentString
+               value = "contentCollectionTwo[indexPath.row].chinese&#10;contentCollectionTwo[indexPath.row].chinese&#10;">
+            </PersistentString>
+            <PersistentString
+               value = "contentCollectionTwo[indexPath.row].pinyin">
+            </PersistentString>
+            <PersistentString
+               value = "contentCollectionZero[indexPath.row].pinyin">
+            </PersistentString>
+            <PersistentString
+               value = "contentCollectionTwo[indexPath.row].chinese">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PracticeTranslateSentenceViewController.viewDidLoad():PracticeTranslateSentenceViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "colectionViewTwo">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PracticeTableViewController.startPracticeAction():PracticeTableViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "myFlshcardsBunchList">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PracticeTranslateSentence.getChineseSentence():PracticeTranslateSentence.swift">
+      </ContextState>
+      <ContextState
+         contextName = "PracticeManagerViewController.viewWillAppear(_:):PracticeManagerViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "practiceTranslateWordViewController.lifeStatus">
+            </PersistentString>
+            <PersistentString
+               value = "Bool.random() ">
+            </PersistentString>
+            <PersistentString
+               value = "practiceTranslateWord?.words.count">
+            </PersistentString>
+            <PersistentString
+               value = "practiceTranslateSentence">
+            </PersistentString>
+            <PersistentString
+               value = "practiceTranslateWord?.curentWordIndex">
+            </PersistentString>
+            <PersistentString
+               value = "practice.lifeStatus">
+            </PersistentString>
+            <PersistentString
+               value = "practiceTranslateSentenceViewController.lifeStatus">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "FlashcardsCollectionViewController.doneClick():FlashcardsCollectionViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "words">
+            </PersistentString>
+            <PersistentString
+               value = "row">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "FlashcardsTableViewController.tableView(_:cellForRowAt:):FlashcardsTableViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "cell.detailTextLabel?">
+            </PersistentString>
+            <PersistentString
+               value = "myFlshcardsBunchList[indexPath.row].name">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PracticeTranslateSentenceViewController.swipeUp(_:):PracticeTranslateSentenceViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "String(contentCollectionTwo[tapIndexPath.item].split(separator: &quot;/&quot;)[0])">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "FlashcardDetailsCollectionViewCell.word.didset:FlashcardDetailsCollectionViewCell.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = " word?.veryKnown">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PracticeViewController.viewDidLoad():PracticeViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "colectionViewZero.contentSize.height">
+            </PersistentString>
+            <PersistentString
+               value = "colectionViewZero">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "FlashcardsCollectionViewController.viewWillAppear(_:):FlashcardsCollectionViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "selectedSegmentIndex">
+            </PersistentString>
+            <PersistentString
+               value = "filterButtonOutlet.customView">
+            </PersistentString>
+            <PersistentString
+               value = "words">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PracticeTranslateWord.getEnglishWord():PracticeTranslateWord.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "curentWordIndex">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SearchTableViewController.tableView(_:cellForRowAt:):SearchTableViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "filtered[indexPath.row].chinese">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PracticeTranslateWord.check(theAnswer:):PracticeTranslateWord.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "practice?.score">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "FlashcardDetailsCollectionViewCell.AddToLibraryButton.didset:FlashcardDetailsCollectionViewCell.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "word">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PracticeTranslateSentence.check(theAnswer:):PracticeTranslateSentence.swift">
+      </ContextState>
+      <ContextState
+         contextName = "PracticeDragDropViewController.collectionView(_:numberOfItemsInSection:):PracticeDragDropViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "contentCollectionTwo">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PracticeViewController.collectionView(_:layout:sizeForItemAt:):PracticeViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "contentCollectionZero[indexPath.row].pinyin">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PracticeDragDropViewController.lifeStatus.didset:PracticeDragDropViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "lifeStatus">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "static Scores.update(with:at:):Scores.swift">
+      </ContextState>
+      <ContextState
+         contextName = "PracticeDragDrop.check(theAnswer:):PracticeDragDrop.swift">
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>
