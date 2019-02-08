@@ -34,45 +34,45 @@ class PracticeTranslateWord {
       
     }
     
-    func getEnglishWord() -> String{
+    func getEnglishWord() -> WordPracticeModel{
         let words =  self.words[curentWordIndex]
         let shortTranslations = words.english?.split(separator: ",")
         if shortTranslations != nil {
-            return String(shortTranslations?[0] ?? " ")
+            return WordPracticeModel(chinese:  String(shortTranslations?[0] ?? " "), pinyin: "")
         } else {
-            return words.english ?? " "
+            return WordPracticeModel(chinese: words.english ?? " ", pinyin: "")
         }
        // sentence.priority -= 1
        // Sentences.update(with: sentence)
    
     }
     
-    func getChineseWord() -> String{
+    func getChineseWord() -> WordPracticeModel{
    
         let word =  self.words[curentWordIndex]
         let hanzi = word.chinese ?? " "
         let pinyin = word.pinyin ?? " "
-        let chineseWord = hanzi + "/"+pinyin
+       // let chineseWord = hanzi + "/"+pinyin
       //  sentence.priority -= 1
       //  Sentences.update(with: sentence)
-        return chineseWord
+        return WordPracticeModel(chinese: hanzi, pinyin: pinyin)
     }
     
     
-    func getShuffledChineseWords() -> [String]{
+    func getShuffledChineseWords() -> [WordPracticeModel]{
         
-        var shiffledWords:[String] = []
+        var shiffledWords:[WordPracticeModel] = []
         if words.count > 3 {
             while shiffledWords.count < 3 {
                 let randomNumber = Int.random(in: 0..<words.count)
-                if randomNumber != curentWordIndex && !shiffledWords.contains((words[randomNumber].chinese ?? " ") + "/" + (words[randomNumber].pinyin ?? " ")){
-                    shiffledWords += [(words[randomNumber].chinese ?? " ") + "/" + (words[randomNumber].pinyin ?? " ")]
+                if randomNumber != curentWordIndex && !shiffledWords.contains {$0.chinese == words[randomNumber].chinese } {
+                    shiffledWords += [WordPracticeModel(chinese: words[randomNumber].chinese ?? "", pinyin: words[randomNumber].pinyin ?? "")]
                 }
             }
-            shiffledWords += [(words[curentWordIndex].chinese ?? " ") + "/" + (words[curentWordIndex].pinyin ?? " ")]
+            shiffledWords += [WordPracticeModel(chinese: words[curentWordIndex].chinese ?? "", pinyin: words[curentWordIndex].pinyin ?? "")]
         } else {
             for index in words.indices {
-                shiffledWords += [(words[index].chinese ?? " ") + "/" + (words[index].pinyin ?? " ")]
+                shiffledWords += [WordPracticeModel(chinese: words[index].chinese ?? "", pinyin: words[index].pinyin ?? "")]
             }
         }
         curentWordIndex += 1
@@ -82,41 +82,44 @@ class PracticeTranslateWord {
     }
    
     
-    func getShuffledEnglishWords() -> [String]{
+    func getShuffledEnglishWords() -> [WordPracticeModel]{
       
-        var shiffledWords:[String] = []
+        var shiffledWords:[WordPracticeModel] = []
         if words.count > 3 {
             while shiffledWords.count < 3 {
                 let randomNumber = Int.random(in: 0..<words.count)
-                if randomNumber != curentWordIndex && !shiffledWords.contains(words[randomNumber].shortTranslation()){
+                if randomNumber != curentWordIndex && !shiffledWords.contains {$0.chinese == words[randomNumber].shortTranslation() } {
                     
-                    shiffledWords += [words[randomNumber].shortTranslation()]
+                    shiffledWords += [WordPracticeModel(chinese: words[randomNumber].shortTranslation(), pinyin: "")]
                 }
             }
-            shiffledWords += [words[curentWordIndex].shortTranslation()]
+            shiffledWords += [WordPracticeModel(chinese: words[curentWordIndex].shortTranslation(), pinyin: "")]
         } else {
             for index in words.indices {
-                shiffledWords += [words[index].shortTranslation()]
+                shiffledWords += [WordPracticeModel(chinese: words[index].shortTranslation(), pinyin: "")]
             }
         }
         curentWordIndex += 1
         shiffledWords.shuffle()
         return shiffledWords
         
+    }
+ 
+    func getCorectAnswer() -> String {
+        let corectAnswer = words[curentWordIndex - 1].chinese ?? " "
+        return corectAnswer
     }
     
     func check(theAnswer answer: String) ->(Bool,String){
         
         var corectAnswer: String = ""
         if answer.containsChineseCharacters {
-            let hanzi = self.words[curentWordIndex - 1].chinese ?? " "
-            let pinyin = self.words[curentWordIndex - 1].pinyin ?? " "
-            
-            corectAnswer = hanzi + "/" + pinyin
+ 
+            corectAnswer = self.words[curentWordIndex - 1].chinese ?? " "
         } else {
             corectAnswer = self.words[curentWordIndex - 1].shortTranslation()
         }
-        print(corectAnswer)
+       
         
         if (answer == corectAnswer) {
             practice?.score += 100

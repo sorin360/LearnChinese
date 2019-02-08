@@ -10,7 +10,7 @@ import UIKit
 
 class SettingsTableViewController: UITableViewController {
 
-    var options = ["Feedback", "Rate the App", "Help", "Terms of use", "About"]
+    var options = ["Feedback", "Help", "Terms of use", "About"]
     override func viewDidLoad() {
         super.viewDidLoad()
     tableView.isScrollEnabled = false
@@ -40,7 +40,8 @@ class SettingsTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
 
         cell.textLabel?.text = options[indexPath.row]
-
+        
+        
         return cell
     }
     
@@ -48,11 +49,23 @@ class SettingsTableViewController: UITableViewController {
         
         switch options[indexPath.row] {
         case "Terms of use":
-            guard let url = URL(string: "https://google.com") else { return }
+            guard let url = URL(string: "https://sorin360.github.io/LearnChineseResources/termsAndConditions.html") else { return }
             UIApplication.shared.open(url)
+        case "Help":
+            guard let url = URL(string: "https://sorin360.github.io/LearnChineseResources/home.html") else { return }
+            UIApplication.shared.open(url)
+        case "About":
+            guard let url = URL(string: "https://sorin360.github.io/LearnChineseResources/home.html") else { return }
+            UIApplication.shared.open(url)
+        case "Feedback":
+            let email = "lica404@gmail.com"
+            if let url = URL(string: "mailto:\(email)") {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
         default:
-            guard let url = URL(string: "https://google.com") else { return }
-            UIApplication.shared.open(url)
+            break
+         //   guard let url = URL(string: "https://google.com") else { return }
+          //  UIApplication.shared.open(url)
         }
     }
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {

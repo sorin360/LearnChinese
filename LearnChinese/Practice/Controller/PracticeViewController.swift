@@ -9,7 +9,10 @@
 import UIKit
 import AVFoundation
 
-class PracticeViewController: UIViewController {
+class PracticeViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
+    
+  
+    var chineseSentence = true
     
     var lifeStatus = 4 { //"⭐️⭐️⭐️⭐️" {
         didSet{
@@ -29,16 +32,20 @@ class PracticeViewController: UIViewController {
                                        actionTitle: "OK", cancelActionTitle: nil)
                 { () in
                     
-                    self.navigationController?.popViewController(animated: true)
+                    self.navigationController?.popToRootViewController(animated: true)
                 }
             }
         }
     }
     
+    let synthesizer = AVSpeechSynthesizer()
+    
     var speakerButton: UIButton = {
         var button = UIButton()
         button.setImage(UIImage(named: "speaker"), for: .normal)
         button.tintColor = #colorLiteral(red: 0.06727838991, green: 1, blue: 0.2576389901, alpha: 1)
+        button.backgroundColor = #colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1)
+        button.layer.cornerRadius = 10.0
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -55,7 +62,9 @@ class PracticeViewController: UIViewController {
         button.layer.borderColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
         button.setTitleColor(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 1), for: .normal)
         button.isEnabled = false
+        
         button.setTitle("Check", for: UIControl.State.normal)
+        button.titleLabel?.font = button.titleLabel?.font.withSize(20)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -64,31 +73,70 @@ class PracticeViewController: UIViewController {
         var progress = UIProgressView()
         progress.setProgress(0.0, animated: true)
         progress.trackTintColor = UIColor.white
-        progress.progressTintColor = UIColor.green
+        progress.progressTintColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
         progress.translatesAutoresizingMaskIntoConstraints = false
         return progress
     }()
     
+    var contentCollectionZero:[WordPracticeModel] = []
+   
     
-    var textForTranslation: UILabel = {
-        var label = UILabel()
+    var colectionViewZero: UICollectionView! {
+        didSet{
+            colectionViewZero.dataSource = self
+            colectionViewZero.delegate = self
+            let alignedFlowLayout = LeftAlignedCollectionViewFlowLayout()
+            alignedFlowLayout.minimumInteritemSpacing = 1
+            alignedFlowLayout.minimumLineSpacing = 1.5
+            colectionViewZero.collectionViewLayout = alignedFlowLayout
+
+            colectionViewZero.backgroundColor = UIColor.white
+      
+        }
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let label = UILabel()
+        label.backgroundColor = UIColor.yellow
         label.font = label.font.withSize(20)
-        label.numberOfLines = 0
-        label.lineBreakMode = .byWordWrapping
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+        label.textAlignment = .center
+           if chineseSentence {
+                label.text = contentCollectionZero[indexPath.row].pinyin
+                return CGSize(width: label.intrinsicContentSize.width + 20, height: 45)
+            } else {
+                label.text = contentCollectionZero[indexPath.row].chinese
+                return CGSize(width: label.intrinsicContentSize.width + 20, height: 30)
+            }
+        
+    }
+    var verticalLayoutConstraint: NSLayoutConstraint!
     
-    
-    @objc func speakerButtonAction() {
-        let utterance = AVSpeechUtterance(string: textForTranslation.text ?? " ")
-        utterance.voice = AVSpeechSynthesisVoice(language: "zh-CN")
-        utterance.rate = 0.5
-        let synthesizer = AVSpeechSynthesizer()
-        synthesizer.speak(utterance)
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return contentCollectionZero.count
     }
     
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "dragDropCell", for: indexPath) as! PracticeTranslateSentenceCellCollectionViewCell
+        if !chineseSentence {
+            cell.chineseLabel.text = contentCollectionZero[indexPath.row].chinese
+            cell.pinyinLabel.text = " "
+        } else {
+            cell.chineseLabel.text = contentCollectionZero[indexPath.row].chinese
+            cell.pinyinLabel.text = contentCollectionZero[indexPath.row].pinyin
+        }
+        cell.isUserInteractionEnabled = true
+        cell.chineseLabel.sizeToFit()
+        cell.pinyinLabel.sizeToFit()
+        cell.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        // cell.chineseLabel.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        // cell.pinyinLabel.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+     self.verticalLayoutConstraint.constant = self.colectionViewZero.contentSize.height
+      
+       // colectionViewZero.constra
+        return cell
+    }
     
+  
     @objc func endPracticeButtonAction() {
         showMessageDialog(title: "Are you sure you want to end this sesion?", subtitle: "The score gained by now won't be saved", actionTitle: "OK", cancelActionTitle: "Cancel") { () in
             self.navigationController?.popToRootViewController(animated: true)
@@ -101,10 +149,8 @@ class PracticeViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
         
-        speakerButton.addTarget(self, action: #selector(self.speakerButtonAction), for: UIControl.Event.touchDown)
-        
-        lifeStatus = 4
-        
+      
+       
         self.scoreButton = UIBarButtonItem(title: "score: 0", style: .plain, target: self, action: nil)
         navigationItem.rightBarButtonItem = scoreButton
         
@@ -119,20 +165,27 @@ class PracticeViewController: UIViewController {
         
         view.addSubview(speakerButton)
         
-        view.addSubview(textForTranslation)
+        self.colectionViewZero = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
         
-        speakerButton.heightAnchor.constraint(equalToConstant: 25.0).isActive = true
-        speakerButton.widthAnchor.constraint(equalToConstant: 25.0).isActive = true
+        colectionViewZero.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(colectionViewZero)
+        
+        speakerButton.heightAnchor.constraint(equalToConstant: 35.0).isActive = true
+        speakerButton.widthAnchor.constraint(equalToConstant: 35.0).isActive = true
         speakerButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 8.0).isActive = true
-        speakerButton.rightAnchor.constraint(equalTo: textForTranslation.leftAnchor, constant: -4.0).isActive = true
-        speakerButton.topAnchor.constraint(equalTo: progressView.bottomAnchor, constant: 8.0).isActive = true
+        speakerButton.rightAnchor.constraint(equalTo: colectionViewZero.leftAnchor, constant: -5.0).isActive = true
+        speakerButton.topAnchor.constraint(equalTo: progressView.bottomAnchor, constant: 10.0).isActive = true
         
         
         
-        textForTranslation.leftAnchor.constraint(equalTo: speakerButton.rightAnchor).isActive = true
-        textForTranslation.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 8.0).isActive = true
-        textForTranslation.topAnchor.constraint(equalTo: progressView.bottomAnchor, constant: 8.0).isActive = true
-        
-        
+        colectionViewZero.leftAnchor.constraint(equalTo: speakerButton.rightAnchor).isActive = true
+        colectionViewZero.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -8.0).isActive = true
+        colectionViewZero.topAnchor.constraint(equalTo: progressView.bottomAnchor, constant: 10.0).isActive = true
+       verticalLayoutConstraint = colectionViewZero.heightAnchor.constraint(equalToConstant: 10)
+        verticalLayoutConstraint.isActive = true
+          colectionViewZero.register(PracticeTranslateSentenceCellCollectionViewCell.self, forCellWithReuseIdentifier: "dragDropCell")
+     
     }
+    
 }

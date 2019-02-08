@@ -19,51 +19,72 @@ class PracticeTranslateSentence {
         sentences = Sentences.getSentences(for: myFlashcards, hsk: hskFlashcards)
     }
     
-    func getEnglishSentence() -> String{
+    func getEnglishSentence() -> [WordPracticeModel]{
+        
         let sentence =  self.sentences[curentSentenceIndex]
+        var englishSentence: [WordPracticeModel] = []
+        var english = sentence.english?.split(separator: " ") ?? []
+            for index in english.indices {
+                let word = WordPracticeModel(chinese: String(english[index]), pinyin: "" )
+                englishSentence += [word]
+            }
         sentence.priority -= 1
         Sentences.update(with: sentence)
-        return sentence.english ?? " "
+        return englishSentence
     }
     
-    func getChineseSentence() -> String{
-        var chineseSentence:String = ""
+    func getChineseSentence() -> [WordPracticeModel]{
+        var chineseSentence: [WordPracticeModel] = []
         let sentence =  self.sentences[curentSentenceIndex]
         var hanzi = sentence.chinese?.map{String($0)} ?? []
         var pinyin = sentence.pinyin?.split(separator: " ") ?? []
+  
         if hanzi.count == pinyin.count {
             for index in hanzi.indices {
-               chineseSentence += hanzi[index]+"/"+pinyin[index]+" "
+                let word = WordPracticeModel(chinese: hanzi[index], pinyin: String(pinyin[index]) )
+                chineseSentence += [word]
             }
         }
-        
+
         sentence.priority -= 1
         Sentences.update(with: sentence)
         return chineseSentence
     }
     
     
-    func getShuffledChineseWords() -> [String]{
-        var shiffledWords:[String] = []
+    func getShuffledChineseWords() -> [WordPracticeModel]{
+        var shiffledWords:[WordPracticeModel] = []
         var hanzi = self.sentences[curentSentenceIndex].chinese?.map{String($0)} ?? []
         var pinyin = self.sentences[curentSentenceIndex].pinyin?.split(separator: " ") ?? []
-        for index in hanzi.indices {
-            shiffledWords += [hanzi[index]+"/"+pinyin[index]]
+        
+        if hanzi.count == pinyin.count {
+            for index in hanzi.indices {
+                 let word = WordPracticeModel(chinese: hanzi[index], pinyin: String(pinyin[index]) )
+                shiffledWords += [word]
+            }
         }
         if (sentences.count > curentSentenceIndex + 1) {
             
             var hanzi = self.sentences[curentSentenceIndex + 1].chinese?.map{String($0)} ?? []
             var pinyin = self.sentences[curentSentenceIndex + 1].pinyin?.split(separator: " ") ?? []
-            for index in hanzi.indices {
-                shiffledWords += [hanzi[index]+"/"+pinyin[index]]
+            if hanzi.count == pinyin.count {
+                for index in hanzi.indices {
+                    let word = WordPracticeModel(chinese: hanzi[index], pinyin: String(pinyin[index]) )
+                   // word.chinese = hanzi[index]
+                   // word.pinyin = String(pinyin[index])
+                    shiffledWords += [word]
+                }
             }
         }
         else {
             if sentences.count > 0 {
-                var hanzi = self.sentences[curentSentenceIndex - 1].chinese?.map{String($0)} ?? []
-                var pinyin = self.sentences[curentSentenceIndex - 1].pinyin?.map{String($0)} ?? []
-                for index in hanzi.indices {
-                    shiffledWords += [hanzi[index]+"/"+pinyin[index]]
+                if hanzi.count == pinyin.count {
+                    var hanzi = self.sentences[curentSentenceIndex - 1].chinese?.map{String($0)} ?? []
+                    var pinyin = self.sentences[curentSentenceIndex - 1].pinyin?.map{String($0)} ?? []
+                    for index in hanzi.indices {
+                         let word = WordPracticeModel(chinese: hanzi[index], pinyin: String(pinyin[index]) )
+                        shiffledWords += [word]
+                    }
                 }
             }
         }
@@ -73,14 +94,14 @@ class PracticeTranslateSentence {
         
     }
     
-    func getShuffledEnglishWords() -> [String]{
+    func getShuffledEnglishWords() -> [WordPracticeModel]{
         //var shiffledWords:[String] = []//
-        var shiffledWords = self.sentences[curentSentenceIndex].english?.split(separator: " ") ?? []
+        var shiffledWordsString = self.sentences[curentSentenceIndex].english?.split(separator: " ") ?? []
        /* for index in hanzi.indices {
             shiffledWords += [hanzi[index]+"/"+pinyin[index]]
         }*/
         if (sentences.count > curentSentenceIndex + 1) {
-            shiffledWords += self.sentences[curentSentenceIndex + 1].english?.split(separator: " ") ?? []
+            shiffledWordsString += self.sentences[curentSentenceIndex + 1].english?.split(separator: " ") ?? []
            /* var hanzi = self.sentences[curentSentenceIndex + 1].chinese?.map{String($0)} ?? []
             var pinyin = self.sentences[curentSentenceIndex + 1].pinyin?.split(separator: " ") ?? []
             for index in hanzi.indices {
@@ -89,27 +110,37 @@ class PracticeTranslateSentence {
         }
         else {
             if sentences.count > 0 {
-                shiffledWords += self.sentences[curentSentenceIndex - 1].english?.split(separator: " ") ?? []
+                shiffledWordsString += self.sentences[curentSentenceIndex - 1].english?.split(separator: " ") ?? []
             }
         }
         curentSentenceIndex += 1
-        shiffledWords.shuffle()
-        var shiffledWordsString: [String] = []
-        for index in shiffledWords.indices {
-            shiffledWordsString += [String(shiffledWords[index])]
+        shiffledWordsString.shuffle()
+        
+        var shiffledWords: [WordPracticeModel] = []
+        for index in shiffledWordsString.indices {
+            let word = WordPracticeModel(chinese: String(shiffledWordsString[index]), pinyin: "" )
+          //  word.english = String(shiffledWordsString[index])
+            shiffledWords += [word]
         }
-        return shiffledWordsString
+        return shiffledWords
         
     }
+    
+    func getChineseTextOrCorectAnswer() -> String {
+        let corectAnswerString = self.sentences[curentSentenceIndex - 1].chinese
+        return corectAnswerString ?? " "
+       
+    }
+    
     
     func check(theAnswer answer: [String]) ->(Bool,String){
        
         var corectAnswer:[String] = []
         if answer.joined(separator: " ").containsChineseCharacters {
             var hanzi = self.sentences[curentSentenceIndex - 1].chinese?.map{String($0)} ?? []
-            var pinyin = self.sentences[curentSentenceIndex - 1].pinyin?.split(separator: " ") ?? []
+           // var pinyin = self.sentences[curentSentenceIndex - 1].pinyin?.split(separator: " ") ?? []
             for index in hanzi.indices {
-                corectAnswer += [hanzi[index]+"/"+pinyin[index]]
+                corectAnswer += [String(hanzi[index])]
             }
         } else {
             var english = self.sentences[curentSentenceIndex - 1].english?.split(separator: " ") ?? []
@@ -117,7 +148,7 @@ class PracticeTranslateSentence {
                 corectAnswer += [String(english[index])]
             }
         }
-        print(corectAnswer)
+       
         let corectAnswerString = corectAnswer.joined(separator: " ")
         
         if answer.elementsEqual(corectAnswer) {

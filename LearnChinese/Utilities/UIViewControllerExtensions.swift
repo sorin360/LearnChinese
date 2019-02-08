@@ -79,13 +79,16 @@ extension UIViewController {
         alert.addTextField { (textField:UITextField) in
             textField.placeholder = inputPlaceholder
             textField.keyboardType = inputKeyboardType
+        
         }
         alert.addAction(UIAlertAction(title: actionTitle, style: .destructive, handler: { (action:UIAlertAction) in
             guard let textField =  alert.textFields?.first else {
                 actionHandler?(nil)
                 return
             }
-            actionHandler?(textField.text)
+            if textField.text != "" {
+                actionHandler?(textField.text)
+            }
         }))
         alert.addAction(UIAlertAction(title: cancelTitle, style: .cancel, handler: cancelHandler))
         

@@ -13,21 +13,31 @@ class Sentences: NSManagedObject {
 
     static func addSentences(in context: NSManagedObjectContext, with data: [CodableSentencesModel]){
         
+        var exception = false
         for sentence in data {
-            let newSentence = Sentences(context: context)
-            newSentence.id = UUID.init()
-            newSentence.chinese = sentence.hanzi
-            newSentence.pinyin = sentence.pinyin
-            newSentence.english = sentence.english
-            newSentence.priority = 0
+            let hanzi = sentence.hanzi.map{String($0)}
+            let pinyin = sentence.pinyin?.split(separator: " ") 
+            if hanzi?.count == pinyin?.count {
+                let newSentence = Sentences(context: context)
+                newSentence.id = UUID.init()
+                newSentence.chinese = sentence.hanzi
+                newSentence.pinyin = sentence.pinyin
+                newSentence.english = sentence.english
+                newSentence.priority = 0
+            }
+
             do {
+               
                 try context.save()
-                UserDefaults.standard.set(true, forKey: "firstUse")
-            } catch let error as NSError {
-                print("Could not save. \(error), \(error.userInfo)")
+                
+            } catch _ as NSError {
+                exception = true
             }
         }
-        
+       
+        if !exception {
+            UserDefaults.standard.set(true, forKey: "firstUse")
+        }
     }
     
     static func update(with sentence: Sentences){
@@ -138,7 +148,7 @@ class Sentences: NSManagedObject {
             //Prepare the request of type NSFetchRequest  for the entity
             let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Sentences")
             
-            var selectedWords:[String] = [""," ","。","，","? "," ","？","1","2","3","4"]
+            var selectedWords:[String] = [""," ","。","，","? "," ","？","1","2","3","4","5","6","7","8","9","0"]
             
             for index in myFlashcardsSelected.indices {
                 let words = myFlashcardsSelected[index].words?.allObjects as! [Words]
@@ -148,6 +158,12 @@ class Sentences: NSManagedObject {
                 let words = hskFlashcardsSelected[index].words?.allObjects as! [Words]
                 let _ = words.map { selectedWords += ($0.chinese?.map{ String($0)  }) ?? [] }
             }
+            
+            let wellKnownWords = Words.getKnownWords()
+          
+            let _ = wellKnownWords.map { selectedWords += ($0.chinese?.map{ String($0)  }) ?? [] }
+            
+            
             let listSet = Set(selectedWords)
            
             let sort = NSSortDescriptor(key: "priority", ascending: false)

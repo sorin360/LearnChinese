@@ -12,18 +12,21 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate{
 
     
 
-    let searchController = UISearchController(searchResultsController: nil)
+   // let searchController = UISearchController(searchResultsController: nil)
     var filtered:[Words] = []
+    let searchBar = UISearchBar()
+   //   let searchBar
     
     override func viewDidLoad() {
-        let searchBar = UISearchBar()
+        
         searchBar.placeholder = "Chinese/English"
          searchBar.showsCancelButton = false
         searchBar.delegate = self
-        self.navigationItem.titleView = searchBar
+        
         self.tableView.register(SearchTableViewCell.self, forCellReuseIdentifier: "Cell")
         self.tableView.keyboardDismissMode = .onDrag
        // self.navigationItem.backBarButtonItem?.tintColor = UIColor.green
+    self.navigationItem.titleView = searchBar
          navigationController?.navigationBar.tintColor = UIColor.green
         self.view.backgroundColor = UIColor.white
         super.viewDidLoad()
@@ -77,6 +80,7 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate{
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
       //  if let selectedCell = sender as? UITableViewCell {
           //  if let selectedCellIndex = tableView.indexPath(for: selectedCell) {
+
         let destination = FlashcardDetailsCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout.init())
             destination.words = filtered
             destination.indexPath = indexPath
@@ -88,7 +92,9 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate{
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 50.0
     }
-
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 45.0
+    }
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

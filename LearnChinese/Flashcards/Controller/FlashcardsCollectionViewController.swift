@@ -168,8 +168,6 @@ class FlashcardsCollectionViewController: UICollectionViewController,  UIPickerV
                 words.sort(by: {($0.pinyin ?? "") < ($1.pinyin ?? "")})
             case .pinyinDes:
                 words.sort(by: {($0.pinyin ?? "") > ($1.pinyin ?? "")})
-            default:
-                break
             }
           
         }
@@ -272,21 +270,24 @@ class FlashcardsCollectionViewController: UICollectionViewController,  UIPickerV
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // Pass the selected object to the new view controller.
+        print("asta\(Date())")
         let destination = FlashcardDetailsCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout.init())
 
         destination.words = words
-        print("wor\(words[indexPath.row].pinyin)")
-        if let selectedCell = collectionView as? FlashcardCollectionViewCell {
+       // print("wor\(words[indexPath.row].pinyin)")
+     /*   if let selectedCell = collectionView as? FlashcardCollectionViewCell {
             if let selectedCellIndex = collectionView.indexPath(for: selectedCell) {
               
    
-                    print("worddd\(words[selectedCellIndex.row].pinyin)")
+                  //  print("worddd\(words[selectedCellIndex.row].pinyin)")
                 
                 // TO DO: do not get all the words
             }
-        }
+        }*/
         destination.indexPath = indexPath
+             print("asta\(Date())")
         navigationController?.pushViewController(destination, animated: true)
+              print("asta\(Date())")
     }
     
     // MARK: UICollectionViewDelegate

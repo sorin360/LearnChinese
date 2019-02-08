@@ -18,7 +18,6 @@ class Home {
         
         var data: [(x: Double, y: Double)] = []
         for index in 0..<lastDaysScores.count {
-            print(lastDaysScores[index].time)
             data += [(x: Double(6 - index), y: Double(lastDaysScores[index].value))]
         }
       

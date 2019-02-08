@@ -50,6 +50,7 @@ class FlashcardCollectionViewCell: UICollectionViewCell {
         stackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: (0 - self.frame.height + 2 + pinyinLabelCollectionCell.font.lineHeight + hanziLabelCollectionCell.font.lineHeight) / 2).isActive = true
         
         stackView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
+        stackView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         /*
         self.addSubview(hanziLabelCollectionCell)
         self.addSubview(pinyinLabelCollectionCell)

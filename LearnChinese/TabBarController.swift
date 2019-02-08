@@ -75,9 +75,10 @@ class TabBarController:  UITabBarController, UITabBarControllerDelegate {
         
         var downloadEnd = false
         let firstUse = UserDefaults.standard.bool(forKey: "firstUse")
+        
         if !firstUse {
             
-            let alert = UIAlertController(title: nil, message: "Please wait...", preferredStyle: .alert)
+            let alert = UIAlertController(title: "Please wait...", message: "The database is being updating.", preferredStyle: .alert)
             
             let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
             loadingIndicator.hidesWhenStopped = true
@@ -90,7 +91,7 @@ class TabBarController:  UITabBarController, UITabBarControllerDelegate {
             self.container?.performBackgroundTask(){ context in
                 
             //    guard let url = URL(string: "https://api.myjson.com/bins/13mxps") else {return} hsk1
-                guard let url = URL(string: "https://api.npoint.io/2bf2a384525003b3f831") else {return}
+                guard let url = URL(string: "https://sorin360.github.io/LearnChineseResources/hskWords1-5.json") else {return}
                 
                 URLSession.shared.dataTask(with: url, completionHandler:  { (data, response, error) in
                     guard let dataResponse = data,
@@ -123,7 +124,7 @@ class TabBarController:  UITabBarController, UITabBarControllerDelegate {
                     }
                 }).resume()
                 
-                guard let urlSentences = URL(string: "https://sorin360.github.io/HSKs/hskSentences1-2.json") else {return}
+                guard let urlSentences = URL(string: "https://sorin360.github.io/LearnChineseResources/hskSentences1-2.json") else {return}
                 
                 URLSession.shared.dataTask(with: urlSentences, completionHandler:  { (data, response, error) in
                     guard let dataResponse = data,

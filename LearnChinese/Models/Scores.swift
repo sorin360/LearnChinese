@@ -83,7 +83,7 @@ class Scores: NSManagedObject {
             do {
                 var result = try managedContext.fetch(fetchRequest) as? [Scores] ?? []
              //   result[count-1]//cea mai mare data
-                var count = result.count
+              //  var count = result.count
                 let today = Date()
       
                 
@@ -103,7 +103,7 @@ class Scores: NSManagedObject {
                     index += 1
                 }
                 print(Date())
-                count = result.count
+                //count = result.count
  
              /*   while result.count < 7 {
                     
@@ -117,30 +117,7 @@ class Scores: NSManagedObject {
                 } else {
                     return result
                 }
-                /*  for data in result as! [NSManagedObject] {
-                 let flashcard = data as? MyFlashcards
-                 let name = flashcard?.name ?? ""
-                 let words = (flashcard?.words?.allObjects as? [Words]) ?? []
-                 for word in words  {
-                 colectedData += [word.chinese ?? ""]
-                 }
-                 /*
-                 let word = flashcards?.words?.allObjects as? [Words]
-                 let nam = flashcards?.name
-                 let name = data.value(forKey: "name") as? String
-                 let words = data.value(forKey: "words") as? [NSManagedObject]
-                 */
-                 colectedData += [name]
-                 //  colectedData
-                 }
-                 */
-                do{
-                    try managedContext.save()
-                }
-                catch
-                {
-                    print(error)
-                }
+
             } catch {
                 
                 print("Failed")
@@ -163,7 +140,7 @@ extension Date {
         let dateFormatter = DateFormatter()
         //To prevent displaying either date or time, set the desired style to NoStyle.
         dateFormatter.dateStyle = DateFormatter.Style.short //Set time style
- 
+        print(self)
         dateFormatter.timeZone = TimeZone.current
         let localDate = dateFormatter.string(from: self)
         dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)

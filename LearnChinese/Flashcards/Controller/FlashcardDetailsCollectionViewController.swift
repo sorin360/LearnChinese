@@ -17,21 +17,28 @@ class FlashcardDetailsCollectionViewController: UICollectionViewController, UICo
     
     override func viewDidLoad() {
         super.viewDidLoad()
+         print("astaDidLoad\(Date())")
         self.collectionView.register(FlashcardDetailsCollectionViewCell.self, forCellWithReuseIdentifier: "detailsCell")
+        
+        
         
         self.collectionView.backgroundColor = UIColor.white
         if let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             flowLayout.scrollDirection = .horizontal
+            flowLayout.minimumInteritemSpacing = 30
+            flowLayout.minimumLineSpacing = 30
         }
         self.collectionView.isPagingEnabled = true
-        self.collectionView.layoutIfNeeded()
-        
+      //
+  
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         collectionView.scrollToItem(at: indexPath, at: .right, animated: true)
-        print("scroll \(indexPath.row)")
+  
+        self.collectionView.layoutIfNeeded()
+
     }
     /*(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -56,13 +63,14 @@ class FlashcardDetailsCollectionViewController: UICollectionViewController, UICo
         return words.count
     }
     
-   
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize{
-        return CGSize(width: view.frame.width, height: view.frame.height)
+        return CGSize(width: view.frame.width , height: view.frame.height)
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        print("celll1111\(Date())")
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "detailsCell", for: indexPath) as! FlashcardDetailsCollectionViewCell
         // if let flashcardCell = cell as? FlashcardCollectionViewCell {
        // cell.hanziLabelCollectionCell?.text = words[indexPath.row].chinese ?? ""
@@ -100,17 +108,18 @@ class FlashcardDetailsCollectionViewController: UICollectionViewController, UICo
         else {
             cell.addToLibraryButtonCollectionCell.setAttributedTitle(NSAttributedString(string: "Add to library"), for: .normal)
         }
-        cell.layer.cornerRadius = 10.0
+        cell.layer.cornerRadius = 25.0
         cell.layer.borderWidth = 1.0
-        cell.layer.borderColor = UIColor.blue.cgColor
+       // cell.layer.borderColor = UIColor.blue.cgColor
         // cell.backgroundColor = UIColor.blue
         // }
         // Configure the cell
-        
+        print("celll222\(Date())")
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+         print("astacollectionView\(Date())")
         return 0
     }
 

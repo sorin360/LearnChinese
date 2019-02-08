@@ -216,13 +216,13 @@ class FlashcardsTableViewController: UITableViewController {
             self.tableView.reloadData()
             */
             self.container?.performBackgroundTask(){ context in
-                MyFlashcards.addFlashcardBunch(in: context, with: input ?? "Unknown")
+                _ = MyFlashcards.addFlashcardBunch(in: context, with: input ?? "Unknown")
                 //  HskFlashcards.addFlashcardBunch(in: context, with: input ?? "Unknown")
-               
+                //self.myFlshcardsBunchList.append(newLib)
                 DispatchQueue.main.async {
-                    self.myFlshcardsBunchList = MyFlashcards.retrieveData() as! [MyFlashcards]
+                    self.myFlshcardsBunchList = MyFlashcards.retrieveData()
                     self.tableView.reloadData()
-                }           
+                }
             }
         }
     }

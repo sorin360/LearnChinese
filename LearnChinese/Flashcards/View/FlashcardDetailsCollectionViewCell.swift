@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 import AVFoundation
 
-class FlashcardDetailsCollectionViewCell: UICollectionViewCell, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate{
+class FlashcardDetailsCollectionViewCell: UICollectionViewCell, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate, AVSpeechSynthesizerDelegate{
     
     var container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
    
@@ -25,6 +25,13 @@ class FlashcardDetailsCollectionViewCell: UICollectionViewCell, UIPickerViewDele
     }
     var myFlashcards: [MyFlashcards] = []
     private var row = 0
+    
+  /*  func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
+        print("do something useful here ...")
+    }
+    */
+    let synthesizer = AVSpeechSynthesizer()
+    
     
     var hanziLabelCollectionCell: UILabel = {
         var hanziLabel = UILabel()
@@ -57,13 +64,15 @@ class FlashcardDetailsCollectionViewCell: UICollectionViewCell, UIPickerViewDele
         return choseLibrary
     }()
     var speakerButtonCollectionCell: UIButton = {
-        var addToLibraryButton = UIButton()
+        var button = UIButton()
      
-        addToLibraryButton.setImage(UIImage(named: "speaker"), for: .normal)
-        addToLibraryButton.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-    
-        addToLibraryButton.translatesAutoresizingMaskIntoConstraints = false
-        return addToLibraryButton
+        button.setImage(UIImage(named: "speaker"), for: .normal)
+        button.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        button.backgroundColor = #colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1)
+        button.layer.cornerRadius = 10.0
+      
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
     }()
     
     var addToLibraryButtonCollectionCell: UIButton = {
@@ -94,7 +103,8 @@ class FlashcardDetailsCollectionViewCell: UICollectionViewCell, UIPickerViewDele
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
+         print("astalayout11111\(Date())")
+        synthesizer.delegate = self
         myFlashcards = MyFlashcards.retrieveData()
         
         addToLibraryButtonCollectionCell.addTarget(self, action: #selector(self.AddRemoveToLibraryButton), for: UIControl.Event.touchDown)
@@ -140,26 +150,29 @@ class FlashcardDetailsCollectionViewCell: UICollectionViewCell, UIPickerViewDele
         mainStackView.translatesAutoresizingMaskIntoConstraints = false
         
         self.addSubview(mainStackView)
+        translationLabelColectionCell.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.9).isActive = true
         
-    
+      speakerButtonCollectionCell.heightAnchor.constraint(equalToConstant: 50).isActive = true
+         speakerButtonCollectionCell.widthAnchor.constraint(equalToConstant: 50).isActive = true
         buttonsStackView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true //, multiplier:
         buttonsStackView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
         buttonsStackView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
         buttonsStackView.bottomAnchor.constraint(equalTo: mainStackView.bottomAnchor).isActive = true
         
-        mainStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: self.frame.height / 7).isActive = true
+        mainStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: self.frame.height / 8).isActive = true
         mainStackView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
-        mainStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0 - self.frame.height / 7
+        mainStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0 - self.frame.height / 8
             ).isActive = true
         mainStackView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
-        
+        print("astalayout222222\(Date())")
+
     }
     @objc func speakerButtonAction(){
         let utterance = AVSpeechUtterance(string:hanziLabelCollectionCell.text ?? " ")
         utterance.voice = AVSpeechSynthesisVoice(language: "zh-CN")
         utterance.rate = 0.5
         
-        let synthesizer = AVSpeechSynthesizer()
+         self.synthesizer.stopSpeaking(at: .immediate)
         synthesizer.speak(utterance)
     }
     func pickUp(_ textField : UITextField){
@@ -171,7 +184,7 @@ class FlashcardDetailsCollectionViewCell: UICollectionViewCell, UIPickerViewDele
     
         self.myPickerView.backgroundColor = UIColor.white
         textField.inputView = self.myPickerView
-        
+        self.bringSubviewToFront(myPickerView)
         // ToolBar
         let toolBar = UIToolbar()
         toolBar.barStyle = .default
@@ -207,6 +220,7 @@ class FlashcardDetailsCollectionViewCell: UICollectionViewCell, UIPickerViewDele
     }
     @objc func cancelClick() {
         choseLibraryTextField.resignFirstResponder()
+        self.superview?.layoutSubviews()
     }
  
     @objc func newLibrary(){
@@ -223,17 +237,17 @@ class FlashcardDetailsCollectionViewCell: UICollectionViewCell, UIPickerViewDele
              self.tableView.reloadData()
              */
             self.container?.performBackgroundTask(){ context in
-                MyFlashcards.addFlashcardBunch(in: context, with: input ?? "Unknown")
-                //  HskFlashcards.addFlashcardBunch(in: context, with: input ?? "Unknown")
+                _ = MyFlashcards.addFlashcardBunch(in: context, with: input ?? "Unknown")
                 
+               // self.myFlashcards.insert(newFlashcards, at: 0)
                 DispatchQueue.main.async {
                     self.myFlashcards = MyFlashcards.retrieveData()
-                    self.choseLibraryTextField.resignFirstResponder()
-                    self.choseLibraryTextField.becomeFirstResponder()
+                    self.myPickerView.reloadAllComponents()
                 }
             }
         }
     }
+    
     func showInputDialog(title:String? = nil,
                          subtitle:String? = nil,
                          actionTitle:String? = "Add",
@@ -253,7 +267,10 @@ class FlashcardDetailsCollectionViewCell: UICollectionViewCell, UIPickerViewDele
                 actionHandler?(nil)
                 return
             }
-            actionHandler?(textField.text)
+            if textField.text != "" {
+                actionHandler?(textField.text)
+            } 
+            
         }))
         alert.addAction(UIAlertAction(title: cancelTitle, style: .cancel, handler: cancelHandler))
         
@@ -261,10 +278,9 @@ class FlashcardDetailsCollectionViewCell: UICollectionViewCell, UIPickerViewDele
     }
 
     
-    
     @objc func AddRemoveToLibraryButton() {
-        if let flashcard = word?.flashcard {
-            flashcard.removeFromWords(word!)
+        if (word?.flashcard) != nil {
+            MyFlashcards.remove(word: word!)
             addToLibraryButtonCollectionCell.setAttributedTitle(NSAttributedString(string: "Add to library"), for: .normal)
 
         }
@@ -282,6 +298,7 @@ class FlashcardDetailsCollectionViewCell: UICollectionViewCell, UIPickerViewDele
                 newWord.veryKnown = false
                 word?.veryKnown = false
                 iKnowitButtonCollectionCell.setAttributedTitle(NSAttributedString(string: "I know it"), for: .normal)
+                
               //  AddToLibraryButton.isHidden = false
                
             }
@@ -296,6 +313,7 @@ class FlashcardDetailsCollectionViewCell: UICollectionViewCell, UIPickerViewDele
                 
                 newWord.veryKnown = true
                 word?.veryKnown = true
+                addToLibraryButtonCollectionCell.setAttributedTitle(NSAttributedString(string: "Add to library"), for: .normal)
                 iKnowitButtonCollectionCell.setAttributedTitle(NSAttributedString(string: "I don't know it"), for: .normal)
                 
               //  self.addToLibraryButtonCollectionCell.isHidden = true

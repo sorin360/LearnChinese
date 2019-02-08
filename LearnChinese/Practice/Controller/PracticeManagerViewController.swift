@@ -13,14 +13,13 @@ class PracticeManagerViewController: UIViewController  {
     var practiceTranslateSentence: PracticeTranslateSentence?
     var practiceTranslateWord: PracticeTranslateWord?
     var practice = Practice()
-    let destinationPracticeTranslateWord = PracticeTranslateWordViewController()
-    let destinationPracticeTranslateSentence = PracticeTranslateSentenceViewController()
+    var practiceTranslateWordViewController: PracticeTranslateWordViewController!
+    var practiceTranslateSentenceViewController: PracticeTranslateSentenceViewController!
     
-
-    
+ 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(false)
-      
+        self.tabBarController?.tabBar.isHidden = true
         view.backgroundColor = UIColor.white
         navigationItem.hidesBackButton = true
         let curentIndex = Float((practiceTranslateWord?.curentWordIndex ?? 0) + (practiceTranslateSentence?.curentSentenceIndex ?? 0))
@@ -30,39 +29,47 @@ class PracticeManagerViewController: UIViewController  {
         practiceTranslateWord?.practice = practice
         practiceTranslateSentence?.practice = practice
         
-        destinationPracticeTranslateWord.lifeStatus = practice.lifeStatus
-        destinationPracticeTranslateSentence.lifeStatus = practice.lifeStatus
+        practiceTranslateWordViewController.lifeStatus = practice.lifeStatus
+        practiceTranslateSentenceViewController.lifeStatus = practice.lifeStatus
         
-        destinationPracticeTranslateWord.practiceTranslateWord = practiceTranslateWord
-        destinationPracticeTranslateSentence.practiceTranslateSentence = practiceTranslateSentence
+        practiceTranslateWordViewController.practiceTranslateWord = practiceTranslateWord
+        practiceTranslateSentenceViewController.practiceTranslateSentence = practiceTranslateSentence
         
         
       //  destination.practiceTranslateWord = practiceTranslateWord
         
        // navigationController?.pushViewController(destination, animated: true)
         
-        if (practiceTranslateSentence?.sentences.count)! > 0 {
-            if (practiceTranslateWord?.words.count)! > 0 {
+        if (practiceTranslateSentence?.sentences.count)! > 0 && (practiceTranslateSentence?.sentences.count)! > (practiceTranslateSentence?.curentSentenceIndex)! {
+            if (practiceTranslateWord?.words.count)! > 0 && (practiceTranslateWord?.words.count)! > (practiceTranslateWord?.curentWordIndex)!{
                 if Bool.random() {
-                   navigationController?.pushViewController(destinationPracticeTranslateSentence, animated: false)
+                   navigationController?.pushViewController(practiceTranslateSentenceViewController, animated: false)
                 } else {
-                    navigationController?.pushViewController(destinationPracticeTranslateWord, animated: false)
+                    navigationController?.pushViewController(practiceTranslateWordViewController, animated: false)
                 }
             } else {
-                navigationController?.pushViewController(destinationPracticeTranslateSentence, animated: false)
+                navigationController?.pushViewController(practiceTranslateSentenceViewController, animated: false)
             }
         } else {
-            if (practiceTranslateWord?.words.count)! > 0 {
-                navigationController?.pushViewController(destinationPracticeTranslateWord, animated: false)
+            if (practiceTranslateWord?.words.count)! > 0 && (practiceTranslateWord?.words.count)! > (practiceTranslateWord?.curentWordIndex)!{
+                navigationController?.pushViewController(practiceTranslateWordViewController, animated: false)
             } else {
-                navigationController?.popToRootViewController(animated: true)
+                self.showMessageDialog(title: "Congratulations!!!",
+                                       subtitle: "Your score is \(self.practiceTranslateWord?.getScore() ?? "0")",
+                    actionTitle: "OK", cancelActionTitle: nil)
+                { () in
+                    
+                    let score = Int(self.practiceTranslateSentence?.getScore() ?? "0") ?? 0
+                    let date = Date().stripTime()
+                    
+                    Scores.update(with: score, at: date)
+                    self.navigationController?.popToRootViewController(animated: true)
+                }
             }
         }
         
-        
     }
 
-    
 
     /*
     // MARK: - Navigation

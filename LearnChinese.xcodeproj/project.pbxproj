@@ -10,7 +10,6 @@
 		4700A6CB21C641E6004CD410 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700A6CA21C641E6004CD410 /* TabBarController.swift */; };
 		4700A6CF21C74F78004CD410 /* PracticeTranslateSentenceCellCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700A6CE21C74F78004CD410 /* PracticeTranslateSentenceCellCollectionViewCell.swift */; };
 		4705C59C21B6344800370F44 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4705C59B21B6344800370F44 /* AppDelegate.swift */; };
-		4705C5A121B6344800370F44 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4705C59F21B6344800370F44 /* Main.storyboard */; };
 		4705C5A321B6345D00370F44 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4705C5A221B6345D00370F44 /* Assets.xcassets */; };
 		4705C5A621B6345D00370F44 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4705C5A421B6345D00370F44 /* LaunchScreen.storyboard */; };
 		4705C5D421B7791B00370F44 /* DBModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4705C5D221B7791B00370F44 /* DBModel.xcdatamodeld */; };
@@ -20,6 +19,8 @@
 		4706CAB621EB50B7003C88F7 /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4706CAB521EB50B7003C88F7 /* SearchTableViewCell.swift */; };
 		4708621921B93F2200E69B59 /* CodableHskFlashcardsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4708621821B93F2200E69B59 /* CodableHskFlashcardsModel.swift */; };
 		470A3AB821C6362B00E73136 /* CodableSentencesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470A3AB721C6362B00E73136 /* CodableSentencesModel.swift */; };
+		470CA33D22084A3400D95981 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 470CA33B22084A3400D95981 /* Main.storyboard */; };
+		470CA33F22084B0C00D95981 /* WordPracticeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470CA33E22084B0C00D95981 /* WordPracticeModel.swift */; };
 		470D553D21C9121400F3C9E7 /* PracticeTranslateSentenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470D553C21C9121400F3C9E7 /* PracticeTranslateSentenceViewController.swift */; };
 		470E21BC21C0B44100E23F07 /* FlashcardsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470E21BB21C0B44100E23F07 /* FlashcardsCollectionViewController.swift */; };
 		470F4DB021C0B5340005A1AD /* FlashcardsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F4DAF21C0B5340005A1AD /* FlashcardsTableViewController.swift */; };
@@ -58,7 +59,6 @@
 		4700A6CE21C74F78004CD410 /* PracticeTranslateSentenceCellCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeTranslateSentenceCellCollectionViewCell.swift; sourceTree = "<group>"; };
 		4705C59821B6344800370F44 /* LearnChinese.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LearnChinese.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4705C59B21B6344800370F44 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		4705C5A021B6344800370F44 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4705C5A221B6345D00370F44 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4705C5A521B6345D00370F44 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4705C5A721B6345D00370F44 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -69,6 +69,8 @@
 		4706CAB521EB50B7003C88F7 /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
 		4708621821B93F2200E69B59 /* CodableHskFlashcardsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableHskFlashcardsModel.swift; sourceTree = "<group>"; };
 		470A3AB721C6362B00E73136 /* CodableSentencesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableSentencesModel.swift; sourceTree = "<group>"; };
+		470CA33C22084A3400D95981 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = LearnChinese/Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		470CA33E22084B0C00D95981 /* WordPracticeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordPracticeModel.swift; sourceTree = "<group>"; };
 		470D553C21C9121400F3C9E7 /* PracticeTranslateSentenceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeTranslateSentenceViewController.swift; sourceTree = "<group>"; };
 		470E21BB21C0B44100E23F07 /* FlashcardsCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashcardsCollectionViewController.swift; sourceTree = "<group>"; };
 		470F4DAF21C0B5340005A1AD /* FlashcardsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashcardsTableViewController.swift; sourceTree = "<group>"; };
@@ -142,9 +144,9 @@
 				4780BBD021C4EA4300530D77 /* Models */,
 				4705C59B21B6344800370F44 /* AppDelegate.swift */,
 				4705C5D221B7791B00370F44 /* DBModel.xcdatamodeld */,
-				4705C59F21B6344800370F44 /* Main.storyboard */,
 				4705C5A221B6345D00370F44 /* Assets.xcassets */,
 				4705C5A421B6345D00370F44 /* LaunchScreen.storyboard */,
+				470CA33B22084A3400D95981 /* Main.storyboard */,
 				4705C5A721B6345D00370F44 /* Info.plist */,
 				4700A6CA21C641E6004CD410 /* TabBarController.swift */,
 				4776C1A821F02FC300B2ECD3 /* tesrViewController.swift */,
@@ -298,6 +300,7 @@
 		479D6BCC22007B44007B832C /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				470CA33E22084B0C00D95981 /* WordPracticeModel.swift */,
 				4729587D21E0641100ACAD3B /* PracticeTranslateSentence.swift */,
 				479D6BDC2203221C007B832C /* PracticeTranslateWord.swift */,
 				479D6BE222043AF3007B832C /* Practice.swift */,
@@ -408,9 +411,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				470CA33D22084A3400D95981 /* Main.storyboard in Resources */,
 				4705C5A621B6345D00370F44 /* LaunchScreen.storyboard in Resources */,
 				4705C5A321B6345D00370F44 /* Assets.xcassets in Resources */,
-				4705C5A121B6344800370F44 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -485,6 +488,7 @@
 				470A3AB821C6362B00E73136 /* CodableSentencesModel.swift in Sources */,
 				470D553D21C9121400F3C9E7 /* PracticeTranslateSentenceViewController.swift in Sources */,
 				4705C5E021B7EC9700370F44 /* Sentences.swift in Sources */,
+				470CA33F22084B0C00D95981 /* WordPracticeModel.swift in Sources */,
 				476FED3F21D4CD1C00089011 /* SearchTableViewController.swift in Sources */,
 				479D6BE322043AF3007B832C /* Practice.swift in Sources */,
 				4705C5D421B7791B00370F44 /* DBModel.xcdatamodeld in Sources */,
@@ -512,20 +516,20 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		4705C59F21B6344800370F44 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				4705C5A021B6344800370F44 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		4705C5A421B6345D00370F44 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				4705C5A521B6345D00370F44 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		470CA33B22084A3400D95981 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				470CA33C22084A3400D95981 /* Base */,
+			);
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -655,7 +659,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5GX5QQB56U;
 				INFOPLIST_FILE = LearnChinese/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -675,7 +679,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5GX5QQB56U;
 				INFOPLIST_FILE = LearnChinese/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
