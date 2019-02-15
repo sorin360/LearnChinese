@@ -32,23 +32,10 @@ class PracticeTableViewCell: UITableViewCell {
         
         titleLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 18.0).isActive = true
         titleLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-       // titleLabel.rightAnchor.constraint(equalTo: selectionSwitch.leftAnchor, constant: 20.0).isActive = true
         titleLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.7).isActive = true
         
         selectionSwitch.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -10.0).isActive = true
         selectionSwitch.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         
     }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
 }

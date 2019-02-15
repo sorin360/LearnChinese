@@ -15,7 +15,7 @@ class PracticeTranslateWord {
     var practice: Practice?
     
     
-    init(myFlashcards:[MyFlashcards], hskFlashcards:[HskFlashcards]){
+    init(myFlashcards:[MyLibraries], hskFlashcards:[HskLibraries]){
         var words = [Words]()
         for flashcard in myFlashcards {
             words += flashcard.words?.allObjects as? [Words] ?? []
@@ -24,27 +24,20 @@ class PracticeTranslateWord {
             words += flashcard.words?.allObjects as? [Words] ?? []
         }
         words.shuffle()
+        // get the first 5 words from the selected libraries
         if words.count > 5 {
             self.words = Array(words.prefix(5))
         } else {
             self.words = words
         }
-        // sort words by priority
-        
-      
     }
     
     func getEnglishWord() -> WordPracticeModel{
-        let words =  self.words[curentWordIndex]
-        let shortTranslations = words.english?.split(separator: ",")
-        if shortTranslations != nil {
-            return WordPracticeModel(chinese:  String(shortTranslations?[0] ?? " "), pinyin: "")
-        } else {
-            return WordPracticeModel(chinese: words.english ?? " ", pinyin: "")
-        }
-       // sentence.priority -= 1
-       // Sentences.update(with: sentence)
+        let word =  self.words[curentWordIndex]
+        // get only the first description for the word
+        let shortTranslations = word.shortTranslation()
    
+        return WordPracticeModel(wordText: shortTranslations, pinyin: "")
     }
     
     func getChineseWord() -> WordPracticeModel{
@@ -52,10 +45,7 @@ class PracticeTranslateWord {
         let word =  self.words[curentWordIndex]
         let hanzi = word.chinese ?? " "
         let pinyin = word.pinyin ?? " "
-       // let chineseWord = hanzi + "/"+pinyin
-      //  sentence.priority -= 1
-      //  Sentences.update(with: sentence)
-        return WordPracticeModel(chinese: hanzi, pinyin: pinyin)
+        return WordPracticeModel(wordText: hanzi, pinyin: pinyin)
     }
     
     
@@ -63,40 +53,42 @@ class PracticeTranslateWord {
         
         var shiffledWords:[WordPracticeModel] = []
         if words.count > 3 {
+            // if the array contains more than 3 words then chose 3 random words
             while shiffledWords.count < 3 {
                 let randomNumber = Int.random(in: 0..<words.count)
-                if randomNumber != curentWordIndex && !shiffledWords.contains {$0.chinese == words[randomNumber].chinese } {
-                    shiffledWords += [WordPracticeModel(chinese: words[randomNumber].chinese ?? "", pinyin: words[randomNumber].pinyin ?? "")]
+                if randomNumber != curentWordIndex && !shiffledWords.contains {$0.wordText == words[randomNumber].chinese } {
+                    shiffledWords += [WordPracticeModel(wordText: words[randomNumber].chinese ?? "", pinyin: words[randomNumber].pinyin ?? "")]
                 }
             }
-            shiffledWords += [WordPracticeModel(chinese: words[curentWordIndex].chinese ?? "", pinyin: words[curentWordIndex].pinyin ?? "")]
-        } else {
+            // add the corect answer in list
+            shiffledWords += [WordPracticeModel(wordText: words[curentWordIndex].chinese ?? "", pinyin: words[curentWordIndex].pinyin ?? "")]
+        } else { // all the words will be added to the shiffledWords array (the corect answer is among them)
             for index in words.indices {
-                shiffledWords += [WordPracticeModel(chinese: words[index].chinese ?? "", pinyin: words[index].pinyin ?? "")]
+                shiffledWords += [WordPracticeModel(wordText: words[index].chinese ?? "", pinyin: words[index].pinyin ?? "")]
             }
         }
         curentWordIndex += 1
         shiffledWords.shuffle()
         return shiffledWords
-        
     }
-   
     
     func getShuffledEnglishWords() -> [WordPracticeModel]{
       
         var shiffledWords:[WordPracticeModel] = []
         if words.count > 3 {
+            // if the array contains more than 3 words then chose 3 random words
             while shiffledWords.count < 3 {
                 let randomNumber = Int.random(in: 0..<words.count)
-                if randomNumber != curentWordIndex && !shiffledWords.contains {$0.chinese == words[randomNumber].shortTranslation() } {
+                if randomNumber != curentWordIndex && !shiffledWords.contains {$0.wordText == words[randomNumber].shortTranslation() } {
                     
-                    shiffledWords += [WordPracticeModel(chinese: words[randomNumber].shortTranslation(), pinyin: "")]
+                    shiffledWords += [WordPracticeModel(wordText: words[randomNumber].shortTranslation(), pinyin: "")]
                 }
             }
-            shiffledWords += [WordPracticeModel(chinese: words[curentWordIndex].shortTranslation(), pinyin: "")]
-        } else {
+            // add the corect answer in list
+            shiffledWords += [WordPracticeModel(wordText: words[curentWordIndex].shortTranslation(), pinyin: "")]
+        } else { // all the words will be added to the shiffledWords array (the corect answer is among them)
             for index in words.indices {
-                shiffledWords += [WordPracticeModel(chinese: words[index].shortTranslation(), pinyin: "")]
+                shiffledWords += [WordPracticeModel(wordText: words[index].shortTranslation(), pinyin: "")]
             }
         }
         curentWordIndex += 1
@@ -105,7 +97,8 @@ class PracticeTranslateWord {
         
     }
  
-    func getCorectAnswer() -> String {
+    // used for SpeechSynthesisVoice
+    func getCorectAnswerInChinese() -> String {
         let corectAnswer = words[curentWordIndex - 1].chinese ?? " "
         return corectAnswer
     }

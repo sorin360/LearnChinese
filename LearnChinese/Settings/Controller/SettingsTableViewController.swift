@@ -11,37 +11,29 @@ import UIKit
 class SettingsTableViewController: UITableViewController {
 
     var options = ["Feedback", "Help", "Terms of use", "About"]
+    
     override func viewDidLoad() {
-        super.viewDidLoad()
-    tableView.isScrollEnabled = false
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        super.viewDidLoad()
+        tableView.isScrollEnabled = false
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
     }
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return options.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-
         cell.textLabel?.text = options[indexPath.row]
-        
-        
         return cell
     }
     
@@ -49,23 +41,22 @@ class SettingsTableViewController: UITableViewController {
         
         switch options[indexPath.row] {
         case "Terms of use":
-            guard let url = URL(string: "https://sorin360.github.io/LearnChineseResources/termsAndConditions.html") else { return }
+            guard let url = URL(string: Constants.termsOfUseUrl.rawValue) else { return }
             UIApplication.shared.open(url)
         case "Help":
-            guard let url = URL(string: "https://sorin360.github.io/LearnChineseResources/home.html") else { return }
+            guard let url = URL(string: Constants.helpUrl.rawValue) else { return }
             UIApplication.shared.open(url)
         case "About":
-            guard let url = URL(string: "https://sorin360.github.io/LearnChineseResources/home.html") else { return }
+            guard let url = URL(string: Constants.helpUrl.rawValue) else { return }
             UIApplication.shared.open(url)
         case "Feedback":
-            let email = "lica404@gmail.com"
+            let email = Constants.feedbackEmail.rawValue
             if let url = URL(string: "mailto:\(email)") {
+                // open email app
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }
         default:
             break
-         //   guard let url = URL(string: "https://google.com") else { return }
-          //  UIApplication.shared.open(url)
         }
     }
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
@@ -79,7 +70,6 @@ class SettingsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        
         return 50
     }
     

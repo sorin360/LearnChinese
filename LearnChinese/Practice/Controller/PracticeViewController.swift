@@ -10,11 +10,10 @@ import UIKit
 import AVFoundation
 
 class PracticeViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
-    
   
     var chineseSentence = true
     
-    var lifeStatus = 4 { //"⭐️⭐️⭐️⭐️" {
+    var lifeStatus = 4 {
         didSet{
             
             switch lifeStatus {
@@ -38,8 +37,6 @@ class PracticeViewController: UIViewController, UICollectionViewDataSource, UICo
         }
     }
     
-    let synthesizer = AVSpeechSynthesizer()
-    
     var speakerButton: UIButton = {
         var button = UIButton()
         button.setImage(UIImage(named: "speaker"), for: .normal)
@@ -50,9 +47,9 @@ class PracticeViewController: UIViewController, UICollectionViewDataSource, UICo
         return button
     }()
     
-    // tabbar
     var scoreButton: UIBarButtonItem!
-    var endPracticeButton: UIBarButtonItem!
+    
+    private var endPracticeButton: UIBarButtonItem!
     
     var checkButton: UIButton = {
         var button = UIButton()
@@ -78,65 +75,70 @@ class PracticeViewController: UIViewController, UICollectionViewDataSource, UICo
         return progress
     }()
     
-    var contentCollectionZero:[WordPracticeModel] = []
-   
-    
-    var colectionViewZero: UICollectionView! {
+    var textForTranslationCollectionView: UICollectionView! {
         didSet{
-            colectionViewZero.dataSource = self
-            colectionViewZero.delegate = self
+            textForTranslationCollectionView.dataSource = self
+            textForTranslationCollectionView.delegate = self
             let alignedFlowLayout = LeftAlignedCollectionViewFlowLayout()
             alignedFlowLayout.minimumInteritemSpacing = 1
             alignedFlowLayout.minimumLineSpacing = 1.5
-            colectionViewZero.collectionViewLayout = alignedFlowLayout
-
-            colectionViewZero.backgroundColor = UIColor.white
+            textForTranslationCollectionView.collectionViewLayout = alignedFlowLayout
+            textForTranslationCollectionView.backgroundColor = UIColor.white
       
         }
     }
+    
+    var contentTextForTranslationCollection:[WordPracticeModel] = []
+    private var verticalLayoutConstraint: NSLayoutConstraint!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.view.backgroundColor = UIColor.white
+        
+        setUpNavigationBar()
+        
+        setUpTextForTranslationCollectionView()
+    }
+    
+    // MARK: - Collection
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        // simulation label in order to get intrinsicContentSize for cell
         let label = UILabel()
-        label.backgroundColor = UIColor.yellow
         label.font = label.font.withSize(20)
         label.textAlignment = .center
-           if chineseSentence {
-                label.text = contentCollectionZero[indexPath.row].pinyin
-                return CGSize(width: label.intrinsicContentSize.width + 20, height: 45)
-            } else {
-                label.text = contentCollectionZero[indexPath.row].chinese
-                return CGSize(width: label.intrinsicContentSize.width + 20, height: 30)
-            }
+        if chineseSentence {
+            label.text = contentTextForTranslationCollection[indexPath.row].pinyin
+            return CGSize(width: label.intrinsicContentSize.width + 20, height: 45)
+        } else {
+            label.text = contentTextForTranslationCollection[indexPath.row].wordText
+            return CGSize(width: label.intrinsicContentSize.width + 20, height: 30)
+        }
         
     }
-    var verticalLayoutConstraint: NSLayoutConstraint!
     
-
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return contentCollectionZero.count
+        return contentTextForTranslationCollection.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "dragDropCell", for: indexPath) as! PracticeTranslateSentenceCellCollectionViewCell
         if !chineseSentence {
-            cell.chineseLabel.text = contentCollectionZero[indexPath.row].chinese
+            cell.hanziLabel.text = contentTextForTranslationCollection[indexPath.row].wordText
             cell.pinyinLabel.text = " "
         } else {
-            cell.chineseLabel.text = contentCollectionZero[indexPath.row].chinese
-            cell.pinyinLabel.text = contentCollectionZero[indexPath.row].pinyin
+            cell.hanziLabel.text = contentTextForTranslationCollection[indexPath.row].wordText
+            cell.pinyinLabel.text = contentTextForTranslationCollection[indexPath.row].pinyin
         }
         cell.isUserInteractionEnabled = true
-        cell.chineseLabel.sizeToFit()
-        cell.pinyinLabel.sizeToFit()
         cell.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        // cell.chineseLabel.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-        // cell.pinyinLabel.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-     self.verticalLayoutConstraint.constant = self.colectionViewZero.contentSize.height
-      
-       // colectionViewZero.constra
+        
+        self.verticalLayoutConstraint.constant = self.textForTranslationCollectionView.contentSize.height
+        
         return cell
     }
     
-  
     @objc func endPracticeButtonAction() {
         showMessageDialog(title: "Are you sure you want to end this sesion?", subtitle: "The score gained by now won't be saved", actionTitle: "OK", cancelActionTitle: "Cancel") { () in
             self.navigationController?.popToRootViewController(animated: true)
@@ -144,13 +146,7 @@ class PracticeViewController: UIViewController, UICollectionViewDataSource, UICo
         
     }
     
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.view.backgroundColor = UIColor.white
-        
-      
-       
+    func setUpNavigationBar() {
         self.scoreButton = UIBarButtonItem(title: "score: 0", style: .plain, target: self, action: nil)
         navigationItem.rightBarButtonItem = scoreButton
         
@@ -165,27 +161,26 @@ class PracticeViewController: UIViewController, UICollectionViewDataSource, UICo
         
         view.addSubview(speakerButton)
         
-        self.colectionViewZero = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
-        
-        colectionViewZero.translatesAutoresizingMaskIntoConstraints = false
-        
-        view.addSubview(colectionViewZero)
-        
         speakerButton.heightAnchor.constraint(equalToConstant: 35.0).isActive = true
         speakerButton.widthAnchor.constraint(equalToConstant: 35.0).isActive = true
         speakerButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 8.0).isActive = true
-        speakerButton.rightAnchor.constraint(equalTo: colectionViewZero.leftAnchor, constant: -5.0).isActive = true
+        speakerButton.rightAnchor.constraint(equalTo: textForTranslationCollectionView.leftAnchor, constant: -5.0).isActive = true
         speakerButton.topAnchor.constraint(equalTo: progressView.bottomAnchor, constant: 10.0).isActive = true
         
-        
-        
-        colectionViewZero.leftAnchor.constraint(equalTo: speakerButton.rightAnchor).isActive = true
-        colectionViewZero.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -8.0).isActive = true
-        colectionViewZero.topAnchor.constraint(equalTo: progressView.bottomAnchor, constant: 10.0).isActive = true
-       verticalLayoutConstraint = colectionViewZero.heightAnchor.constraint(equalToConstant: 10)
-        verticalLayoutConstraint.isActive = true
-          colectionViewZero.register(PracticeTranslateSentenceCellCollectionViewCell.self, forCellWithReuseIdentifier: "dragDropCell")
-     
     }
     
+    func setUpTextForTranslationCollectionView(){
+        
+        self.textForTranslationCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
+        textForTranslationCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(textForTranslationCollectionView)
+ 
+        textForTranslationCollectionView.leftAnchor.constraint(equalTo: speakerButton.rightAnchor).isActive = true
+        textForTranslationCollectionView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -8.0).isActive = true
+        textForTranslationCollectionView.topAnchor.constraint(equalTo: progressView.bottomAnchor, constant: 10.0).isActive = true
+        verticalLayoutConstraint = textForTranslationCollectionView.heightAnchor.constraint(equalToConstant: 10)
+        verticalLayoutConstraint.isActive = true
+        
+        textForTranslationCollectionView.register(PracticeTranslateSentenceCellCollectionViewCell.self, forCellWithReuseIdentifier: "dragDropCell")
+    }
 }

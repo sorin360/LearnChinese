@@ -9,6 +9,7 @@
 import Foundation
 
 class Practice {
+    
     var score: Int = 0 {
         didSet {
             if score < 0 {

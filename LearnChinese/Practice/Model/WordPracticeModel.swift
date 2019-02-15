@@ -9,6 +9,6 @@
 import Foundation
 
 struct WordPracticeModel{
-    var chinese: String
-    var pinyin: String 
+    var wordText: String // used for hanzi/english
+    var pinyin: String // used only for Chinese words
 }

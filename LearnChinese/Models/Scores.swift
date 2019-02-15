@@ -103,15 +103,7 @@ class Scores: NSManagedObject {
                     index += 1
                 }
                 print(Date())
-                //count = result.count
- 
-             /*   while result.count < 7 {
-                    
-                    let newScore = Scores(context: managedContext)
-                    newScore.time = Date().stripTime()
-                    newScore.value = 0
-                    result += [newScore]
-                }*/
+  
                 if result.count > 7 {
                     return Array(result.prefix(upTo: 7))
                 } else {
@@ -130,12 +122,7 @@ class Scores: NSManagedObject {
 extension Date {
     
     func stripTime() -> Date {
-      /*  let components = Calendar.current.dateComponents([.year, .month, .day], from: self)
-        print(components.day)
-        let date = Calendar.current.date(from: components)
-        print("strip \(date)")
-         
-         */
+
      
         let dateFormatter = DateFormatter()
         //To prevent displaying either date or time, set the desired style to NoStyle.

@@ -8,6 +8,9 @@
 
 import UIKit
 
+
+// TO DO: let the user choose the number of words/sentences used for practice
+
 class PracticeAmountViewController: UIViewController {
 
     override func viewDidLoad() {

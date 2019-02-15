@@ -12,8 +12,8 @@ import CoreData
 class FlashcardsTableViewController: UITableViewController {
     
 
-    var myFlshcardsBunchList: [MyFlashcards] = []
-    var hskFlshcardsBunchList: [HskFlashcards] = []
+    var myFlshcardsBunchList: [MyLibraries] = []
+    var hskFlshcardsBunchList: [HskLibraries] = []
    
     var segmentedControl: UISegmentedControl!
     var addButton: UIBarButtonItem!
@@ -24,12 +24,8 @@ class FlashcardsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-      //  myFlshcardsBunchList = MyFlashcards.retrieveData()
-        hskFlshcardsBunchList = HskFlashcards.retrieveData()
-        
-        
-      //  self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "flashcardsBunchCell")
-        
+        hskFlshcardsBunchList = HskLibraries.retrieveData()
+
         
         // setup segmentedControl
         let items = ["My Libraries", "HSKs"]
@@ -49,7 +45,7 @@ class FlashcardsTableViewController: UITableViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-         myFlshcardsBunchList = MyFlashcards.retrieveData()
+         myFlshcardsBunchList = MyLibraries.retrieveData()
          self.tableView.reloadData()
     }
     
@@ -70,8 +66,7 @@ class FlashcardsTableViewController: UITableViewController {
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCell(withIdentifier: "flashcardsBunchCell")//, for: indexPath)
-       // cell.editingStyle = UITableViewCell.CellStyle.value2
+        var cell = tableView.dequeueReusableCell(withIdentifier: "flashcardsBunchCell")
         if cell == nil {
             cell = UITableViewCell.init(style: UITableViewCell.CellStyle.value1, reuseIdentifier: "flashcardsBunchCell")
         }
@@ -89,8 +84,8 @@ class FlashcardsTableViewController: UITableViewController {
         default:
             cell!.textLabel?.text = hskFlshcardsBunchList[indexPath.row].level ?? "Unknown"
             knownCountersAttributedString = NSMutableAttributedString(string: "  " + String(hskFlshcardsBunchList[indexPath.row].words?.filter { ($0 as! Words).veryKnown == true }.count ?? 0), attributes: [NSAttributedString.Key.foregroundColor : #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)])
-            unknownCountersAttributedString = NSMutableAttributedString(string: "  " + String(hskFlshcardsBunchList[indexPath.row].words?.filter { ($0 as! Words).veryKnown == false && ($0 as! Words).flashcard == nil}.count ?? 0), attributes: [NSAttributedString.Key.foregroundColor : UIColor.blue])
-            inLibCountersAttributedString = NSMutableAttributedString(string: "  " + String(hskFlshcardsBunchList[indexPath.row].words?.filter { ($0 as! Words).flashcard != nil }.count ?? 0), attributes: [NSAttributedString.Key.foregroundColor : UIColor.red])
+            unknownCountersAttributedString = NSMutableAttributedString(string: "  " + String(hskFlshcardsBunchList[indexPath.row].words?.filter { ($0 as! Words).veryKnown == false && ($0 as! Words).myLibraries == nil}.count ?? 0), attributes: [NSAttributedString.Key.foregroundColor : UIColor.blue])
+            inLibCountersAttributedString = NSMutableAttributedString(string: "  " + String(hskFlshcardsBunchList[indexPath.row].words?.filter { ($0 as! Words).myLibraries != nil }.count ?? 0), attributes: [NSAttributedString.Key.foregroundColor : UIColor.red])
         }
         
         
@@ -109,7 +104,7 @@ class FlashcardsTableViewController: UITableViewController {
             // Delete the row from the data source
             switch segmentedControl.selectedSegmentIndex {
             case 0:
-                     MyFlashcards.delete(myFlashcards: myFlshcardsBunchList[indexPath.row])
+                     MyLibraries.delete(myFlashcards: myFlshcardsBunchList[indexPath.row])
                 myFlshcardsBunchList.remove(at: indexPath.row)
                  tableView.deleteRows(at: [indexPath], with: .fade)
            
@@ -212,18 +207,12 @@ class FlashcardsTableViewController: UITableViewController {
                         inputKeyboardType: .alphabet)
         { (input:String?) in
             
-           /* self.myFlshcardsBunchList = MyFlashcards.retrieveData()
-            self.tableView.reloadData()
-            */
-            self.container?.performBackgroundTask(){ context in
-                _ = MyFlashcards.addFlashcardBunch(in: context, with: input ?? "Unknown")
-                //  HskFlashcards.addFlashcardBunch(in: context, with: input ?? "Unknown")
-                //self.myFlshcardsBunchList.append(newLib)
-                DispatchQueue.main.async {
-                    self.myFlshcardsBunchList = MyFlashcards.retrieveData()
-                    self.tableView.reloadData()
-                }
-            }
+         
+                _ = MyLibraries.addLibrary(with: input ?? "Unknown")
+          
+                self.myFlshcardsBunchList = MyLibraries.retrieveData()
+                self.tableView.reloadData()
+  
         }
     }
     

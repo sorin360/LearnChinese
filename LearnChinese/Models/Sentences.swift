@@ -11,10 +11,15 @@ import CoreData
 
 class Sentences: NSManagedObject {
 
-    static func addSentences(in context: NSManagedObjectContext, with data: [CodableSentencesModel]){
+    static func add(data arrayData: [CodableSentencesModel]){
+        
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        
+        let context = appDelegate.persistentContainer.viewContext
         
         var exception = false
-        for sentence in data {
+        
+        for sentence in arrayData {
             let hanzi = sentence.hanzi.map{String($0)}
             let pinyin = sentence.pinyin?.split(separator: " ") 
             if hanzi?.count == pinyin?.count {
@@ -25,38 +30,32 @@ class Sentences: NSManagedObject {
                 newSentence.english = sentence.english
                 newSentence.priority = 0
             }
-
             do {
-               
                 try context.save()
                 
             } catch _ as NSError {
                 exception = true
             }
         }
-       
         if !exception {
             UserDefaults.standard.set(true, forKey: "firstUse")
         }
     }
     
-    static func update(with sentence: Sentences){
+    static func updatePriority(of sentence: Sentences){
         
-        //As we know that container is set up in the AppDelegates so we need to refer that container.
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         
-        //We need to create a context from this container
         let managedContext = appDelegate.persistentContainer.viewContext
         
         let fetchRequest:NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "Sentences")
-        // fetchRequest.predicate = NSPredicate(format: "id.uuidString = %@", word.id?.uuidString ?? "")
+     
         fetchRequest.predicate = NSPredicate(format: "%K == %@", "id", sentence.id! as CVarArg)
         do
         {
-            
-            let test = try managedContext.fetch(fetchRequest)
-            if test.count > 0 {
-                let objectUpdate = test[0] as! Sentences //
+            let foundData = try managedContext.fetch(fetchRequest)
+            if foundData.count > 0 {
+                let objectUpdate = foundData[0] as! Sentences
                 objectUpdate.priority = sentence.priority
                 do{
                     try managedContext.save()
@@ -76,22 +75,18 @@ class Sentences: NSManagedObject {
     
     static func increseAllSentencesPriority(){
         
-        //As we know that container is set up in the AppDelegates so we need to refer that container.
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         
-        //We need to create a context from this container
         let managedContext = appDelegate.persistentContainer.viewContext
         
         let fetchRequest:NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "Sentences")
-        // fetchRequest.predicate = NSPredicate(format: "id.uuidString = %@", word.id?.uuidString ?? "")
+ 
         do
         {
-            
             let result = try managedContext.fetch(fetchRequest)
             for sentence in result as! [Sentences] {
                 sentence.priority += 1
             }
-
                 do{
                     try managedContext.save()
                 }
@@ -99,7 +94,6 @@ class Sentences: NSManagedObject {
                 {
                     print(error)
                 }
-
         }
         catch
         {
@@ -108,44 +102,16 @@ class Sentences: NSManagedObject {
         
     }
     
-    static func retrieveData() -> Int {
-        
-        
-        //As we know that container is set up in the AppDelegates so we need to refer that container.
-        if let appDelegate = UIApplication.shared.delegate as? AppDelegate  {
-            
-            //We need to create a context from this container
-            let managedContext = appDelegate.persistentContainer.viewContext
-            
-            //Prepare the request of type NSFetchRequest  for the entity
-        
-            
-            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Sentences")
-            
-           
-            
-            do {
-                let result = try managedContext.fetch(fetchRequest)
-                return (result as? [Sentences] ?? []).count
-                
-            } catch {
-                
-                print("Failed")
-            }
-        }
-        return 0
-    }
-    
-    static func getSentences(for myFlashcardsSelected: [MyFlashcards], hsk hskFlashcardsSelected: [HskFlashcards]) -> [Sentences] {
+   
+   static func getSentences(for myFlashcardsSelected: [MyLibraries], hsk hskFlashcardsSelected: [HskLibraries]) -> [Sentences] {
     
         var foundSentences:[Sentences] = []
-        //As we know that container is set up in the AppDelegates so we need to refer that container.
+
         if let appDelegate = UIApplication.shared.delegate as? AppDelegate  {
             
-            //We need to create a context from this container
+      
             let managedContext = appDelegate.persistentContainer.viewContext
             
-            //Prepare the request of type NSFetchRequest  for the entity
             let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Sentences")
             
             var selectedWords:[String] = [""," ","。","，","? "," ","？","1","2","3","4","5","6","7","8","9","0"]
@@ -163,7 +129,6 @@ class Sentences: NSManagedObject {
           
             let _ = wellKnownWords.map { selectedWords += ($0.chinese?.map{ String($0)  }) ?? [] }
             
-            
             let listSet = Set(selectedWords)
            
             let sort = NSSortDescriptor(key: "priority", ascending: false)
@@ -175,25 +140,13 @@ class Sentences: NSManagedObject {
                 for sentence in (result as? [Sentences] ?? []) {
                     let hanzi = sentence.chinese?.map{ String($0) }
                     let findListSet = Set(hanzi ?? [])
-                    print(sentence.priority)
-                 //   let list = ["我","不","爱","你","了"]
-                   // let findList = ["我","爱","了"]
-                   // let listSet = Set(list)
-                  //  let findListSet = Set(findList)
-                    
-                    
                     if findListSet.isSubset(of: listSet) {
                         foundSentences += [sentence]
                     }
                     if foundSentences.count == 5 {
                         break
                     }
-                    
-  
-                    
-                    
                 }
-
             } catch {
                 
                 print("Failed")

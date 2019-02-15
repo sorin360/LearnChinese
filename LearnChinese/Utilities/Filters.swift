@@ -12,7 +12,5 @@ enum Filters : String, CaseIterable{
     case all = "All"
     case known = "Well known"
     case unknown = "Unknown"
-    case inLibrary = "In library"
-
-    
+    case inLibrary = "In library" 
 }

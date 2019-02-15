@@ -82,7 +82,7 @@ class FlashcardDetailsCollectionViewController: UICollectionViewController, UICo
             cell.layer.borderColor =  #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
             cell.hanziLabelCollectionCell.attributedText = NSAttributedString(string: words[indexPath.row].chinese ?? "", attributes: [NSAttributedString.Key.foregroundColor : #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)])
         }
-        else if words[indexPath.row].flashcard != nil {
+        else if words[indexPath.row].myLibraries != nil {
             cell.layer.borderColor = UIColor.red.cgColor
             cell.hanziLabelCollectionCell.attributedText = NSAttributedString(string: words[indexPath.row].chinese ?? "", attributes: [NSAttributedString.Key.foregroundColor : UIColor.red])
         } else {
@@ -102,7 +102,7 @@ class FlashcardDetailsCollectionViewController: UICollectionViewController, UICo
         else {
             cell.iKnowitButtonCollectionCell.setAttributedTitle(NSAttributedString(string: "I know it"), for: .normal)
         }
-        if words[indexPath.row].flashcard != nil {
+        if words[indexPath.row].myLibraries != nil {
             cell.addToLibraryButtonCollectionCell.setAttributedTitle(NSAttributedString(string: "Remove from library"), for: .normal)
         }
         else {

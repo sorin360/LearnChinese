@@ -10,9 +10,7 @@ import UIKit
 
 class FlashcardCollectionViewCell: UICollectionViewCell {
     
- //   var hanziLabelText: NSAttributedString?
-  //  var pinyinLabelText: String?
-    
+ 
     var hanziLabelCollectionCell: UILabel = {
         let hanziLabel = UILabel()
         hanziLabel.font = hanziLabel.font.withSize(26)
@@ -44,33 +42,12 @@ class FlashcardCollectionViewCell: UICollectionViewCell {
         
         self.addSubview(stackView)
         
-   
         stackView.topAnchor.constraint(equalTo: self.topAnchor, constant: (self.frame.height - 2 - pinyinLabelCollectionCell.font.lineHeight - hanziLabelCollectionCell.font.lineHeight) / 2).isActive = true
         
         stackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: (0 - self.frame.height + 2 + pinyinLabelCollectionCell.font.lineHeight + hanziLabelCollectionCell.font.lineHeight) / 2).isActive = true
         
         stackView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
         stackView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        /*
-        self.addSubview(hanziLabelCollectionCell)
-        self.addSubview(pinyinLabelCollectionCell)
-        
-        hanziLabelCollectionCell.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.35).isActive = true
-        hanziLabelCollectionCell.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-        
-
-         hanziLabelCollectionCell.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
-         hanziLabelCollectionCell.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
-        
-        
-        pinyinLabelCollectionCell.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.15).isActive = true
-        
-        pinyinLabelCollectionCell.topAnchor.constraint(equalTo: self.hanziLabelCollectionCell.bottomAnchor).isActive = true
-        
-        pinyinLabelCollectionCell.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
-        pinyinLabelCollectionCell.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
-        //pinyinLabelCollectionCell.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        */
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -79,17 +56,6 @@ class FlashcardCollectionViewCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        /*
-        if let hanziLabelText = hanziLabelText {
-            hanziLabelCollectionCell.attributedText = hanziLabelText
-          //  self.layer.borderColor = (hanziLabelText.attribute(NSAttributedString.Key.foregroundColor, at: 0, effectiveRange: nil) as! UIColor).cgColor
-            
-        }
-        if let pinyinLabelText = pinyinLabelText {
-            pinyinLabelCollectionCell.text = pinyinLabelText
-        }
-    }
-    */
     }
     
 }

@@ -9,13 +9,8 @@
 import UIKit
 
 class SearchTableViewCell: UITableViewCell {
-
-    var chineseLabelText: String?
-    var pinyinLabelText: String?
-    var englishLabelText: String?
     
-    
-    var chineseLabel: UILabel = {
+    var hanziLabel: UILabel = {
         var label = UILabel()
         label.font = UIFont.systemFont(ofSize: 23, weight: .medium)
         label.textColor = UIColor.blue
@@ -41,33 +36,23 @@ class SearchTableViewCell: UITableViewCell {
         
     }()
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-        
-    }
 
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        self.addSubview(chineseLabel)
+        self.addSubview(hanziLabel)
         self.addSubview(pinyinLabel)
         self.addSubview(englishLabel)
         
-        chineseLabel.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        chineseLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 8.0).isActive = true
-        pinyinLabel.topAnchor.constraint(equalTo: chineseLabel.bottomAnchor).isActive = true
+        hanziLabel.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        hanziLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 8.0).isActive = true
+        
+        pinyinLabel.topAnchor.constraint(equalTo: hanziLabel.bottomAnchor).isActive = true
         pinyinLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 8.0).isActive = true
+        
         englishLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         englishLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -5.0).isActive = true
         englishLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: self.frame.width / 1.5).isActive = true
         
     }
-    
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
 }

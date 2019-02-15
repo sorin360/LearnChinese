@@ -9,29 +9,13 @@
 import UIKit
 import CoreData
 
-class HskFlashcards: NSManagedObject {
+class HskLibraries: NSManagedObject {
 
-    static func addFlashcardBunch(in context: NSManagedObjectContext, with dataArray: [CodableHskFlashcardsModel]){
-        var flag = 0
+    static func add(data dataArray: [CodableHskFlashcardsModel], in context: NSManagedObjectContext){
+      
         for data in dataArray {
-            let flashcards = HskFlashcards(context: context)
-            //hack
-            
-            if data.level == "HSK 1" {
-               
-                if flag == 1 {
-                    flashcards.level = "HSK 3"
-                }
-                else {
-                     flag = 1
-                     flashcards.level = data.level ?? "HSK 0"
-                }
-            }
-            else {
-                 flashcards.level = data.level ?? "HSK 0"
-            }
-           
-            
+            let flashcards = HskLibraries(context: context)
+    
             
            // flashcards.level = data.level ?? "HSK 0"
             for wordsIndex in data.words.indices {
@@ -60,7 +44,7 @@ class HskFlashcards: NSManagedObject {
  
     
     
-    static func retrieveData() -> [HskFlashcards] {
+    static func retrieveData() -> [HskLibraries] {
           //As we know that container is set up in the AppDelegates so we need to refer that container.
         if let appDelegate = UIApplication.shared.delegate as? AppDelegate  {
             
@@ -68,7 +52,7 @@ class HskFlashcards: NSManagedObject {
             let managedContext = appDelegate.persistentContainer.viewContext
             
             //Prepare the request of type NSFetchRequest  for the entity
-            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "HskFlashcards")
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "HskLibraries")
             
             //        fetchRequest.fetchLimit = 1
             //        fetchRequest.predicate = NSPredicate(format: "username = %@", "Ankur")
@@ -76,7 +60,7 @@ class HskFlashcards: NSManagedObject {
             //
             do {
                 let result = try managedContext.fetch(fetchRequest)
-                return result as? [HskFlashcards] ?? []
+                return result as? [HskLibraries] ?? []
                 /*  for data in result as! [NSManagedObject] {
                  let flashcard = data as? MyFlashcards
                  let name = flashcard?.name ?? ""

@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 import AVFoundation
 
-class FlashcardDetailsCollectionViewCell: UICollectionViewCell, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate, AVSpeechSynthesizerDelegate{
+class FlashcardDetailsCollectionViewCell: UICollectionViewCell, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate{
     
     var container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
    
@@ -23,15 +23,9 @@ class FlashcardDetailsCollectionViewCell: UICollectionViewCell, UIPickerViewDele
             }
         }
     }
-    var myFlashcards: [MyFlashcards] = []
+    var myLibraries: [MyLibraries] = []
+    
     private var row = 0
-    
-  /*  func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
-        print("do something useful here ...")
-    }
-    */
-    let synthesizer = AVSpeechSynthesizer()
-    
     
     var hanziLabelCollectionCell: UILabel = {
         var hanziLabel = UILabel()
@@ -103,17 +97,16 @@ class FlashcardDetailsCollectionViewCell: UICollectionViewCell, UIPickerViewDele
     
     override func layoutSubviews() {
         super.layoutSubviews()
-         print("astalayout11111\(Date())")
-        synthesizer.delegate = self
-        myFlashcards = MyFlashcards.retrieveData()
+
+        myLibraries = MyLibraries.retrieveData()
         
         addToLibraryButtonCollectionCell.addTarget(self, action: #selector(self.AddRemoveToLibraryButton), for: UIControl.Event.touchDown)
         iKnowitButtonCollectionCell.addTarget(self, action: #selector(self.IknowitButton), for: UIControl.Event.touchDown)
         speakerButtonCollectionCell.addTarget(self, action: #selector(self.speakerButtonAction), for: UIControl.Event.touchDown)
+        
         self.choseLibraryTextField.delegate = self
         self.choseLibraryTextField.isHidden = true
         
-        // cell configuration
         self.backgroundColor = UIColor.white
         
         //Stack View
@@ -152,8 +145,8 @@ class FlashcardDetailsCollectionViewCell: UICollectionViewCell, UIPickerViewDele
         self.addSubview(mainStackView)
         translationLabelColectionCell.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.9).isActive = true
         
-      speakerButtonCollectionCell.heightAnchor.constraint(equalToConstant: 50).isActive = true
-         speakerButtonCollectionCell.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        speakerButtonCollectionCell.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        speakerButtonCollectionCell.widthAnchor.constraint(equalToConstant: 50).isActive = true
         buttonsStackView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true //, multiplier:
         buttonsStackView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
         buttonsStackView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
@@ -164,17 +157,12 @@ class FlashcardDetailsCollectionViewCell: UICollectionViewCell, UIPickerViewDele
         mainStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0 - self.frame.height / 8
             ).isActive = true
         mainStackView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
-        print("astalayout222222\(Date())")
-
     }
+    
     @objc func speakerButtonAction(){
-        let utterance = AVSpeechUtterance(string:hanziLabelCollectionCell.text ?? " ")
-        utterance.voice = AVSpeechSynthesisVoice(language: "zh-CN")
-        utterance.rate = 0.5
-        
-         self.synthesizer.stopSpeaking(at: .immediate)
-        synthesizer.speak(utterance)
+        hanziLabelCollectionCell.text?.speak()
     }
+    
     func pickUp(_ textField : UITextField){
         
         // UIPickerView
@@ -195,9 +183,7 @@ class FlashcardDetailsCollectionViewCell: UICollectionViewCell, UIPickerViewDele
         // Adding Button ToolBar
         let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(FlashcardDetailsCollectionViewCell.doneClick))
         let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        
-          let newLibraryButton = UIBarButtonItem(title: "New Library", style: .done, target: self, action: #selector(FlashcardDetailsCollectionViewCell.newLibrary))
-     
+        let newLibraryButton = UIBarButtonItem(title: "New Library", style: .done, target: self, action: #selector(FlashcardDetailsCollectionViewCell.newLibrary))
         let cancelButton = UIBarButtonItem(title: "Cancel", style: .done, target: self, action: #selector(FlashcardDetailsCollectionViewCell.cancelClick))
         toolBar.setItems([cancelButton, spaceButton,newLibraryButton, spaceButton, doneButton], animated: false)
         toolBar.isUserInteractionEnabled = true
@@ -211,13 +197,14 @@ class FlashcardDetailsCollectionViewCell: UICollectionViewCell, UIPickerViewDele
     @objc func doneClick() {
         choseLibraryTextField.resignFirstResponder()
         if let newWord = word {
-            if myFlashcards.count > row {
-                myFlashcards[row].addToWords(newWord)
-                MyFlashcards.update(myFlashcards: myFlashcards[row])
+            if myLibraries.count > row {
+                myLibraries[row].addToWords(newWord)
+                MyLibraries.update(myFlashcards: myLibraries[row])
                 addToLibraryButtonCollectionCell.setAttributedTitle(NSAttributedString(string: "Remove from library"), for: .normal)
             }
         }
     }
+    
     @objc func cancelClick() {
         choseLibraryTextField.resignFirstResponder()
         self.superview?.layoutSubviews()
@@ -232,19 +219,9 @@ class FlashcardDetailsCollectionViewCell: UICollectionViewCell, UIPickerViewDele
                         inputPlaceholder: "Name",
                         inputKeyboardType: .alphabet)
         { (input:String?) in
-            
-            /* self.myFlshcardsBunchList = MyFlashcards.retrieveData()
-             self.tableView.reloadData()
-             */
-            self.container?.performBackgroundTask(){ context in
-                _ = MyFlashcards.addFlashcardBunch(in: context, with: input ?? "Unknown")
-                
-               // self.myFlashcards.insert(newFlashcards, at: 0)
-                DispatchQueue.main.async {
-                    self.myFlashcards = MyFlashcards.retrieveData()
-                    self.myPickerView.reloadAllComponents()
-                }
-            }
+            _ = MyLibraries.addLibrary(with: input ?? "Unknown")
+            self.myLibraries = MyLibraries.retrieveData()
+            self.myPickerView.reloadAllComponents()
         }
     }
     
@@ -269,8 +246,7 @@ class FlashcardDetailsCollectionViewCell: UICollectionViewCell, UIPickerViewDele
             }
             if textField.text != "" {
                 actionHandler?(textField.text)
-            } 
-            
+            }
         }))
         alert.addAction(UIAlertAction(title: cancelTitle, style: .cancel, handler: cancelHandler))
         
@@ -279,10 +255,9 @@ class FlashcardDetailsCollectionViewCell: UICollectionViewCell, UIPickerViewDele
 
     
     @objc func AddRemoveToLibraryButton() {
-        if (word?.flashcard) != nil {
-            MyFlashcards.remove(word: word!)
+        if (word?.myLibraries) != nil {
+            MyLibraries.remove(word: word!)
             addToLibraryButtonCollectionCell.setAttributedTitle(NSAttributedString(string: "Add to library"), for: .normal)
-
         }
         else {
             choseLibraryTextField.becomeFirstResponder()
@@ -290,37 +265,26 @@ class FlashcardDetailsCollectionViewCell: UICollectionViewCell, UIPickerViewDele
     }
     
     @objc func IknowitButton() {
-        if let newWord = word {
-            if newWord.veryKnown {
-                UIView.transition(with: addToLibraryButtonCollectionCell, duration: 0.5, options: .showHideTransitionViews, animations: {
-                    self.addToLibraryButtonCollectionCell.isHidden = false
-                })
-                newWord.veryKnown = false
-                word?.veryKnown = false
-                iKnowitButtonCollectionCell.setAttributedTitle(NSAttributedString(string: "I know it"), for: .normal)
+
+        if (word?.veryKnown)! {
+            UIView.transition(with: addToLibraryButtonCollectionCell, duration: 0.5, options: .showHideTransitionViews, animations: {
+                self.addToLibraryButtonCollectionCell.isHidden = false
+            })
+            word?.veryKnown = false
+            iKnowitButtonCollectionCell.setAttributedTitle(NSAttributedString(string: "I know it"), for: .normal)
+        } else {
+            UIView.transition(with: addToLibraryButtonCollectionCell, duration: 0.5, options: .showHideTransitionViews, animations: {
+                self.addToLibraryButtonCollectionCell.isHidden = true
+            })
                 
-              //  AddToLibraryButton.isHidden = false
-               
+            if let library = word?.myLibraries {
+                library.removeFromWords(word!)
             }
-            else {
-                UIView.transition(with: addToLibraryButtonCollectionCell, duration: 0.5, options: .showHideTransitionViews, animations: {
-                    self.addToLibraryButtonCollectionCell.isHidden = true
-                })
-                
-                if let flashcard = word?.flashcard {
-                    flashcard.removeFromWords(word!)
-                } // remove the word from flashcards
-                
-                newWord.veryKnown = true
-                word?.veryKnown = true
-                addToLibraryButtonCollectionCell.setAttributedTitle(NSAttributedString(string: "Add to library"), for: .normal)
-                iKnowitButtonCollectionCell.setAttributedTitle(NSAttributedString(string: "I don't know it"), for: .normal)
-                
-              //  self.addToLibraryButtonCollectionCell.isHidden = true
-            }
-            Words.update(with: newWord)
+            word?.veryKnown = true
+            addToLibraryButtonCollectionCell.setAttributedTitle(NSAttributedString(string: "Add to library"), for: .normal)
+            iKnowitButtonCollectionCell.setAttributedTitle(NSAttributedString(string: "I don't know it"), for: .normal)
         }
-       
+        Words.update(with: word!)
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -328,10 +292,10 @@ class FlashcardDetailsCollectionViewCell: UICollectionViewCell, UIPickerViewDele
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return myFlashcards.count
+        return myLibraries.count
     }
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return myFlashcards[row].name
+        return myLibraries[row].name
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {

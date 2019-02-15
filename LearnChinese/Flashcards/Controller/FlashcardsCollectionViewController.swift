@@ -68,13 +68,13 @@ class FlashcardsCollectionViewController: UICollectionViewController,  UIPickerV
         
         switch selectedSegmentIndex {
         case 0:
-            words = MyFlashcards.retrieveData()[selectedIndex].words?.allObjects as? [Words] ?? []
+            words = MyLibraries.retrieveData()[selectedIndex].words?.allObjects as? [Words] ?? []
             filterCellsButton.isEnabled = false
             filterCellsButton.tintColor = .clear
             // filterButtonOutlet.view
             
         case 1:
-            words = HskFlashcards.retrieveData()[selectedIndex].words?.allObjects as? [Words] ?? []
+            words = HskLibraries.retrieveData()[selectedIndex].words?.allObjects as? [Words] ?? []
             filterCellsButton.isEnabled = true
             filterCellsButton.tintColor = nil
         default:
@@ -144,21 +144,21 @@ class FlashcardsCollectionViewController: UICollectionViewController,  UIPickerV
             
             switch selectedSegmentIndex {
             case 0:
-                words = MyFlashcards.retrieveData()[selectedIndex].words?.allObjects as? [Words] ?? []
+                words = MyLibraries.retrieveData()[selectedIndex].words?.allObjects as? [Words] ?? []
             case 1:
-                words = HskFlashcards.retrieveData()[selectedIndex].words?.allObjects as? [Words] ?? []
+                words = HskLibraries.retrieveData()[selectedIndex].words?.allObjects as? [Words] ?? []
             default:
                 words = Words.getKnownWords()
             }
             
             switch Filters.allCases[row] {
             case .inLibrary:
-                words = words.filter { $0.flashcard != nil }
+                words = words.filter { $0.myLibraries != nil }
             case .known:
                 words = words.filter { $0.veryKnown == true }
             case .unknown:
                 words = words.filter { $0.veryKnown != true }
-                words = words.filter { $0.flashcard == nil }
+                words = words.filter { $0.myLibraries == nil }
             default:
                 break
             }
@@ -241,7 +241,7 @@ class FlashcardsCollectionViewController: UICollectionViewController,  UIPickerV
             cell.hanziLabelCollectionCell.attributedText = NSAttributedString(string: words[indexPath.row].chinese ?? "", attributes: [NSAttributedString.Key.foregroundColor : #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)])
             cell.layer.borderColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
         }
-        else if words[indexPath.row].flashcard != nil {
+        else if words[indexPath.row].myLibraries != nil {
               //  cell.layer.borderColor = UIColor.red.cgColor
                 cell.hanziLabelCollectionCell.attributedText = NSAttributedString(string: words[indexPath.row].chinese ?? "", attributes: [NSAttributedString.Key.foregroundColor : UIColor.red])
             cell.layer.borderColor = UIColor.red.cgColor
