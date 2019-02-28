@@ -16,8 +16,6 @@ class HskLibraries: NSManagedObject {
         for data in dataArray {
             let flashcards = HskLibraries(context: context)
     
-            
-           // flashcards.level = data.level ?? "HSK 0"
             for wordsIndex in data.words.indices {
                 let word = Words(context: context)
                 word.chinese = data.words[wordsIndex].hanzi
@@ -44,40 +42,16 @@ class HskLibraries: NSManagedObject {
  
     
     
-    static func retrieveData() -> [HskLibraries] {
-          //As we know that container is set up in the AppDelegates so we need to refer that container.
+    static func getHskLibraries() -> [HskLibraries] {
+  
         if let appDelegate = UIApplication.shared.delegate as? AppDelegate  {
-            
-            //We need to create a context from this container
             let managedContext = appDelegate.persistentContainer.viewContext
-            
-            //Prepare the request of type NSFetchRequest  for the entity
             let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "HskLibraries")
-            
-            //        fetchRequest.fetchLimit = 1
-            //        fetchRequest.predicate = NSPredicate(format: "username = %@", "Ankur")
-            //        fetchRequest.sortDescriptors = [NSSortDescriptor.init(key: "email", ascending: false)]
-            //
+   
             do {
                 let result = try managedContext.fetch(fetchRequest)
                 return result as? [HskLibraries] ?? []
-                /*  for data in result as! [NSManagedObject] {
-                 let flashcard = data as? MyFlashcards
-                 let name = flashcard?.name ?? ""
-                 let words = (flashcard?.words?.allObjects as? [Words]) ?? []
-                 for word in words  {
-                 colectedData += [word.chinese ?? ""]
-                 }
-                 /*
-                 let word = flashcards?.words?.allObjects as? [Words]
-                 let nam = flashcards?.name
-                 let name = data.value(forKey: "name") as? String
-                 let words = data.value(forKey: "words") as? [NSManagedObject]
-                 */
-                 colectedData += [name]
-                 //  colectedData
-                 }
-                 */
+               
             } catch {
                 
                 print("Failed")

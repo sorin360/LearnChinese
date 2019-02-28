@@ -24,7 +24,7 @@ class FlashcardsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        hskFlshcardsBunchList = HskLibraries.retrieveData()
+        hskFlshcardsBunchList = HskLibraries.getHskLibraries()
 
         
         // setup segmentedControl
@@ -98,27 +98,18 @@ class FlashcardsTableViewController: UITableViewController {
         return cell!
     }
     
-    // Override to support editing the table view.
+
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
             switch segmentedControl.selectedSegmentIndex {
             case 0:
-                     MyLibraries.delete(myFlashcards: myFlshcardsBunchList[indexPath.row])
+                MyLibraries.delete(myFlashcards: myFlshcardsBunchList[indexPath.row])
                 myFlshcardsBunchList.remove(at: indexPath.row)
-                 tableView.deleteRows(at: [indexPath], with: .fade)
-           
+                tableView.deleteRows(at: [indexPath], with: .fade)
             default:
                 break
-              //  hskFlshcardsBunchList.remove(at: indexPath.row)
-
-              //  cell.textLabel?.text =NSMutableAttributedString hskFlshcardsBunchList[indexPath.row].level ?? "Unknown"
             }
-
-            //flshcardsBunchList.remove(at: indexPath.row)
-           
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }
     }
     
@@ -139,66 +130,10 @@ class FlashcardsTableViewController: UITableViewController {
         let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
         navigationController?.navigationBar.titleTextAttributes = textAttributes
         navigationController?.pushViewController(destination, animated: true)
-        
-  
-            // TO DO: do not get all the words
+
     }
-    
-    /*
-     // Override to support rearranging the table view.
-     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-     
-     }
-     */
-    
-    /*
-     // Override to support conditional rearranging of the table view.
-     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the item to be re-orderable.
-     return true
-     }
-     */
-    
-    
-    // MARK: - Navigation
-    
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
- /*   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let selectedCell = sender as? UITableViewCell {
-            if let selectedCellIndex = tableView.indexPath(for: selectedCell) {
-                if let destination = segue.destination as? FlashcardsCollectionViewController {
-                    
-                   switch segmentedControl.selectedSegmentIndex {
-                    case 0:
-                        destination.selectedSegmentIndex = 0
-                        destination.selectedIndex = selectedCellIndex.row
-                        destination.navigationItem.title = myFlshcardsBunchList[selectedCellIndex.row].name ?? "Unknown"
-                        // = myFlshcardsBunchList[selectedCellIndex.row].
-                    //    destination.words = myFlshcardsBunchList[selectedCellIndex.row].words?.allObjects as? [Words] ?? []
-                        
-                    // print(myFlshcardsBunchList[selectedCellIndex.row])
-                    default:
-                        destination.selectedSegmentIndex = 1
-                        destination.selectedIndex = selectedCellIndex.row
-                        destination.navigationItem.title = hskFlshcardsBunchList[selectedCellIndex.row].level ?? "Unknown"// = hskFlshcardsBunchList[selectedCellIndex.row]
-                       // destination.words = hskFlshcardsBunchList[selectedCellIndex.row].words?.allObjects as? [Words] ?? []
-                        //  print(hskFlshcardsBunchList[selectedCellIndex.row].words?.allObjects)
-                        
-                    }
-                    // TO DO: do not get all the words
-                }
-            }
-            
-        }
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    
-    
-*/
+
     @objc func addButtonAction() {
-        
-        
         showInputDialog(title: "Add library",
                         subtitle: "Please enter the name below.",
                         actionTitle: "Add",
@@ -207,12 +142,9 @@ class FlashcardsTableViewController: UITableViewController {
                         inputKeyboardType: .alphabet)
         { (input:String?) in
             
-         
                 _ = MyLibraries.addLibrary(with: input ?? "Unknown")
-          
                 self.myFlshcardsBunchList = MyLibraries.retrieveData()
                 self.tableView.reloadData()
-  
         }
     }
     
@@ -223,51 +155,12 @@ class FlashcardsTableViewController: UITableViewController {
         
         switch segmentedControl.selectedSegmentIndex {
         case 0:
-            //  flshcardsBunchList = ["list1", "list2", "list3"]
-          /*  flshcardsBunchList = []
-            for flashcard in myFlshcardsBunchList {
-                flshcardsBunchList += [flashcard.name ?? "Unknown"]
-            }*/
             tableView.reloadData()
             addButton.isEnabled = true
         default:
-            //flshcardsBunchList = ["hsk 1", "hsk 2", "hsk 3"]
-         /*   flshcardsBunchList = []
-            for flashcard in hskFlshcardsBunchList {
-                flshcardsBunchList += [flashcard.level ?? "Unknown"]
-            }*/
             tableView.reloadData()
             addButton.isEnabled = false
         }
     }
     
 }
-/*
-extension UITableViewController {
-    func showInputDialog(title:String? = nil,
-                         subtitle:String? = nil,
-                         actionTitle:String? = "Add",
-                         cancelTitle:String? = "Cancel",
-                         inputPlaceholder:String? = nil,
-                         inputKeyboardType:UIKeyboardType = UIKeyboardType.default,
-                         cancelHandler: ((UIAlertAction) -> Swift.Void)? = nil,
-                         actionHandler: ((_ text: String?) -> Void)? = nil) {
-        
-        let alert = UIAlertController(title: title, message: subtitle, preferredStyle: .alert)
-        alert.addTextField { (textField:UITextField) in
-            textField.placeholder = inputPlaceholder
-            textField.keyboardType = inputKeyboardType
-        }
-        alert.addAction(UIAlertAction(title: actionTitle, style: .destructive, handler: { (action:UIAlertAction) in
-            guard let textField =  alert.textFields?.first else {
-                actionHandler?(nil)
-                return
-            }
-            actionHandler?(textField.text)
-        }))
-        alert.addAction(UIAlertAction(title: cancelTitle, style: .cancel, handler: cancelHandler))
-        
-        self.present(alert, animated: true, completion: nil)
-    }
-}
-*/

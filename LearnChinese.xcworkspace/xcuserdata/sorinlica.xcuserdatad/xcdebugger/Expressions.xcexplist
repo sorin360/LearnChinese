@@ -120,10 +120,10 @@
                value = "Calendar.current.date(byAdding: .day, value: 0 - index, to: today)?.stripTime()">
             </PersistentString>
             <PersistentString
-               value = "result[1].time">
+               value = "result[2].time == result[1].time">
             </PersistentString>
             <PersistentString
-               value = "result[2].time == result[1].time">
+               value = "result[1].time">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -166,10 +166,10 @@
          contextName = "HomeViewController.setupViews():HomeViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "contentView.frame">
+               value = "contentView.widthAnchor">
             </PersistentString>
             <PersistentString
-               value = "contentView.widthAnchor">
+               value = "contentView.frame">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -185,13 +185,13 @@
          contextName = "Date.stripTime():Scores.swift">
          <PersistentStrings>
             <PersistentString
+               value = "Calendar.current.date(bySetting: .hour, value: 0, of: Date())">
+            </PersistentString>
+            <PersistentString
                value = "Calendar.current.date(bySettingHour: 1, minute: 30, second: 0, of: Date())">
             </PersistentString>
             <PersistentString
                value = "TimeZone.current.secondsFromGMT()">
-            </PersistentString>
-            <PersistentString
-               value = "Calendar.current.date(bySetting: .hour, value: 0, of: Date())">
             </PersistentString>
             <PersistentString
                value = "dateFormatter.date(from: localDate)">
@@ -241,10 +241,10 @@
                value = "chineseLabel.intrinsicContentSize.width">
             </PersistentString>
             <PersistentString
-               value = "self.layer.width">
+               value = "chineseLabel.text">
             </PersistentString>
             <PersistentString
-               value = "chineseLabel.text">
+               value = "self.layer.width">
             </PersistentString>
             <PersistentString
                value = "self.layer.frame.width">
@@ -263,7 +263,7 @@
          contextName = "PracticeTranslateSentenceViewController.collectionView(_:layout:sizeForItemAt:):PracticeTranslateSentenceViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "contentCollectionOne">
+               value = "contentCollectionTwo[indexPath.row].chinese">
             </PersistentString>
             <PersistentString
                value = "contentCollectionTwo[indexPath.row].chinese&#10;contentCollectionTwo[indexPath.row].chinese&#10;">
@@ -272,10 +272,10 @@
                value = "contentCollectionTwo[indexPath.row].pinyin">
             </PersistentString>
             <PersistentString
-               value = "contentCollectionZero[indexPath.row].pinyin">
+               value = "contentCollectionOne">
             </PersistentString>
             <PersistentString
-               value = "contentCollectionTwo[indexPath.row].chinese">
+               value = "contentCollectionZero[indexPath.row].pinyin">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -305,7 +305,7 @@
                value = "practiceTranslateWordViewController.lifeStatus">
             </PersistentString>
             <PersistentString
-               value = "Bool.random() ">
+               value = "practiceTranslateSentenceViewController.lifeStatus">
             </PersistentString>
             <PersistentString
                value = "practiceTranslateWord?.words.count">
@@ -314,13 +314,13 @@
                value = "practiceTranslateSentence">
             </PersistentString>
             <PersistentString
+               value = "Bool.random() ">
+            </PersistentString>
+            <PersistentString
                value = "practiceTranslateWord?.curentWordIndex">
             </PersistentString>
             <PersistentString
                value = "practice.lifeStatus">
-            </PersistentString>
-            <PersistentString
-               value = "practiceTranslateSentenceViewController.lifeStatus">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -366,10 +366,10 @@
          contextName = "PracticeViewController.viewDidLoad():PracticeViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "colectionViewZero.contentSize.height">
+               value = "colectionViewZero">
             </PersistentString>
             <PersistentString
-               value = "colectionViewZero">
+               value = "colectionViewZero.contentSize.height">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -435,6 +435,14 @@
          <PersistentStrings>
             <PersistentString
                value = "contentCollectionZero[indexPath.row].pinyin">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "HomeViewController.updateChart():HomeViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "chart.xLabelsFormatter">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

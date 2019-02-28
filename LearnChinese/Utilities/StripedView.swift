@@ -11,10 +11,10 @@ import UIKit
 class StripedView: UIView {
     
     override func draw(_ rect: CGRect) {
-        //// Set pattern tile colors width and height; adjust the color width to adjust pattern.
+ 
         let color1 = UIColor.white
-        let color1Width: CGFloat = 30
-        let color1Height: CGFloat = 25 // cell height
+        let color1Width: CGFloat = 25
+        let color1Height: CGFloat = 25
         let color2 = #colorLiteral(red: 0.8647956285, green: 0.8647956285, blue: 0.8647956285, alpha: 1)
         let color2Width: CGFloat = 1
         let color2Height: CGFloat = 1

@@ -25,7 +25,7 @@ class PracticeTableViewController: UITableViewController, UINavigationController
         
         self.tableView.register(PracticeTableViewCell.self, forCellReuseIdentifier: "reuseIdentifier")
         
-        hskLibraries = HskLibraries.retrieveData()
+        hskLibraries = HskLibraries.getHskLibraries()
 
         setUpNavigationBar()
 

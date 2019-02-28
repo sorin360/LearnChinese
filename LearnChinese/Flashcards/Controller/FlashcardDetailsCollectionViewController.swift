@@ -19,9 +19,7 @@ class FlashcardDetailsCollectionViewController: UICollectionViewController, UICo
         super.viewDidLoad()
          print("astaDidLoad\(Date())")
         self.collectionView.register(FlashcardDetailsCollectionViewCell.self, forCellWithReuseIdentifier: "detailsCell")
-        
-        
-        
+
         self.collectionView.backgroundColor = UIColor.white
         if let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             flowLayout.scrollDirection = .horizontal
@@ -29,8 +27,7 @@ class FlashcardDetailsCollectionViewController: UICollectionViewController, UICo
             flowLayout.minimumLineSpacing = 30
         }
         self.collectionView.isPagingEnabled = true
-      //
-  
+
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -40,26 +37,14 @@ class FlashcardDetailsCollectionViewController: UICollectionViewController, UICo
         self.collectionView.layoutIfNeeded()
 
     }
-    /*(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.collectionView.scrollToItem(at: indexPath, at: .right, animated: false)
-    }*/
-    
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
   
-    
-    
     // MARK: UICollectionViewDataSource
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of items
         return words.count
     }
     
@@ -70,13 +55,7 @@ class FlashcardDetailsCollectionViewController: UICollectionViewController, UICo
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        print("celll1111\(Date())")
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "detailsCell", for: indexPath) as! FlashcardDetailsCollectionViewCell
-        // if let flashcardCell = cell as? FlashcardCollectionViewCell {
-       // cell.hanziLabelCollectionCell?.text = words[indexPath.row].chinese ?? ""
-        
-        
-        
         
         if words[indexPath.row].veryKnown{
             cell.layer.borderColor =  #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
@@ -90,9 +69,7 @@ class FlashcardDetailsCollectionViewController: UICollectionViewController, UICo
             cell.hanziLabelCollectionCell.attributedText = NSAttributedString(string: words[indexPath.row].chinese ?? "", attributes: [NSAttributedString.Key.foregroundColor : UIColor.blue])
         }
         
-        
-        
-        
+
         cell.pinyinLabelCollectionCell.text = words[indexPath.row].pinyin ?? ""
         cell.translationLabelColectionCell.text = words[indexPath.row].english ?? ""
         cell.word = words[indexPath.row]
@@ -110,11 +87,6 @@ class FlashcardDetailsCollectionViewController: UICollectionViewController, UICo
         }
         cell.layer.cornerRadius = 25.0
         cell.layer.borderWidth = 1.0
-       // cell.layer.borderColor = UIColor.blue.cgColor
-        // cell.backgroundColor = UIColor.blue
-        // }
-        // Configure the cell
-        print("celll222\(Date())")
         return cell
     }
     
@@ -123,41 +95,4 @@ class FlashcardDetailsCollectionViewController: UICollectionViewController, UICo
         return 0
     }
 
-  
-  //  override func viewDidLayoutSubviews() {
-   //     super.viewDidLayoutSubviews()
-  //      collectionView.reloadData()
-  //  }
-
-    // MARK: UICollectionViewDelegate
-    
-    /*
-     // Uncomment this method to specify if the specified item should be highlighted during tracking
-     override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
-     return true
-     }
-     */
-    
-    /*
-     // Uncomment this method to specify if the specified item should be selected
-     override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-     return true
-     }
-     */
-    
-    /*
-     // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-     override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-     return false
-     }
-     
-     override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-     return false
-     }
-     
-     override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
-     
-     }
-     */
-    
 }

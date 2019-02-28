@@ -12,33 +12,26 @@ import UIKit
 
 class Scores: NSManagedObject {
     static func addScore(in context: NSManagedObjectContext){
-        
-        //As we know that container is set up in the AppDelegates so we need to refer that container.
+
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        
-        //We need to create a context from this container
         let managedContext = appDelegate.persistentContainer.viewContext
+        let newScore = Scores(context: managedContext)
+        newScore.time = Date()
+        newScore.value = 0
+        do {
+            try managedContext.save()
         
-            let newScore = Scores(context: managedContext)
-            newScore.time = Date()
-            newScore.value = 0
-            do {
-                try managedContext.save()
-          
-            } catch let error as NSError {
-                print("Could not save. \(error), \(error.userInfo)")
-            }
+        } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
         }
+    }
+    
     static func update(with score: Int, at date: Date){
         
-        //As we know that container is set up in the AppDelegates so we need to refer that container.
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        
-        //We need to create a context from this container
         let managedContext = appDelegate.persistentContainer.viewContext
-        
         let fetchRequest:NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "Scores")
-        // fetchRequest.predicate = NSPredicate(format: "id.uuidString = %@", word.id?.uuidString ?? "")
+
         fetchRequest.predicate = NSPredicate(format: "%K == %@", "time", date as CVarArg)
         do
         {
@@ -68,13 +61,9 @@ class Scores: NSManagedObject {
     }
     static func getLast7DaysScores() -> [Scores] {
         
-        //As we know that container is set up in the AppDelegates so we need to refer that container.
         if let appDelegate = UIApplication.shared.delegate as? AppDelegate  {
-            
-            //We need to create a context from this container
             let managedContext = appDelegate.persistentContainer.viewContext
-            
-            //Prepare the request of type NSFetchRequest  for the entity
+
             let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Scores")
             let sort = NSSortDescriptor(key: "time", ascending: false)
             
@@ -82,27 +71,27 @@ class Scores: NSManagedObject {
 
             do {
                 var result = try managedContext.fetch(fetchRequest) as? [Scores] ?? []
-             //   result[count-1]//cea mai mare data
-              //  var count = result.count
                 let today = Date()
-      
-                
-               var index = 0
-                    
-                    while index < result.count{
-       
-                        if result[index].time != Calendar.current.date(byAdding: .day, value: 0 - index, to: today)?.stripTime(){
-                            let newScore = Scores(context: managedContext)
-                            newScore.time = Calendar.current.date(byAdding: .day, value: 0 - index, to: today)?.stripTime()
-                            newScore.value = 0
-                            result.insert(newScore, at: index)
-                        }
-                        else {
-                            break
-                        }
+                var index = 0
+                while index < result.count{
+                    // if the time for a certain score is different than the expected time for that score then a new score object is created and added to the results list
+                    if result[index].time != Calendar.current.date(byAdding: .day, value: 0 - index, to: today)?.stripTime()
+                    {
+                        let newScore = Scores(context: managedContext)
+                        newScore.time = Calendar.current.date(byAdding: .day, value: 0 - index, to: today)?.stripTime()
+                        newScore.value = 0
+                            
+                        result.insert(newScore, at: index)
+                    }
+                        
                     index += 1
+                        
+                    if index == 7 {
+                        // the required number of 7 results was achived, further iterations are not needed
+                        break
+                    }
                 }
-                print(Date())
+          
   
                 if result.count > 7 {
                     return Array(result.prefix(upTo: 7))
@@ -122,18 +111,13 @@ class Scores: NSManagedObject {
 extension Date {
     
     func stripTime() -> Date {
-
-     
+        
         let dateFormatter = DateFormatter()
-        //To prevent displaying either date or time, set the desired style to NoStyle.
-        dateFormatter.dateStyle = DateFormatter.Style.short //Set time style
-        print(self)
+        dateFormatter.dateStyle = DateFormatter.Style.short
         dateFormatter.timeZone = TimeZone.current
         let localDate = dateFormatter.string(from: self)
         dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
         return dateFormatter.date(from: localDate)!
-       // (bySettingHour: 12, minute: 60, second: 60, of: self)!
-       // return date!
+
     }
-    
 }

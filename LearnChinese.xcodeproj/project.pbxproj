@@ -38,7 +38,6 @@
 		479D6BC3220079F0007B832C /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479D6BC2220079F0007B832C /* SettingsTableViewController.swift */; };
 		479D6BD522013FBD007B832C /* LeftAlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479D6BD422013FBD007B832C /* LeftAlignedCollectionViewFlowLayout.swift */; };
 		479D6BD722014027007B832C /* StripedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479D6BD622014027007B832C /* StripedView.swift */; };
-		479D6BD922028ED1007B832C /* PracticeAmountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479D6BD822028ED1007B832C /* PracticeAmountViewController.swift */; };
 		479D6BDB2203206E007B832C /* PracticeManagerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479D6BDA2203206E007B832C /* PracticeManagerViewController.swift */; };
 		479D6BDD2203221C007B832C /* PracticeTranslateWord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479D6BDC2203221C007B832C /* PracticeTranslateWord.swift */; };
 		479D6BDF22032897007B832C /* PracticeTranslateWordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479D6BDE22032897007B832C /* PracticeTranslateWordViewController.swift */; };
@@ -89,7 +88,6 @@
 		479D6BC2220079F0007B832C /* SettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		479D6BD422013FBD007B832C /* LeftAlignedCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftAlignedCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		479D6BD622014027007B832C /* StripedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripedView.swift; sourceTree = "<group>"; };
-		479D6BD822028ED1007B832C /* PracticeAmountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeAmountViewController.swift; sourceTree = "<group>"; };
 		479D6BDA2203206E007B832C /* PracticeManagerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeManagerViewController.swift; sourceTree = "<group>"; };
 		479D6BDC2203221C007B832C /* PracticeTranslateWord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeTranslateWord.swift; sourceTree = "<group>"; };
 		479D6BDE22032897007B832C /* PracticeTranslateWordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeTranslateWordViewController.swift; sourceTree = "<group>"; };
@@ -293,7 +291,6 @@
 		479D6BCB22007B42007B832C /* View */ = {
 			isa = PBXGroup;
 			children = (
-				479D6BD822028ED1007B832C /* PracticeAmountViewController.swift */,
 				4780BBD721C4EEAB00530D77 /* PracticeTableViewCell.swift */,
 				4700A6CE21C74F78004CD410 /* PracticeTranslateSentenceCellCollectionViewCell.swift */,
 			);
@@ -476,7 +473,6 @@
 			files = (
 				4705C5DE21B7EC3600370F44 /* MyLibraries.swift in Sources */,
 				47CD7C5522157C31000F81C7 /* Filters.swift in Sources */,
-				479D6BD922028ED1007B832C /* PracticeAmountViewController.swift in Sources */,
 				479D6BDB2203206E007B832C /* PracticeManagerViewController.swift in Sources */,
 				47BA97FA21C520720040D45F /* Words.swift in Sources */,
 				479DCC2821BE0760006E9585 /* PopulateDBfromJSON.swift in Sources */,

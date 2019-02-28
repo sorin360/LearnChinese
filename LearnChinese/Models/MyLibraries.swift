@@ -11,20 +11,17 @@ import CoreData
 
 class MyLibraries: NSManagedObject {
     
-    
     static func remove(word: Words){
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         
-        //We need to create a context from this container
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let managedContext = appDelegate.persistentContainer.viewContext
         
         let fetchRequest:NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "MyFlashcards")
-        let flashcard = word.myLibraries
-        // fetchRequest.predicate = NSPredicate(format: "id.uuidString = %@", word.id?.uuidString ?? "")
-        fetchRequest.predicate = NSPredicate(format: "%K == %@", "id", (flashcard?.id ?? UUID()) as CVarArg)
+        let library = word.myLibraries
+
+        fetchRequest.predicate = NSPredicate(format: "%K == %@", "id", (library?.id ?? UUID()) as CVarArg)
         do
         {
-            
             let test = try managedContext.fetch(fetchRequest)
             if test.count > 0 {
                 let objectUpdate = test[0] as! MyLibraries //
@@ -46,15 +43,11 @@ class MyLibraries: NSManagedObject {
         
     }
     static func update(myFlashcards: MyLibraries){
-        
-        //As we know that container is set up in the AppDelegates so we need to refer that container.
-        
+
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        //We need to create a context from this container
         let managedContext = appDelegate.persistentContainer.viewContext
+        let fetchRequest:NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "MyLibraries")
         
-        let fetchRequest:NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "MyFlashcards")
-        // fetchRequest.predicate = NSPredicate(format: "id.uuidString = %@", word.id?.uuidString ?? "")
         fetchRequest.predicate = NSPredicate(format: "%K == %@", "id", myFlashcards.id! as CVarArg)
         do
         {
@@ -87,11 +80,9 @@ class MyLibraries: NSManagedObject {
         
         let context = appDelegate!.persistentContainer.viewContext
         
-        //here adding 5 data with loop
         let flashcards = MyLibraries(context: context)
         flashcards.name = name
         flashcards.id = UUID.init()
-        
         
         do {
             try context.save()
@@ -107,38 +98,27 @@ class MyLibraries: NSManagedObject {
     static func retrieveData() -> [MyLibraries] {
         
         if let appDelegate = UIApplication.shared.delegate as? AppDelegate  {
-        
-            //We need to create a context from this container
+       
             let managedContext = appDelegate.persistentContainer.viewContext
-            
-            //Prepare the request of type NSFetchRequest  for the entity
             let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "MyFlashcards")
-           
             do {
                 let result = try managedContext.fetch(fetchRequest)
                 return result as? [MyLibraries] ?? []
             
             } catch {
-                
                 print("Failed")
             }
         }
         return []
     }
     static func delete(myFlashcards: MyLibraries){
-        
-        //As we know that container is set up in the AppDelegates so we need to refer that container.
+
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        
-        //We need to create a context from this container
         let managedContext = appDelegate.persistentContainer.viewContext
-        
         let fetchRequest:NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "MyFlashcards")
-        // fetchRequest.predicate = NSPredicate(format: "id.uuidString = %@", word.id?.uuidString ?? "")
         fetchRequest.predicate = NSPredicate(format: "%K == %@", "id", myFlashcards.id! as CVarArg)
         do
         {
-            
             let test = try managedContext.fetch(fetchRequest)
             if test.count > 0 {
                 let objectUpdate = test[0] as! MyLibraries //
@@ -158,5 +138,4 @@ class MyLibraries: NSManagedObject {
         }
         
     }
-    
 }

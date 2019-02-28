@@ -150,7 +150,7 @@ class PracticeTranslateSentence {
        
         let corectAnswerString = corectAnswer.joined(separator: " ")
         
-        // return that answer state (corect/wrong) long with the corect answer
+        // return that answer state (corect/wrong) along with the corect answer
         if answer.elementsEqual(corectAnswer) {
             updateScore(with: 100)
             return (true,corectAnswerString)

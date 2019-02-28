@@ -116,8 +116,6 @@ class PracticeTranslateWordViewController: PracticeViewController, UITableViewDe
                     break
                 }
             }
-            
-            
         }
     }
     
