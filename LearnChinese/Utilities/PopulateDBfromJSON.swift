@@ -50,14 +50,14 @@ class PopulateDBfromJSON {
                 }).resume()
                 
                 guard let urlSentences = URL(string: Constants.sentencesUrl.rawValue) else {return}
-                
+          
                 URLSession.shared.dataTask(with: urlSentences, completionHandler:  { (data, response, error) in
                     
                     guard let dataResponse = data, error == nil else { return }
                     do{
                         let decodedData = try JSONDecoder().decode([CodableSentencesModel].self, from: dataResponse)
                         
-                        Sentences.add(data: decodedData)
+                        Sentences.add(data: decodedData, to: context)
                         DispatchQueue.main.async {
                             if downloadEnd {
                                 hideAlertHandler()

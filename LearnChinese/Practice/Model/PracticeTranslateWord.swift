@@ -15,16 +15,16 @@ class PracticeTranslateWord {
     var practice: Practice?
     
     
-    init(myFlashcards:[MyLibraries], hskFlashcards:[HskLibraries]){
+    init(myLibraries:[MyLibraries], hskLibraries:[HskLibraries]){
         var words = [Words]()
-        for flashcard in myFlashcards {
+        for flashcard in myLibraries {
             words += flashcard.words?.allObjects as? [Words] ?? []
         }
-        for flashcard in hskFlashcards {
+        for flashcard in hskLibraries {
             words += flashcard.words?.allObjects as? [Words] ?? []
         }
         words.shuffle()
-        // get the first 5 words from the selected libraries
+        // get only the first 5 words from the selected libraries
         if words.count > 5 {
             self.words = Array(words.prefix(5))
         } else {

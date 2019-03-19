@@ -10,7 +10,7 @@ import UIKit
 
 class SearchTableViewController: UITableViewController, UISearchBarDelegate{
 
-    private var filtered:[Words] = []
+    private var filtered: [Words] = []
     private let searchBar = UISearchBar()
     
     override func viewDidLoad() {

@@ -199,7 +199,7 @@ class FlashcardDetailsCollectionViewCell: UICollectionViewCell, UIPickerViewDele
         if let newWord = word {
             if myLibraries.count > row {
                 myLibraries[row].addToWords(newWord)
-                MyLibraries.update(myFlashcards: myLibraries[row])
+                MyLibraries.update(myLibraries: myLibraries[row])
                 addToLibraryButtonCollectionCell.setAttributedTitle(NSAttributedString(string: "Remove from library"), for: .normal)
             }
         }

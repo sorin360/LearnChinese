@@ -181,6 +181,16 @@ class HomeViewController: UIViewController, UITabBarControllerDelegate{
     }
   
     func setupScrollView(){
+        
+        let backgroundImageView = UIImageView()
+        backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
+        backgroundImageView.image = UIImage(named: "background")
+        view.addSubview(backgroundImageView)
+        backgroundImageView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        backgroundImageView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        backgroundImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        backgroundImageView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
     
@@ -199,15 +209,6 @@ class HomeViewController: UIViewController, UITabBarControllerDelegate{
     }
     
     func setupViews(){
-        
-        let backgroundImageView = UIImageView()
-        backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
-        backgroundImageView.image = UIImage(named: "background")
-        view.addSubview(backgroundImageView)
-        backgroundImageView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        backgroundImageView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        backgroundImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        backgroundImageView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         
         let chartSubView = UIView()
         chartSubView.backgroundColor = .white
@@ -265,7 +266,7 @@ class HomeViewController: UIViewController, UITabBarControllerDelegate{
         subView.backgroundColor = .white
         subView.layer.cornerRadius = 10
         subView.translatesAutoresizingMaskIntoConstraints = false
-        wordOfTheDayContentView.addSubview(subView) // Important: addSubview() not addArrangedSubview()
+        wordOfTheDayContentView.addSubview(subView)
         
 
         subView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true

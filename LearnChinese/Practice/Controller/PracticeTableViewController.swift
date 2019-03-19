@@ -13,8 +13,8 @@ class PracticeTableViewController: UITableViewController, UINavigationController
     private var myLibraries: [MyLibraries] = []
     private var hskLibraries: [HskLibraries] = []
 
-    private var myFlashcardsSelected:[MyLibraries] = []
-    private var hskFlashcardsSelected:[HskLibraries] = []
+    private var myLibrariesSelected:[MyLibraries] = []
+    private var hskLibrariesSelected:[HskLibraries] = []
     
     private let alert = UIAlertController(title: nil, message: "Please wait...", preferredStyle: .alert)
     
@@ -70,12 +70,12 @@ class PracticeTableViewController: UITableViewController, UINavigationController
         switch indexPath.section {
         case 0:
             cell.titleLabel.text = myLibraries[indexPath.row].name ?? "Unknown"
-            if myFlashcardsSelected.contains(myLibraries[indexPath.row]) {
+            if myLibrariesSelected.contains(myLibraries[indexPath.row]) {
                 cell.selectionSwitch.isOn = true
             }
         case 1:
             cell.titleLabel.text = hskLibraries[indexPath.row].level ?? "Unknown"
-            if hskFlashcardsSelected.contains(hskLibraries[indexPath.row]) {
+            if hskLibrariesSelected.contains(hskLibraries[indexPath.row]) {
                 cell.selectionSwitch.isOn = true
             }
         default:
@@ -94,15 +94,15 @@ class PracticeTableViewController: UITableViewController, UINavigationController
             switch indexpath?.section {
             case 0:
                 if cell.selectionSwitch.isOn {
-                    myFlashcardsSelected.append(self.myLibraries[(indexpath?.row)!])
+                    myLibrariesSelected.append(self.myLibraries[(indexpath?.row)!])
                 } else {
-                    myFlashcardsSelected.removeAll(where: {$0.id == self.myLibraries[(indexpath?.row)!].id })
+                    myLibrariesSelected.removeAll(where: {$0.id == self.myLibraries[(indexpath?.row)!].id })
                 }
             case 1:
                 if cell.selectionSwitch.isOn {
-                    hskFlashcardsSelected.append(self.hskLibraries[(indexpath?.row)!])
+                    hskLibrariesSelected.append(self.hskLibraries[(indexpath?.row)!])
                 } else {
-                    hskFlashcardsSelected.removeAll(where: {$0.level == self.hskLibraries[(indexpath?.row)!].level})
+                    hskLibrariesSelected.removeAll(where: {$0.level == self.hskLibraries[(indexpath?.row)!].level})
                 }
             default:
                 break
@@ -136,8 +136,8 @@ class PracticeTableViewController: UITableViewController, UINavigationController
       
         let destination = PracticeManagerViewController()
         
-        destination.practiceTranslateSentence = PracticeTranslateSentence(myFlashcards: self.myFlashcardsSelected, hskFlashcards: self.hskFlashcardsSelected)
-        destination.practiceTranslateWord = PracticeTranslateWord(myFlashcards: self.myFlashcardsSelected, hskFlashcards: self.hskFlashcardsSelected)
+        destination.practiceTranslateSentence = PracticeTranslateSentence(myLibraries: self.myLibrariesSelected, hskLibraries: self.hskLibrariesSelected)
+        destination.practiceTranslateWord = PracticeTranslateWord(myLibraries: self.myLibrariesSelected, hskLibraries: self.hskLibrariesSelected)
         
         destination.practiceTranslateWordViewController = PracticeTranslateWordViewController()
         destination.practiceTranslateSentenceViewController = PracticeTranslateSentenceViewController()

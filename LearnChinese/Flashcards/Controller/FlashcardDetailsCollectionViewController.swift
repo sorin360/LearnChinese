@@ -17,7 +17,6 @@ class FlashcardDetailsCollectionViewController: UICollectionViewController, UICo
     
     override func viewDidLoad() {
         super.viewDidLoad()
-         print("astaDidLoad\(Date())")
         self.collectionView.register(FlashcardDetailsCollectionViewCell.self, forCellWithReuseIdentifier: "detailsCell")
 
         self.collectionView.backgroundColor = UIColor.white
@@ -35,7 +34,6 @@ class FlashcardDetailsCollectionViewController: UICollectionViewController, UICo
         collectionView.scrollToItem(at: indexPath, at: .right, animated: true)
   
         self.collectionView.layoutIfNeeded()
-
     }
   
     // MARK: UICollectionViewDataSource
@@ -91,8 +89,6 @@ class FlashcardDetailsCollectionViewController: UICollectionViewController, UICo
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-         print("astacollectionView\(Date())")
         return 0
     }
-
 }

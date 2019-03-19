@@ -15,7 +15,7 @@ class HskLibraries: NSManagedObject {
       
         for data in dataArray {
             let flashcards = HskLibraries(context: context)
-    
+            flashcards.level = data.level
             for wordsIndex in data.words.indices {
                 let word = Words(context: context)
                 word.chinese = data.words[wordsIndex].hanzi

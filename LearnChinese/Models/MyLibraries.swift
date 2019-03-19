@@ -1,5 +1,5 @@
 //
-//  MyFlashcards.swift
+//  MyLibraries.swift
 //  LearnChinese
 //
 //  Created by Sorin Lica on 05/12/2018.
@@ -16,7 +16,7 @@ class MyLibraries: NSManagedObject {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let managedContext = appDelegate.persistentContainer.viewContext
         
-        let fetchRequest:NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "MyFlashcards")
+        let fetchRequest:NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "MyLibraries")
         let library = word.myLibraries
 
         fetchRequest.predicate = NSPredicate(format: "%K == %@", "id", (library?.id ?? UUID()) as CVarArg)
@@ -42,20 +42,20 @@ class MyLibraries: NSManagedObject {
  
         
     }
-    static func update(myFlashcards: MyLibraries){
+    static func update(myLibraries: MyLibraries){
 
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let managedContext = appDelegate.persistentContainer.viewContext
         let fetchRequest:NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "MyLibraries")
         
-        fetchRequest.predicate = NSPredicate(format: "%K == %@", "id", myFlashcards.id! as CVarArg)
+        fetchRequest.predicate = NSPredicate(format: "%K == %@", "id", myLibraries.id! as CVarArg)
         do
         {
             
             let test = try managedContext.fetch(fetchRequest)
             if test.count > 0 {
                 let objectUpdate = test[0] as! MyLibraries //
-                objectUpdate.words = myFlashcards.words
+                objectUpdate.words = myLibraries.words
                 do{
                     try managedContext.save()
                 }
@@ -100,7 +100,7 @@ class MyLibraries: NSManagedObject {
         if let appDelegate = UIApplication.shared.delegate as? AppDelegate  {
        
             let managedContext = appDelegate.persistentContainer.viewContext
-            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "MyFlashcards")
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "MyLibraries")
             do {
                 let result = try managedContext.fetch(fetchRequest)
                 return result as? [MyLibraries] ?? []
@@ -111,12 +111,12 @@ class MyLibraries: NSManagedObject {
         }
         return []
     }
-    static func delete(myFlashcards: MyLibraries){
+    static func delete(myLibraries: MyLibraries){
 
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let managedContext = appDelegate.persistentContainer.viewContext
-        let fetchRequest:NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "MyFlashcards")
-        fetchRequest.predicate = NSPredicate(format: "%K == %@", "id", myFlashcards.id! as CVarArg)
+        let fetchRequest:NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "MyLibraries")
+        fetchRequest.predicate = NSPredicate(format: "%K == %@", "id", myLibraries.id! as CVarArg)
         do
         {
             let test = try managedContext.fetch(fetchRequest)

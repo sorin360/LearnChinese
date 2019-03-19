@@ -15,8 +15,8 @@ class PracticeTranslateSentence {
     var practice: Practice?
     
     
-    init(myFlashcards:[MyLibraries], hskFlashcards:[HskLibraries]){
-        sentences = Sentences.getSentences(for: myFlashcards, hsk: hskFlashcards)
+    init(myLibraries:[MyLibraries], hskLibraries:[HskLibraries]){
+        sentences = Sentences.getSentences(for: myLibraries, hsk: hskLibraries)
     }
     
     func getEnglishSentence() -> [WordPracticeModel]{

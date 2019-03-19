@@ -284,21 +284,29 @@ class PracticeTranslateSentenceViewController: PracticeViewController,   UIColle
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "dragDropCell", for: indexPath) as! PracticeTranslateSentenceCellCollectionViewCell
-        if chineseSentence {
-            cell.hanziLabel.text = contentAnswerColection[indexPath.row].wordText
-            cell.pinyinLabel.text = " "
-        } else {
-            cell.hanziLabel.text = contentAnswerColection[indexPath.row].wordText
-            cell.pinyinLabel.text = contentAnswerColection[indexPath.row].pinyin
-        }
+      
         cell.isUserInteractionEnabled = true
         
         switch collectionView {
         case answerColectionView:
             cell.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            if chineseSentence {
+                cell.hanziLabel.text = contentAnswerColection[indexPath.row].wordText
+                cell.pinyinLabel.text = " "
+            } else {
+                cell.hanziLabel.text = contentAnswerColection[indexPath.row].wordText
+                cell.pinyinLabel.text = contentAnswerColection[indexPath.row].pinyin
+            }
             return cell
         case choicesCollectionView:
             cell.backgroundColor = #colorLiteral(red: 0.867922463, green: 0.867922463, blue: 0.867922463, alpha: 1)
+            if chineseSentence {
+                cell.hanziLabel.text = contentChoicesCollection[indexPath.row].wordText
+                cell.pinyinLabel.text = " "
+            } else {
+                cell.hanziLabel.text = contentChoicesCollection[indexPath.row].wordText
+                cell.pinyinLabel.text = contentChoicesCollection[indexPath.row].pinyin
+            }
             return cell
         default:
             return super.collectionView(collectionView, cellForItemAt: indexPath)

@@ -11,12 +11,9 @@ import CoreData
 
 class Sentences: NSManagedObject {
 
-    static func add(data arrayData: [CodableSentencesModel]){
+    static func add(data arrayData: [CodableSentencesModel], to context: NSManagedObjectContext){
         
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        
-        let context = appDelegate.persistentContainer.viewContext
-        
+      
         var exception = false
         
         for sentence in arrayData {
@@ -103,7 +100,7 @@ class Sentences: NSManagedObject {
     }
     
    
-   static func getSentences(for myFlashcardsSelected: [MyLibraries], hsk hskFlashcardsSelected: [HskLibraries]) -> [Sentences] {
+   static func getSentences(for myLibrariesSelected: [MyLibraries], hsk hskFlashcardsSelected: [HskLibraries]) -> [Sentences] {
     
         var foundSentences:[Sentences] = []
 
@@ -116,8 +113,8 @@ class Sentences: NSManagedObject {
             
             var selectedWords:[String] = [""," ","。","，","? "," ","？","1","2","3","4","5","6","7","8","9","0"]
             
-            for index in myFlashcardsSelected.indices {
-                let words = myFlashcardsSelected[index].words?.allObjects as! [Words]
+            for index in myLibrariesSelected.indices {
+                let words = myLibrariesSelected[index].words?.allObjects as! [Words]
                 let _ = words.map { selectedWords.append($0.chinese ?? "")}
             }
             for index in hskFlashcardsSelected.indices {

@@ -104,7 +104,7 @@ class FlashcardsTableViewController: UITableViewController {
             // Delete the row from the data source
             switch segmentedControl.selectedSegmentIndex {
             case 0:
-                MyLibraries.delete(myFlashcards: myFlshcardsBunchList[indexPath.row])
+                MyLibraries.delete(myLibraries: myFlshcardsBunchList[indexPath.row])
                 myFlshcardsBunchList.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .fade)
             default:

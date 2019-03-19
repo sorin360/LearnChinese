@@ -159,22 +159,22 @@ class PracticeViewController: UIViewController, UICollectionViewDataSource, UICo
         progressView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         progressView.heightAnchor.constraint(equalToConstant: 10.0).isActive = true
         
-        view.addSubview(speakerButton)
-        
-        speakerButton.heightAnchor.constraint(equalToConstant: 35.0).isActive = true
-        speakerButton.widthAnchor.constraint(equalToConstant: 35.0).isActive = true
-        speakerButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 8.0).isActive = true
-        speakerButton.rightAnchor.constraint(equalTo: textForTranslationCollectionView.leftAnchor, constant: -5.0).isActive = true
-        speakerButton.topAnchor.constraint(equalTo: progressView.bottomAnchor, constant: 10.0).isActive = true
-        
     }
     
     func setUpTextForTranslationCollectionView(){
         
         self.textForTranslationCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
         textForTranslationCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(speakerButton)
         view.addSubview(textForTranslationCollectionView)
  
+        speakerButton.heightAnchor.constraint(equalToConstant: 35.0).isActive = true
+        speakerButton.widthAnchor.constraint(equalToConstant: 35.0).isActive = true
+        speakerButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 8.0).isActive = true
+        speakerButton.rightAnchor.constraint(equalTo: textForTranslationCollectionView.leftAnchor, constant: -5.0).isActive = true
+        speakerButton.topAnchor.constraint(equalTo: progressView.bottomAnchor, constant: 10.0).isActive = true
+        
         textForTranslationCollectionView.leftAnchor.constraint(equalTo: speakerButton.rightAnchor).isActive = true
         textForTranslationCollectionView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -8.0).isActive = true
         textForTranslationCollectionView.topAnchor.constraint(equalTo: progressView.bottomAnchor, constant: 10.0).isActive = true

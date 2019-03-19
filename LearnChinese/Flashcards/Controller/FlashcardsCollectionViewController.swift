@@ -8,8 +8,6 @@
 
 import UIKit
 
-
-
 class FlashcardsCollectionViewController: UICollectionViewController,  UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate, UICollectionViewDelegateFlowLayout {
     
     private let reuseIdentifier = "Cell"
@@ -21,10 +19,11 @@ class FlashcardsCollectionViewController: UICollectionViewController,  UIPickerV
     private var sortCellsButton: UIBarButtonItem!
     
     private var words: [Words] = []
-    private var selectedSegmentIndex = -1
-    private var selectedIndex = 0
+    var selectedSegmentIndex = -1
+    var selectedIndex = 0
+    
     private var pickerViewOptions = [String]()
-    private var row = 0
+    private var selectedRowInUIPicker = 0
   
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -128,7 +127,7 @@ class FlashcardsCollectionViewController: UICollectionViewController,  UIPickerV
                 words = Words.getKnownWords()
             }
             
-            switch Filters.allCases[row] {
+            switch Filters.allCases[selectedRowInUIPicker] {
             case .inLibrary:
                 words = words.filter { $0.myLibraries != nil }
             case .known:
@@ -140,7 +139,7 @@ class FlashcardsCollectionViewController: UICollectionViewController,  UIPickerV
                 break
             }
         } else {
-            switch SortBy.allCases[row] {
+            switch SortBy.allCases[selectedRowInUIPicker] {
             case .pinyinAsc:
                 words.sort(by: {($0.pinyin ?? "") < ($1.pinyin ?? "")})
             case .pinyinDes:
@@ -148,7 +147,7 @@ class FlashcardsCollectionViewController: UICollectionViewController,  UIPickerV
             }
           
         }
-        row = 0
+        selectedRowInUIPicker = 0
         pickerOptionTextField.resignFirstResponder()
         self.collectionView.reloadData()
 
@@ -220,6 +219,6 @@ class FlashcardsCollectionViewController: UICollectionViewController,  UIPickerV
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        self.row = row
+        self.selectedRowInUIPicker = row
     }
 }
