@@ -139,13 +139,13 @@ class FlashcardsTableViewController: UITableViewController {
                         actionTitle: "Add",
                         cancelTitle: "Cancel",
                         inputPlaceholder: "Name",
-                        inputKeyboardType: .alphabet)
-        { (input:String?) in
-            
-                _ = MyLibraries.addLibrary(with: input ?? "Unknown")
-                self.myFlshcardsBunchList = MyLibraries.retrieveData()
-                self.tableView.reloadData()
-        }
+                        inputKeyboardType: .alphabet, actionHandler:
+                            { (input:String?) in
+                                
+                                _ = MyLibraries.addLibrary(with: input ?? "Unknown")
+                                self.myFlshcardsBunchList = MyLibraries.retrieveData()
+                                self.tableView.reloadData()
+                            })
     }
     
 

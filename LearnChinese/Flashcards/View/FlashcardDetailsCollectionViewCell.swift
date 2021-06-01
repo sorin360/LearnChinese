@@ -217,12 +217,12 @@ class FlashcardDetailsCollectionViewCell: UICollectionViewCell, UIPickerViewDele
                         actionTitle: "Add",
                         cancelTitle: "Cancel",
                         inputPlaceholder: "Name",
-                        inputKeyboardType: .alphabet)
-        { (input:String?) in
-            _ = MyLibraries.addLibrary(with: input ?? "Unknown")
-            self.myLibraries = MyLibraries.retrieveData()
-            self.myPickerView.reloadAllComponents()
-        }
+                        inputKeyboardType: .alphabet, actionHandler:
+                            { (input:String?) in
+                                _ = MyLibraries.addLibrary(with: input ?? "Unknown")
+                                self.myLibraries = MyLibraries.retrieveData()
+                                self.myPickerView.reloadAllComponents()
+                            })
     }
     
     func showInputDialog(title:String? = nil,

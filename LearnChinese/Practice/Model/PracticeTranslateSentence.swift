@@ -23,7 +23,7 @@ class PracticeTranslateSentence {
         
         let sentence =  self.sentences[curentSentenceIndex]
         var englishSentence: [WordPracticeModel] = []
-        var english = sentence.english?.split(separator: " ") ?? []
+        let english = sentence.english?.split(separator: " ") ?? []
         for index in english.indices {
             let word = WordPracticeModel(wordText: String(english[index]), pinyin: "" )
             englishSentence += [word]
@@ -39,8 +39,8 @@ class PracticeTranslateSentence {
         var chineseSentence: [WordPracticeModel] = []
         let sentence =  self.sentences[curentSentenceIndex]
         
-        var hanzi = sentence.chinese?.map{String($0)} ?? []
-        var pinyin = sentence.pinyin?.split(separator: " ") ?? []
+        let hanzi = sentence.chinese?.map{String($0)} ?? []
+        let pinyin = sentence.pinyin?.split(separator: " ") ?? []
   
         if hanzi.count == pinyin.count {
             for index in hanzi.indices {
@@ -57,8 +57,8 @@ class PracticeTranslateSentence {
     
     func getShuffledChineseWords() -> [WordPracticeModel]{
         var shiffledWords:[WordPracticeModel] = []
-        var hanzi = self.sentences[curentSentenceIndex].chinese?.map{String($0)} ?? []
-        var pinyin = self.sentences[curentSentenceIndex].pinyin?.split(separator: " ") ?? []
+        let hanzi = self.sentences[curentSentenceIndex].chinese?.map{String($0)} ?? []
+        let pinyin = self.sentences[curentSentenceIndex].pinyin?.split(separator: " ") ?? []
         
         if hanzi.count == pinyin.count {
             for index in hanzi.indices {
@@ -69,8 +69,8 @@ class PracticeTranslateSentence {
         // if it's available get words for the next sentence from array
         if (sentences.count > curentSentenceIndex + 1) {
             
-            var hanzi = self.sentences[curentSentenceIndex + 1].chinese?.map{String($0)} ?? []
-            var pinyin = self.sentences[curentSentenceIndex + 1].pinyin?.split(separator: " ") ?? []
+            let hanzi = self.sentences[curentSentenceIndex + 1].chinese?.map{String($0)} ?? []
+            let pinyin = self.sentences[curentSentenceIndex + 1].pinyin?.split(separator: " ") ?? []
             if hanzi.count == pinyin.count {
                 for index in hanzi.indices {
                     let word = WordPracticeModel(wordText: hanzi[index], pinyin: String(pinyin[index]) )
@@ -81,8 +81,8 @@ class PracticeTranslateSentence {
         else { // else check for the previous sentence from array
             if sentences.count > 0 {
                 if hanzi.count == pinyin.count {
-                    var hanzi = self.sentences[curentSentenceIndex - 1].chinese?.map{String($0)} ?? []
-                    var pinyin = self.sentences[curentSentenceIndex - 1].pinyin?.map{String($0)} ?? []
+                    let hanzi = self.sentences[curentSentenceIndex - 1].chinese?.map{String($0)} ?? []
+                    let pinyin = self.sentences[curentSentenceIndex - 1].pinyin?.map{String($0)} ?? []
                     for index in hanzi.indices {
                          let word = WordPracticeModel(wordText: hanzi[index], pinyin: String(pinyin[index]) )
                         shiffledWords += [word]
@@ -136,13 +136,13 @@ class PracticeTranslateSentence {
         var corectAnswer:[String] = []
         if answer.joined(separator: " ").containsChineseCharacters {
             // if the answer is in chinese then extract hanzi from the curent sentence
-            var hanzi = self.sentences[curentSentenceIndex - 1].chinese?.map{String($0)} ?? []
+            let hanzi = self.sentences[curentSentenceIndex - 1].chinese?.map{String($0)} ?? []
             for index in hanzi.indices {
                 corectAnswer += [String(hanzi[index])]
             }
         } else {
             // if the answer is in english then extract english from the curent sentence
-            var english = self.sentences[curentSentenceIndex - 1].english?.split(separator: " ") ?? []
+            let english = self.sentences[curentSentenceIndex - 1].english?.split(separator: " ") ?? []
             for index in english.indices {
                 corectAnswer += [String(english[index])]
             }

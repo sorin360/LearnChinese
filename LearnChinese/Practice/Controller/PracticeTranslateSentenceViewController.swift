@@ -218,7 +218,7 @@ class PracticeTranslateSentenceViewController: PracticeViewController,   UIColle
             for item in coordinator.items {
                 if let sourceIndexPath = item.sourceIndexPath {
                     if let attributedText = item.dragItem.localObject as? NSMutableAttributedString {
-                        var texts = attributedText.string.split(separator: "/")
+                        let texts = attributedText.string.split(separator: "/")
                         let word = WordPracticeModel(wordText: String(texts[0]), pinyin: String(texts[1]))
                         collectionView.performBatchUpdates({
                             contentAnswerColection.remove(at: sourceIndexPath.item)

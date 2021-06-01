@@ -116,7 +116,7 @@ class FlashcardsCollectionViewController: UICollectionViewController,  UIPickerV
     
     @objc func doneClick() {
      //sort or filter
-        if pickerViewOptions == Filters.allCases.map{$0.rawValue} {
+        if pickerViewOptions == Filters.allCases.map({$0.rawValue}) {
             
             switch selectedSegmentIndex {
             case 0:

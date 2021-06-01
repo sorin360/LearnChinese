@@ -56,7 +56,7 @@ class PracticeTranslateWord {
             // if the array contains more than 3 words then chose 3 random words
             while shiffledWords.count < 3 {
                 let randomNumber = Int.random(in: 0..<words.count)
-                if randomNumber != curentWordIndex && !shiffledWords.contains {$0.wordText == words[randomNumber].chinese } {
+                if randomNumber != curentWordIndex && !shiffledWords.contains(where: {$0.wordText == words[randomNumber].chinese }) {
                     shiffledWords += [WordPracticeModel(wordText: words[randomNumber].chinese ?? "", pinyin: words[randomNumber].pinyin ?? "")]
                 }
             }
@@ -79,7 +79,7 @@ class PracticeTranslateWord {
             // if the array contains more than 3 words then chose 3 random words
             while shiffledWords.count < 3 {
                 let randomNumber = Int.random(in: 0..<words.count)
-                if randomNumber != curentWordIndex && !shiffledWords.contains {$0.wordText == words[randomNumber].shortTranslation() } {
+                if randomNumber != curentWordIndex && !shiffledWords.contains(where: {$0.wordText == words[randomNumber].shortTranslation() }) {
                     
                     shiffledWords += [WordPracticeModel(wordText: words[randomNumber].shortTranslation(), pinyin: "")]
                 }

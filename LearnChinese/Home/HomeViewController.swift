@@ -165,7 +165,7 @@ class HomeViewController: UIViewController, UITabBarControllerDelegate{
     func updateChart(){
         
         let series = homeModel.getChartSeries()
-        var weekDaysLabels = homeModel.getWeekDaysLabels()
+        let weekDaysLabels = homeModel.getWeekDaysLabels()
         
         chart.xLabels = [6, 0, 1, 2, 3, 4, 5] // the order of labels in Chart
         
